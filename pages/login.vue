@@ -4,8 +4,8 @@
     <div class="login-child">
       <p class="welcome-back">PK 後台</p>
 
-      <input v-model="accNo" placeholder="帳號：" class="accountCss1" />
-      <input v-model="password" placeholder="密碼：" class="accountCss2" />
+      <input v-model="userName" placeholder="帳號：" class="accountCss1" onfocus="this.placeholder=''" />
+      <input v-model="userPwd" placeholder="密碼：" type="password" class="accountCss2" onfocus="this.placeholder=''" />
 
       <div class="btn-div">
         <div class="register-btn" @click="loginProcess">登入</div>
@@ -22,8 +22,8 @@ export default {
   name: 'MyLogin',
   data() {
     return{
-      accNo: '',
-      password: '',
+      userName: '',
+      userPwd: '',
       pName: 'login'
     }
   },
@@ -35,8 +35,8 @@ export default {
   methods: {
     ...mapActions("user", ["updateLogin"]),
     loginProcess() {
-      if(this.accNo === this.userdata.name && this.password === this.userdata.password) {
-        alert('Success !!')
+      if(this.userName === this.userdata.name && this.userPwd === this.userdata.password) {
+        // alert('Success !!')
         this.updateLogin(true);
         this.$router.push('/')
       }
