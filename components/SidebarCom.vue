@@ -52,14 +52,70 @@
     <div v-else class="sidebar-close" >
       <img src="../assets/pc/sidebar-menu.png" class="menu-img" @click="sidebarFunc">
       <div class="img-column">
-        <img src="../assets/pc/close-dollar.png" class="sideclose-img" >
-        <img src="../assets/pc/close-manager.png" class="sideclose-img" >
-        <img src="../assets/pc/close-cart.png" class="sideclose-img" >
-        <img src="../assets/pc/close-coupon.png" class="sideclose-img" >
-        <img src="../assets/pc/close-info.png" class="sideclose-img" >
-        <img src="../assets/pc/close-receipt.png" class="sideclose-img" >
-        <img src="../assets/pc/close-vector.png" class="sideclose-img" >
-        <img src="../assets/pc/close-document.png" class="sideclose-img" >
+        <div v-if="isActive !== '' && isActive === 'currencyManager'" class="activeMenu">
+          <img src="../assets/pc/close-dollar.png" class="sideOpacity-img">
+          <div class="border-css"></div>
+        </div>
+        <div v-else class="noactive">
+          <img src="../assets/pc/close-dollar.png" class="sideclose-img" @click="gotoPage('currencyManager')">
+        </div>
+
+        <div v-if="isActive !== '' && isActive === 'bannerAdvertise'" class="activeMenu">
+          <img src="../assets/pc/close-manager.png" class="sideOpacity-img">
+          <div class="border-css"></div>
+        </div>
+        <div v-else class="noactive">
+          <img src="../assets/pc/close-manager.png" class="sideclose-img" @click="gotoPage('bannerAdvertise')">
+        </div>
+
+        <div v-if="isActive !== '' && isActive === 'categoryProduct'" class="activeMenu">
+          <img src="../assets/pc/close-cart.png" class="sideOpacity-img">
+          <div class="border-css"></div>
+        </div>
+        <div v-else class="noactive">
+          <img src="../assets/pc/close-cart.png" class="sideclose-img" @click="gotoPage('categoryProduct')">
+        </div>
+
+        <div v-if="isActive !== '' && isActive === 'couponManager'" class="activeMenu">
+          <img src="../assets/pc/close-coupon.png" class="sideOpacity-img">
+          <div class="border-css"></div>
+        </div>
+        <div v-else class="noactive">
+          <img src="../assets/pc/close-coupon.png" class="sideclose-img" @click="gotoPage('couponManager')">
+        </div>
+
+        <div v-if="isActive !== '' && isActive === 'membershipManager'" class="activeMenu">
+          <img src="../assets/pc/close-info.png" class="sideOpacity-img">
+          <div class="border-css"></div>
+        </div>
+        <div v-else class="noactive">
+          <img src="../assets/pc/close-info.png" class="sideclose-img" @click="gotoPage('membershipManager')">
+        </div>
+
+        <div v-if="isActive !== '' && isActive === 'convertHistory'" class="activeMenu">
+          <img src="../assets/pc/close-receipt.png" class="sideOpacity-img">
+          <div class="border-css"></div>
+        </div>
+        <div v-else class="noactive">
+          <img src="../assets/pc/close-receipt.png" class="sideclose-img" @click="gotoPage('convertHistory')">
+        </div>
+
+        <div v-if="isActive !== '' && isActive === 'refundHistory'" class="activeMenu">
+          <img src="../assets/pc/close-receipt.png" class="sideOpacity-img">
+          <div class="border-css"></div>
+        </div>
+        <div v-else class="noactive">
+          <img src="../assets/pc/close-vector.png" class="sideclose-img" @click="gotoPage('refundHistory')">
+        </div>
+
+        <div v-if="isActive !== '' && isActive === 'accounting'" class="activeMenu">
+          <img src="../assets/pc/close-document.png" class="sideOpacity-img">
+          <div class="border-css"></div>
+        </div>
+        <div v-else class="noactive">
+          <img src="../assets/pc/close-document.png" class="sideclose-img" @click="gotoPage('accounting')">
+        </div>
+        
       </div>
     </div>
   </div>
@@ -73,13 +129,19 @@ export default {
   },
   data() {
     return {
-      sidebarcondition: true
+      sidebarcondition: true,
+      isActive: ''
     }
   },
   methods: {
     sidebarFunc() {
       this.sidebarcondition = !this.sidebarcondition;
       this.$emit("sidebarFunc", this.sidebarcondition)
+    },
+    gotoPage(val) {
+      this.isActive = val
+      this.$emit('activeTab', val)
+      // this.$router.push(val)
     }
   }
 }
@@ -157,11 +219,32 @@ export default {
     flex-direction: column;
     align-items: center;
     margin-top: 120px;
-    .sideclose-img {
+    .activeMenu, .noactive {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 36px;
+      margin-bottom: 2rem;
+    }
+    .activeMenu {
+      position: relative;
+      background: rgba(47, 49, 62, 0.5);
+    }
+    .border-css {
+      background: #00A0FF;
+      border-radius: 23px;
+      width: 7px;
+      height: 36px;
+      position: absolute;
+      right: 0;
+    }
+    .sideclose-img, .sideOpacity-img {
       width: 24px;
       height: 24px;
-
-      margin-bottom: 2rem;
+    }
+    .sideOpacity-img {
+      opacity: 0.5;
     }
   }
 }
