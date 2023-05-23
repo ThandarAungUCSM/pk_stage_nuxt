@@ -575,7 +575,8 @@ export default {
       .pagi-block {
         display: flex;
         align-items: center;
-        padding-left: 40px;
+        // padding-left: 40px;
+        margin-left: 56px;
         margin-bottom: 99px;
         .pagi-text1, .pagi-text2 {
           font-weight: 400;
