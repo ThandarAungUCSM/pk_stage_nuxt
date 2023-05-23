@@ -368,22 +368,22 @@ export default {
     showItem() {
       this.total_page = Math.ceil(this.tableData.length/this.page_size);
       this.showData = []
-      for(let i = this.pagiCalculate; i < this.tableData.length; i++) {
-        if(this.showData.length < this.page_size){
-          this.showData.push(this.tableData[i])
-          this.pagiCalculate++
-        }
-      }
-      if(this.tableData.length === this.pagiCalculate) {
-        this.pagiCalculate = 0;
-      }
+      // for(let i = this.pagiCalculate; i < this.tableData.length; i++) {
+      //   if(this.showData.length < this.page_size){
+      //     this.showData.push(this.tableData[i])
+      //     this.pagiCalculate++
+      //   }
+      // }
+      // if(this.tableData.length === this.pagiCalculate) {
+      //   this.pagiCalculate = 0;
+      // }
 
-      // const temp = (this.currentPage - 1) * this.page_size;
-      // // const temp2 = this.currentPage * this.page_size;
-      // this.clonelist = [...this.tableData]
-      // const result = this.clonelist.splice(temp, this.page_size)
+      const temp = (this.currentPage - 1) * this.page_size;
+      // const temp2 = this.currentPage * this.page_size;
+      this.clonelist = [...this.tableData]
+      const result = this.clonelist.splice(temp, this.page_size)
        
-      // this.showData = result
+      this.showData = result
     }
   }
 }
