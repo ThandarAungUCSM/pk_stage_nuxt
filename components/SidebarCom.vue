@@ -151,6 +151,10 @@ export default {
   background: #191A21;
   height: 100vh;
   z-index: 10;
+
+  min-height: 100vh;
+  max-height: 100vh;
+  position: fixed;
 }
 .sidebar-open {
   width: 319px;
