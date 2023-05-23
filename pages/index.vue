@@ -146,7 +146,7 @@
                 <el-pagination
                   background
                   :page-size="page_size"
-                  :pager-count="10"
+                  :pager-count="11"
                   layout="prev, pager, next"
                   :total="tableData.length"
                   @current-change="handleCurrentChange">
@@ -214,7 +214,7 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '2',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
@@ -223,7 +223,7 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '3',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
@@ -232,7 +232,7 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '4',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
@@ -241,7 +241,7 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '5',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
@@ -250,7 +250,7 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '6',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
@@ -259,7 +259,7 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '7',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
@@ -268,7 +268,7 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '8',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
@@ -277,7 +277,7 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '9',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
@@ -286,7 +286,7 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '10',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
@@ -295,7 +295,7 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '11',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
@@ -304,7 +304,7 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '12',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
@@ -313,7 +313,7 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '13',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
@@ -322,7 +322,7 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '14',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
@@ -331,11 +331,12 @@ export default {
         exchangeNumber: '65465516133',
         exchangeSubtotal: '100,000',
         typeofCoupon: '無',
-        discountPoint: '0',
+        discountPoint: '15',
         gameName: '遊戲名稱2',
         gameCurrency: '600,000',
         totalConversion: '100,000'
-      }]
+      }],
+      clonelist: []
     }
   },
   computed: {
@@ -348,7 +349,6 @@ export default {
     }
   },
   created() {
-    this.total_page = Math.ceil(this.tableData.length/this.page_size);
     this.showItem()
   },
   methods: {
@@ -366,6 +366,7 @@ export default {
       this.showItem()
     },
     showItem() {
+      this.total_page = Math.ceil(this.tableData.length/this.page_size);
       this.showData = []
       for(let i = this.pagiCalculate; i < this.tableData.length; i++) {
         if(this.showData.length < this.page_size){
@@ -376,6 +377,13 @@ export default {
       if(this.tableData.length === this.pagiCalculate) {
         this.pagiCalculate = 0;
       }
+
+      // const temp = (this.currentPage - 1) * this.page_size;
+      // // const temp2 = this.currentPage * this.page_size;
+      // this.clonelist = [...this.tableData]
+      // const result = this.clonelist.splice(temp, this.page_size)
+       
+      // this.showData = result
     }
   }
 }
