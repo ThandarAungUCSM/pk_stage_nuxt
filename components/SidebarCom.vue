@@ -129,8 +129,8 @@ export default {
   },
   data() {
     return {
-      sidebarcondition: true,
-      isActive: ''
+      sidebarcondition: false,
+      isActive: 'accounting'
     }
   },
   methods: {
