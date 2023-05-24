@@ -43,12 +43,86 @@
             </div>
           </div>
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'membershipManager'">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'membershipManager'" id="managerId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
-              <p class="test-text">
-                Membership Manager Page
+              <p class="equal-text">
+                會員資料查詢
               </p>
+              <div class="manager-css">
+                <el-input v-model="searchInput" placeholder="請輸入會員帳號" class="search-css"></el-input>
+                <div @click="afterSearch">
+                  <p class="btn-css">查詢</p>
+                </div>
+              </div>
+
+              <div v-if="showSearch" class="" >
+                <p class="basic-info1">基本資料</p>
+                <div class="each-black-block">
+                  <div class="head-div">
+                    <p class="head-css">帳號</p>
+                    <p class="head-css">會員姓名</p>
+                    <p class="head-css">性別</p>
+                    <p class="head-css">生日</p>
+                    <p class="head-css">手機</p>
+                    <p class="long-headcss">EMAIL</p>
+                    <p class="long-headcss">註冊時間</p>
+                  </div>
+                  <div class="td-div">
+                    <p class="td-css">uukk5566</p>
+                    <p class="td-css">麥克</p>
+                    <p class="td-css">男生</p>
+                    <p class="td-css">1987-06-24</p>
+                    <p class="td-css">09-12345678</p>
+                    <p class="long-tdcss">example@gmail.com</p>
+                    <p class="long-tdcss">2024-01-26 18:59:59</p>
+                  </div>
+                  <div class="head-div">
+                    <p class="head1-css">地址</p>
+                    <p class="head2-css">連動遊戲數量</p>
+                    <p class="head2-css">總計持有PK幣</p>
+                    <p class="head2-css">狀態</p>
+                  </div>
+                  <div class="td-div">
+                    <p class="td1-css">新北市五股區中正路一段187號</p>
+                    <p class="td2-css">3</p>
+                    <p class="td2-css">66,600</p>
+                    <p class="td2-css">正常</p>
+                  </div>
+                </div>
+
+                <p class="basic-info2">已連動的遊戲</p>
+                <div class="each-black-block">
+                  <div class="head-div">
+                    <p class="head-css">遊戲名稱</p>
+                    <p class="head-css">持有遊戲幣</p>
+                    <p class="head-css">等值PK幣</p>
+                    <p class="headl-css">連動時間</p>
+                    <p class="head-css">狀態</p>
+                  </div>
+                  <div class="td-div">
+                    <p class="td-css">遊戲A</p>
+                    <p class="td-css">500,000</p>
+                    <p class="td-css">250</p>
+                    <p class="tdl-css">2024.02.02,13:25</p>
+                    <p class="td-css">連動中</p>
+                  </div>
+                  <div class="td-div">
+                    <p class="td-css">遊戲B</p>
+                    <p class="td-css">250,000</p>
+                    <p class="td-css">190</p>
+                    <p class="tdl-css">2024.02.02,13:25</p>
+                    <p class="td-css">連動中</p>
+                  </div>
+                  <div class="td-div">
+                    <p class="td-css">遊戲C</p>
+                    <p class="td-css">1,000</p>
+                    <p class="td-css">2</p>
+                    <p class="tdl-css">2024.02.02,13:25</p>
+                    <p class="tdcolor-css">取消連動 2024.02.02,13:25</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -174,8 +248,8 @@ export default {
   data() {
     return {
       userLogin: false,
-      opensidebar: false,
-      activeMenu: 'accounting',
+      opensidebar: true,
+      activeMenu: '',
       value1: '',
       value2: '',
       page_size: 12,
@@ -336,7 +410,9 @@ export default {
         gameCurrency: '600,000',
         totalConversion: '100,000'
       }],
-      clonelist: []
+      clonelist: [],
+      searchInput: '',
+      showSearch: false
     }
   },
   computed: {
@@ -384,12 +460,24 @@ export default {
       const result = this.clonelist.splice(temp, this.page_size)
        
       this.showData = result
+    },
+    afterSearch() {
+      this.showSearch = true
     }
   }
 }
 </script>
 
 <style lang="scss">
+#managerId {
+  .el-input__inner {
+    width: 220px;
+    height: 30px;
+    background: #34344C;
+    border-radius: 10px;
+    border: 1px solid #34344C;
+  }
+}
 #accountingId {
   .el-table {
     background: #191A21;
@@ -541,11 +629,80 @@ export default {
     }
     .rightall-content {
       margin: 32px auto 0;
-      .test-text {
+      .test-text, .equal-text {
         font-weight: 700;
         font-size: 24px;
         color: #FFF;
         margin-left: 63px;
+      }
+      .equal-text {
+        margin-bottom: 120px;
+      }
+      .basic-info1, .basic-info2 {
+        font-weight: 400;
+        font-size: 16px;
+        color: #808080;
+        margin-top: 60px;
+        margin-left: 75px;
+      }
+      .basic-info2 {
+        margin-top: 1rem;
+      }
+      .each-black-block {
+        width: 100%;
+        max-width: 1184px;
+        background: #191A21;
+        border-radius: 6px;
+        margin-left: 63px;
+        padding: 1rem 45px;
+        .head-div {
+          display: flex;
+          // justify-content: space-between;
+          .head-css, .long-headcss, .head1-css, .head2-css, .headl-css {
+            font-weight: 400;
+            font-size: 16px;
+            color: #808080;
+            width: 13%;
+          }
+          .long-headcss {
+            width: 17.5%;
+          }
+          .head1-css {
+            width: 26%;
+          }
+          .head2-css {
+            width: 13%;
+          }
+          .headl-css {
+            width: 15%;
+          }
+        }
+        .td-div {
+          display: flex;
+          // justify-content: space-between;
+          .td-css, .long-tdcss, .td1-css, .td2-css, .tdl-css {
+            font-weight: 400;
+            font-size: 16px;
+            color: #FFF;
+            word-break: break-all;
+            width: 13%;
+          }
+          .long-tdcss {
+            width: 17.5%;
+          }
+          .td1-css {
+            width: 26%;
+          }
+          .td2-css {
+            width: 13%;
+          }
+          .tdl-css  {
+            width: 15%;
+          }
+          .tdcolor-css {
+            color: #F35A90;
+          }
+        }
       }
       .date-picker-css {
         margin-left: 63px;
@@ -558,18 +715,6 @@ export default {
 
           margin-bottom: 0;
           padding: 0 1rem;
-        }
-        .btn-css {
-          width: 100px;
-          height: 30px;
-          border: 1px solid #00A0FF;
-          border-radius: 12px;
-          font-weight: 400;
-          font-size: 16px;
-          color: #00A0FF;
-          text-align: center;
-          margin-bottom: 0;
-          margin-left: 1rem;
         }
       }
       .pagi-block {
@@ -590,6 +735,31 @@ export default {
         .pagi-text2 {
           margin-left: 5px;
         }
+      }
+      .manager-css {
+        margin-left: 63px;
+        display: flex;
+        align-items: center;
+        .search-css {
+          font-weight: 400;
+          font-size: 16px;
+          color: #CECECE;
+
+          width: 220px;
+        }
+      }
+      .btn-css {
+        width: 100px;
+        height: 30px;
+        border: 1px solid #00A0FF;
+        border-radius: 12px;
+        font-weight: 400;
+        font-size: 16px;
+        color: #00A0FF;
+        text-align: center;
+        margin-bottom: 0;
+        margin-left: 1rem;
+        cursor: pointer;
       }
     }
     .page-content {
