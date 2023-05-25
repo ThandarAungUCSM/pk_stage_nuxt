@@ -34,14 +34,92 @@
             </div>
           </div>
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'couponManager'">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'couponManager'" id="couponManagerId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
-              <p class="test-text">
-                Coupon Manager Page
+              <p class="coupon-text">
+                優惠券管理 
               </p>
+              <div class="manager-css">
+                <div class="btn-div" @click="showModal = true">
+                  <img src="../assets/pc/plus.png" class="plus-img">
+                  <p class="manager-btn">新增優惠券</p>
+                </div>
+              </div>
+              <div>
+                <el-table
+                  :data="showCouponData"
+                  style="width: 94%">
+                  <el-table-column
+                    prop="couponCreationTime"
+                    label="優惠券建立日期"
+                    width="170">
+                  </el-table-column>
+                  <el-table-column
+                    prop="offerType"
+                    label="優惠類型"
+                    width="100">
+                  </el-table-column>
+                  <el-table-column
+                    prop="lowConsumption"
+                    label="低消(pk)"
+                    width="100">
+                  </el-table-column>
+                  <el-table-column
+                    prop="startPeriod"
+                    label="開始期限"
+                    width="170">
+                  </el-table-column>
+                  <el-table-column
+                    prop="deadline"
+                    label="截止期限"
+                    width="170">
+                  </el-table-column>
+                  <el-table-column
+                    prop="offerContent"
+                    label="優惠內容">
+                  </el-table-column>
+                  <el-table-column
+                    prop="state"
+                    label="狀態">
+                    <template slot-scope="props">
+                      <span v-if="props.row.state == '即將上線'" class="orange-css">{{ props.row.state }}</span>
+                      <span v-if="props.row.state == '失效'" class="pink-css">{{ props.row.state }}</span>
+                      <span v-if="props.row.state == '上線中'" class="green-css">{{ props.row.state }}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="停用">
+                    <template slot-scope="props">
+                      <div @click="settingModal(props.row)"><img src="../assets/pc/setting.png" class="setting-img"></div>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+              <div id="selectId" class="pagi-block">
+                <p class="pagi-text1">顯示{{coupon_tot_page}}頁 每頁顯示</p>
+                <el-select v-model="coupon_size" placeholder="Select">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <p class="pagi-text2">項記錄</p>
+                <el-pagination
+                  background
+                  :page-size="coupon_size"
+                  :pager-count="11"
+                  layout="prev, pager, next"
+                  :total="couponData.length"
+                  @current-change="handleCouponCurrentChange">
+                </el-pagination>
+              </div>
             </div>
           </div>
+          <couponModal v-if="showModal" :show="showModal" @close="showModal = false" @selectData="selectData" />
+          <settingModal v-if="showSettingModal" :show="showSettingModal" @close="showSettingModal = false" @settingData="settingData" />
         </div>
         <div v-else-if="activeMenu !== '' && activeMenu === 'membershipManager'" id="managerId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
@@ -253,11 +331,14 @@ export default {
       value1: '',
       value2: '',
       page_size: 12,
+      coupon_size: 12,
       total_page: 0,
+      coupon_tot_page: 0,
       currentPage: 1,
+      currentCouponPage: 1,
       pagiCalculate: 0,
       showData: null,
-      currentPage1: 5,
+      showCouponData: null,
       options: [{
         value: '12',
         label: '12'
@@ -412,7 +493,130 @@ export default {
       }],
       clonelist: [],
       searchInput: '',
-      showSearch: false
+      showSearch: false,
+      couponData: [{
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '即將上線'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '即將上線'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '即將上線'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '失效'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '失效'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '上線中'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '即將上線'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '即將上線'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '即將上線'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '即將上線'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '即將上線'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '即將上線'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '即將上線'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '即將上線'
+      }, {
+        couponCreationTime: '2024-01-26 18:59',
+        offerType: '免運券',
+        lowConsumption: '50,000',
+        startPeriod: '2024.03.18,00:00',
+        deadline: '2024.04.18,23:59',
+        offerContent: '免運費',
+        state: '即將上線'
+      }],
+      showModal: false,
+      showSettingModal: false
     }
   },
   computed: {
@@ -422,10 +626,16 @@ export default {
       this.page_size = +this.page_size;
       this.pagiCalculate = 0;
       this.showItem()
+    },
+    coupon_size() {
+      this.coupon_size = +this.coupon_size;
+      this.pagiCalculate = 0;
+      this.showItem()
     }
   },
   created() {
     this.showItem()
+    this.showCouponItem()
   },
   methods: {
     checkAuth(auth) {
@@ -440,6 +650,10 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val
       this.showItem()
+    },
+    handleCouponCurrentChange(val) {
+      this.currentCouponPage = val
+      this.showCouponItem()
     },
     showItem() {
       this.total_page = Math.ceil(this.tableData.length/this.page_size);
@@ -461,8 +675,27 @@ export default {
        
       this.showData = result
     },
+    showCouponItem() {
+      this.coupon_tot_page = Math.ceil(this.couponData.length/this.coupon_size);
+      this.showCouponData = []
+      const temp = (this.currentCouponPage - 1) * this.coupon_size;
+      this.clonelist = [...this.couponData]
+      const result = this.clonelist.splice(temp, this.coupon_size)
+       
+      this.showCouponData = result
+    },
     afterSearch() {
       this.showSearch = true
+    },
+    selectData(val) {
+      console.log(val)
+    },
+    settingData(val) {
+      console.log(val)
+    },
+    settingModal(val) {
+      console.log(JSON.stringify(val))
+      this.showSettingModal = true
     }
   }
 }
@@ -478,7 +711,7 @@ export default {
     border: 1px solid #34344C;
   }
 }
-#accountingId {
+#accountingId, #couponManagerId {
   .el-table {
     background: #191A21;
     border-radius: 12px;
@@ -517,6 +750,8 @@ export default {
     font-weight: 400;
     font-size: 1rem;
     color: #FFF;
+
+    // text-align: center; //coupon
   }
   .el-table--enable-row-hover .el-table__body tr:hover>td {
     background: #191A21 !important;
@@ -629,7 +864,7 @@ export default {
     }
     .rightall-content {
       margin: 32px auto 0;
-      .test-text, .equal-text {
+      .test-text, .equal-text, .coupon-text {
         font-weight: 700;
         font-size: 24px;
         color: #FFF;
@@ -637,6 +872,9 @@ export default {
       }
       .equal-text {
         margin-bottom: 120px;
+      }
+      .coupon-text {
+        margin-bottom: 100px;
       }
       .basic-info1, .basic-info2 {
         font-weight: 400;
@@ -748,6 +986,17 @@ export default {
           width: 220px;
         }
       }
+      .orange-css, .pink-css, .green-css {
+        font-weight: 400;
+        font-size: 16px;
+        color: #D7DF7B;
+      }
+      .pink-css {
+        color: #F35A90;
+      }
+      .green-css {
+        color: #2BDE73;
+      }
       .btn-css {
         width: 100px;
         height: 30px;
@@ -755,12 +1004,41 @@ export default {
         border-radius: 12px;
         font-weight: 400;
         font-size: 16px;
-        color: #00A0FF;
         text-align: center;
         margin-bottom: 0;
         margin-left: 1rem;
         cursor: pointer;
+
+        color: #00A0FF;
       }
+      .btn-div {
+        width: 140px;
+        height: 36px;
+        border: 1px solid #00A0FF;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .manager-btn {
+          font-weight: 400;
+          font-size: 16px;
+          text-align: center;
+          margin-bottom: 0;
+          margin-left: 5px;
+          cursor: pointer;
+  
+          color: #FFF;
+          background: #132235;
+        }
+        .plus-img {
+          width: 12px;
+          height: 12px;
+        }
+      }
+    }
+    .setting-img {
+      width: 18px;
+      height: 18px;
     }
     .page-content {
       background: #7161EF;
