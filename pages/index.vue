@@ -308,9 +308,9 @@
           </div>
         </div>
         <div v-else class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
-          <div class="page-content" >
+          <!-- <div class="page-content" >
             
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

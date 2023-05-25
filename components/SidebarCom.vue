@@ -23,14 +23,14 @@
             <img src="../assets/pc/close-cart.png" class="sideopen-img">
             <span class="dollar-text">上架商品管理</span>
           </div>
-          <div class="each-row">
+          <div class="each-row" @click="gotoPage('couponManager')">
             <img src="../assets/pc/close-coupon.png" class="sideopen-img">
             <span class="dollar-text">優惠券設定</span>
           </div>
         </div>
         <div class="each-pk">
           <p class="each-title">會員管理</p>
-          <div class="each-row">
+          <div class="each-row" @click="gotoPage('membershipManager')">
             <img src="../assets/pc/close-info.png" class="sideopen-img">
             <span class="dollar-text">會員資料與連動遊戲</span>
           </div>
@@ -196,6 +196,7 @@ export default {
       display: flex;
       align-items: center;
       margin-bottom: 1.3rem;
+      cursor: pointer;
       .sideopen-img {
         width: 24px;
         height: 24px;
