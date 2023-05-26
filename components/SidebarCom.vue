@@ -11,15 +11,15 @@
         </div>
         <div class="each-pk">
           <p class="each-title">平台管理</p>
-          <div class="each-row">
+          <div class="each-row" @click="gotoPage('currencyManager')">
             <img src="../assets/pc/close-dollar.png" class="sideopen-img">
             <span class="dollar-text">幣值比率管理</span>
           </div>
-          <div class="each-row">
+          <div class="each-row" @click="gotoPage('bannerAdvertise')">
             <img src="../assets/pc/close-manager.png" class="sideopen-img">
             <span class="dollar-text">橫幅廣告設定</span>
           </div>
-          <div class="each-row">
+          <div class="each-row" @click="gotoPage('categoryProduct')">
             <img src="../assets/pc/close-cart.png" class="sideopen-img">
             <span class="dollar-text">上架商品管理</span>
           </div>
@@ -38,11 +38,11 @@
             <img src="../assets/pc/close-receipt.png" class="sideopen-img">
             <span class="dollar-text">會員兌換記錄查詢</span>
           </div>
-          <div class="each-row">
+          <div class="each-row" @click="gotoPage('refundHistory')">
             <img src="../assets/pc/close-vector.png" class="sideopen-img">
             <span class="dollar-text">會員退貨審核管理</span>
           </div>
-          <div class="each-row">
+          <div class="each-row" @click="gotoPage('accounting')">
             <img src="../assets/pc/close-document.png" class="sideopen-img">
             <span class="dollar-text">對帳資料</span>
           </div>
