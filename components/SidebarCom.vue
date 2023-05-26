@@ -101,7 +101,7 @@
         </div>
 
         <div v-if="isActive !== '' && isActive === 'refundHistory'" class="activeMenu">
-          <img src="../assets/pc/close-receipt.png" class="sideOpacity-img">
+          <img src="../assets/pc/close-vector.png" class="sideOpacity-img">
           <div class="border-css"></div>
         </div>
         <div v-else class="noactive">
