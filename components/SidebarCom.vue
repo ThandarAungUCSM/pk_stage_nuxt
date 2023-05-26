@@ -34,7 +34,7 @@
             <img src="../assets/pc/close-info.png" class="sideopen-img">
             <span class="dollar-text">會員資料與連動遊戲</span>
           </div>
-          <div class="each-row">
+          <div class="each-row" @click="gotoPage('convertHistory')">
             <img src="../assets/pc/close-receipt.png" class="sideopen-img">
             <span class="dollar-text">會員兌換記錄查詢</span>
           </div>

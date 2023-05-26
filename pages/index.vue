@@ -204,14 +204,102 @@
             </div>
           </div>
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'convertHistory'">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'convertHistory'" id="convertHistoryId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
-              <p class="test-text">
-                Convert History Manager Page
+              <p class="convertHistory-text">
+                會員兌換記錄
               </p>
+              <div class="manager-css">
+                <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
+                <div @click="afterSearch">
+                  <p class="btn-css">查詢</p>
+                </div>
+              </div>
+
+              <div>
+                <el-table
+                  :data="showConvertHistoryData"
+                  style="width: 94%">
+                  <el-table-column
+                    prop="memberAccount"
+                    label="會員帳號"
+                    width="160">
+                  </el-table-column>
+                  <el-table-column
+                    prop="redemptionNumber"
+                    label="兌換編號"
+                    width="160">
+                  </el-table-column>
+                  <el-table-column
+                    prop="exchangeCreation"
+                    label="兌換建立時間"
+                    width="160">
+                  </el-table-column>
+                  <el-table-column
+                    prop="redemptionContent"
+                    label="兌換內容"
+                    width="160">
+                  </el-table-column>
+                  <el-table-column
+                    prop="noofProduct"
+                    label="商品數量"
+                    width="85">
+                    <template slot-scope="props">
+                      <p class="no-css">{{ props.row.noofProduct }}</p>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    prop="exchangeTotal"
+                    label="兌換合計"
+                    width="110">
+                    <template slot-scope="props">
+                      <p class="no-css">{{ props.row.exchangeTotal }}</p>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    prop="state"
+                    label="狀態"
+                    width="90">
+                    <template slot-scope="props">
+                      <span v-if="props.row.state == '已完成'" class="white-css">{{ props.row.state }}</span>
+                      <span v-else-if="props.row.state == '處理中'" class="green-css">{{ props.row.state }}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    prop="view"
+                    label="檢視">
+                    <template slot-scope="props">
+                      <div @click="historyDataModal(props.row)">
+                        <span class="blue-css">查看</span>
+                      </div>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+              <div id="selectId" class="pagi-block">
+                <p class="pagi-text1">顯示{{convert_tot_page}}頁 每頁顯示</p>
+                <el-select v-model="convert_size" placeholder="Select">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <p class="pagi-text2">項記錄</p>
+                <el-pagination
+                  background
+                  :page-size="convert_size"
+                  :pager-count="11"
+                  layout="prev, pager, next"
+                  :total="convertData.length"
+                  @current-change="handleConvertCurrentChange">
+                </el-pagination>
+              </div>
             </div>
           </div>
+          <convertModal v-if="showConvertModal" :show="showConvertModal" :send-data="sendData" @close="showConvertModal = false" @convertModalData="convertModalData" />
         </div>
         <div v-else-if="activeMenu !== '' && activeMenu === 'refundHistory'">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
@@ -332,13 +420,17 @@ export default {
       value2: '',
       page_size: 12,
       coupon_size: 12,
+      convert_size: 12,
       total_page: 0,
       coupon_tot_page: 0,
+      convert_tot_page: 0,
       currentPage: 1,
       currentCouponPage: 1,
+      currentConvertPage: 1,
       pagiCalculate: 0,
       showData: null,
       showCouponData: null,
+      showConvertHistoryData: null,
       options: [{
         value: '12',
         label: '12'
@@ -615,8 +707,146 @@ export default {
         offerContent: '免運費',
         state: '即將上線'
       }],
+      convertData: [{
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '5',
+        exchangeTotal: '1,000',
+        state: '處理中',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'berointgrty,954',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }, {
+        memberAccount: 'berointgrty,954',
+        redemptionNumber: 'sdvrn454bfdln33',
+        exchangeCreation: '2024-01-26 18:59',
+        redemptionContent: '商品名稱商品名稱...',
+        noofProduct: '1',
+        exchangeTotal: '100,000',
+        state: '已完成',
+        view: '查看'
+      }],
       showModal: false,
-      showSettingModal: false
+      showSettingModal: false,
+      showConvertModal: false,
+      sendData: {}
     }
   },
   computed: {
@@ -630,12 +860,18 @@ export default {
     coupon_size() {
       this.coupon_size = +this.coupon_size;
       this.pagiCalculate = 0;
-      this.showItem()
+      this.showCouponItem()
+    },
+    convert_size() {
+      this.convert_size = +this.convert_size;
+      this.pagiCalculate = 0;
+      this.showConvertHistoryItem()
     }
   },
   created() {
     this.showItem()
     this.showCouponItem()
+    this.showConvertHistoryItem()
   },
   methods: {
     checkAuth(auth) {
@@ -654,6 +890,10 @@ export default {
     handleCouponCurrentChange(val) {
       this.currentCouponPage = val
       this.showCouponItem()
+    },
+    handleConvertCurrentChange(val) {
+      this.currentConvertPage = val
+      this.showConvertHistoryItem()
     },
     showItem() {
       this.total_page = Math.ceil(this.tableData.length/this.page_size);
@@ -684,6 +924,15 @@ export default {
        
       this.showCouponData = result
     },
+    showConvertHistoryItem() {
+      this.convert_tot_page = Math.ceil(this.convertData.length/this.convert_size);
+      this.showConvertHistoryData = []
+      const temp = (this.currentConvertPage - 1) * this.convert_size;
+      this.clonelist = [...this.convertData]
+      const result = this.clonelist.splice(temp, this.convert_size)
+       
+      this.showConvertHistoryData = result
+    },
     afterSearch() {
       this.showSearch = true
     },
@@ -693,9 +942,16 @@ export default {
     settingData(val) {
       console.log(val)
     },
+    convertModalData(val) {
+      console.log(val)
+    },
     settingModal(val) {
       console.log(JSON.stringify(val))
       this.showSettingModal = true
+    },
+    historyDataModal(val) {
+      this.sendData = val
+      this.showConvertModal = true
     }
   }
 }
@@ -711,7 +967,22 @@ export default {
     border: 1px solid #34344C;
   }
 }
-#accountingId, #couponManagerId {
+#convertHistoryId {
+  .el-input__inner {
+    width: 349px;
+    height: 30px;
+    background: #34344C;
+    border-radius: 10px;
+    border: 1px solid #34344C;
+  }
+  .el-table th.el-table_1_column_5>.cell, .el-table th.el-table_1_column_6>.cell {
+    text-align: right;
+  }
+  .el-table th.el-table_1_column_7>.cell, .el-table td.el-table_1_column_7>.cell {
+    text-align: center;
+  }
+}
+#accountingId, #couponManagerId, #convertHistoryId {
   .el-table {
     background: #191A21;
     border-radius: 12px;
@@ -846,6 +1117,11 @@ export default {
     }
   }
 }
+#convertHistoryId {
+  .el-table td.el-table__cell div {
+    color: #E4E4E4;
+  }
+}
 </style>
 <style lang="scss" scoped>
 .content-css {
@@ -864,7 +1140,7 @@ export default {
     }
     .rightall-content {
       margin: 32px auto 0;
-      .test-text, .equal-text, .coupon-text {
+      .test-text, .equal-text, .coupon-text, .convertHistory-text {
         font-weight: 700;
         font-size: 24px;
         color: #FFF;
@@ -875,6 +1151,9 @@ export default {
       }
       .coupon-text {
         margin-bottom: 100px;
+      }
+      .convertHistory-text {
+        margin-bottom: 60px;
       }
       .basic-info1, .basic-info2 {
         font-weight: 400;
@@ -978,15 +1257,18 @@ export default {
         margin-left: 63px;
         display: flex;
         align-items: center;
-        .search-css {
+        .search-css, .search-css1 {
           font-weight: 400;
           font-size: 16px;
           color: #CECECE;
 
           width: 220px;
         }
+        .search-css1 {
+          width: 349px;
+        }
       }
-      .orange-css, .pink-css, .green-css {
+      .orange-css, .pink-css, .green-css, .white-css, .blue-css {
         font-weight: 400;
         font-size: 16px;
         color: #D7DF7B;
@@ -996,6 +1278,17 @@ export default {
       }
       .green-css {
         color: #2BDE73;
+      }
+      .white-css {
+        color: #E4E4E4;
+      }
+      .blue-css {
+        color: #00A0FF;
+        cursor: pointer;
+      }
+      .no-css {
+        text-align: right;
+        margin-bottom: 0;
       }
       .btn-css {
         width: 100px;
