@@ -7,12 +7,82 @@
     <div class="content-css">
       <div class="content-block">
         <SidebarCom :opensidebar="opensidebar" @sidebarFunc="sidebarFunc" @activeTab="activeTab" />
-        <div v-if="activeMenu !== '' && activeMenu === 'currencyManager'">
+        <div v-if="activeMenu !== '' && activeMenu === 'currencyManager'" id="currencyManagerId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
-              <p class="test-text">
-                Currency Manager Page
+              <p class="equal-text">
+                遊戲幣值比率
               </p>
+              <div class="row-css">
+                <div class="left-content">
+                  <el-table
+                    :data="currencyData"
+                    style="width: 85%"
+                    :row-class-name="tableRowClassName">
+                    <el-table-column
+                      prop="gameName"
+                      label="遊戲名稱"
+                      width="190">
+                    </el-table-column>
+                    <el-table-column
+                      prop="currency"
+                      label="幣別"
+                      width="190">
+                      <template slot-scope="props">
+                        <span class="">PK/{{ props.row.currency }}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="use"
+                      label="採用"
+                      width="190">
+                      <template slot-scope="props">
+                        <span class="">{{ props.row.use }}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="edit"
+                      label="編輯"
+                      width="132">
+                      <template slot-scope="props">
+                        <div @click="editBlock(props.row, props.$index)"><img src="../assets/pc/btn-edit.png" class="edit-img"></div>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
+                <div id="rightId" class="right-content" :class="(eachcondition && (eachcondition === 'disabled' || eachcondition === 'active')) ? 'showcss' : 'hidecss'">
+                  <div class="right-div">
+                    <div class="right-close">
+                      <img src="../assets/pc/modal-close.png" class="close-img" @click="closeBlock">
+                    </div>
+                    <div class="block-css">
+                      <p class="name-lable">遊戲名稱</p>
+                      <el-input v-model="editName" placeholder="楓之谷" class="name-css"></el-input>
+                    </div>
+                    <div class="block-css">
+                      <p class="name-lable">幣別</p>
+                      <el-input v-model="editCurrency" placeholder="楓幣" class="name-css"></el-input>
+                    </div>
+                    <div class="block-css">
+                      <p class="name1-lable">採用</p>
+                      <div class="manager1-css">
+                        <p class="price-css">{{editData.use}}</p>
+                        <div @click="afterSearch">
+                          <p class="price-btn">修改</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="red-block">
+                      <p v-if="eachcondition === 'active'" class="disabled-btn">停用</p>
+                      <p v-else-if="eachcondition === 'disabled'"  class="disabled-btn">解除停用</p>
+                      <p class="removed-btn">從官網移除</p>
+                    </div>
+                    <div class="btn-block">
+                      <p class="store-btn" @click="closeBlock">儲存</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -846,7 +916,48 @@ export default {
       showModal: false,
       showSettingModal: false,
       showConvertModal: false,
-      sendData: {}
+      sendData: {},
+      currencyData: [{
+        gameName: '楓之谷',
+        currency: '楓幣',
+        use: '5,000',
+        edit: ''
+      }, {
+        gameName: 'OOXX',
+        currency: 'OOXX',
+        use: '160,000',
+        edit: ''
+      }, {
+        gameName: 'OOXX',
+        currency: 'OOXX',
+        use: '123',
+        edit: ''
+      }, {
+        gameName: 'OOXX',
+        currency: 'OOXX',
+        use: '456',
+        edit: ''
+      }, {
+        gameName: 'OOXX',
+        currency: 'OOXX',
+        use: '150,050',
+        edit: ''
+      }, {
+        gameName: 'OOXX',
+        currency: 'OOXX',
+        use: '59,288,03',
+        edit: ''
+      }, {
+        gameName: 'OOXX',
+        currency: 'OOXX',
+        use: '999,999,99(停用)',
+        edit: ''
+      }],
+      editData: {},
+      editName: '', 
+      editCurrency: '',
+      currentIndex: null,
+      eachcondition: 'normal'
     }
   },
   computed: {
@@ -952,6 +1063,29 @@ export default {
     historyDataModal(val) {
       this.sendData = val
       this.showConvertModal = true
+    },
+    editBlock(val, index) {
+      this.editData = val
+      this.editName = val.gameName
+      this.editCurrency = val.currency
+      this.currentIndex = index
+      if(this.currentIndex === (this.currencyData.length - 1)) {
+        this.eachcondition = 'disabled'
+      } else if(this.currentIndex !== null) {
+        this.eachcondition = 'active'
+      } else {
+        this.eachcondition = 'normal'
+      }
+    },
+    tableRowClassName({row, rowIndex}) {
+      if ((rowIndex === this.currentIndex) && (rowIndex !== (this.currencyData.length - 1))) {
+        return 'active-row';
+      } 
+      return '';
+    },
+    closeBlock() {
+      this.eachcondition = 'normal'
+      this.currentIndex = null
     }
   }
 }
@@ -967,22 +1101,8 @@ export default {
     border: 1px solid #34344C;
   }
 }
-#convertHistoryId {
-  .el-input__inner {
-    width: 349px;
-    height: 30px;
-    background: #34344C;
-    border-radius: 10px;
-    border: 1px solid #34344C;
-  }
-  .el-table th.el-table_1_column_5>.cell, .el-table th.el-table_1_column_6>.cell {
-    text-align: right;
-  }
-  .el-table th.el-table_1_column_7>.cell, .el-table td.el-table_1_column_7>.cell {
-    text-align: center;
-  }
-}
-#accountingId, #couponManagerId, #convertHistoryId {
+
+#accountingId, #couponManagerId, #convertHistoryId, #currencyManagerId {
   .el-table {
     background: #191A21;
     border-radius: 12px;
@@ -1118,7 +1238,63 @@ export default {
   }
 }
 #convertHistoryId {
+  .el-input__inner {
+    width: 349px;
+    height: 30px;
+    background: #34344C;
+    border-radius: 10px;
+    border: 1px solid #34344C;
+  }
+  .el-table th.el-table_1_column_5>.cell, .el-table th.el-table_1_column_6>.cell {
+    text-align: right;
+  }
+  .el-table th.el-table_1_column_7>.cell, .el-table td.el-table_1_column_7>.cell {
+    text-align: center;
+  }
   .el-table td.el-table__cell div {
+    color: #E4E4E4;
+  }
+}
+#currencyManagerId {
+  .el-table {
+    padding: 2rem 1rem 2rem 1rem;
+    margin-top: 0;
+    margin-left: 63px;
+  }
+  .el-table .active-row {
+    td.el-table__cell div {
+      color: #EDFF21;
+    }
+  }
+  .el-table th.el-table_1_column_3>.cell, .el-table td.el-table_1_column_3>.cell {
+    text-align: right;
+  }
+  .el-table th.el-table_1_column_4>.cell, .el-table td.el-table_1_column_4>.cell {
+    text-align: center;
+  }
+  .el-table td.el-table__cell, .el-table th.el-table__cell>.cell {
+    padding-bottom: 5px;
+  }
+  .el-table td.el-table__cell div {
+    color: #E4E4E4;
+  }
+  .el-table tr:last-child td.el-table__cell div {
+    color: #F35A90;
+  }
+  .el-input__inner {
+    width: 196px;
+    height: 30px;
+    border: 1px solid #34344C;
+
+    background: #343449;
+    border-radius: 6px;
+    padding: 0 7px;
+  }
+}
+#rightId {
+  .el-input__inner {
+    font-weight: 400;
+    font-size: 16px;
     color: #E4E4E4;
   }
 }
@@ -1154,6 +1330,94 @@ export default {
       }
       .convertHistory-text {
         margin-bottom: 60px;
+      }
+      .row-css {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .left-content {
+          width: 65%;
+        }
+        .right-content {
+          width: 33%;
+        }
+        .showcss {
+          visibility: visible;
+        }
+        .hidecss {
+          visibility: hidden;
+        }
+        .right-div {
+          width: 360px;
+          height: 500px;
+          background: #191A21;
+          border-radius: 12px;
+          padding: 1rem 1rem 1rem 3rem;
+          .right-close {
+            text-align: right;
+          }
+          .close-img {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+          }
+          .block-css {
+            margin-bottom: 1.1rem;
+            .name-lable, .name1-lable {
+              font-weight: 400;
+              font-size: 16px;
+              color: #808080;
+              margin-bottom: 10px;
+              margin-left: 7px;
+            }
+            .name1-lable {
+              margin-left: 0;
+            }
+            .name-css {
+              font-weight: 400;
+              font-size: 16px;
+              color: #E4E4E4;
+            }
+          }
+          .red-block {
+            .disabled-btn, .removed-btn {
+              font-weight: 400;
+              font-size: 16px;
+              color: #F35A90;
+              border: 1px solid #F35A90;
+              border-radius: 12px;
+              width: 120px;
+              height: 36px;
+              margin-bottom: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+            .removed-btn {
+              margin-top: 21px;
+              margin-bottom: 55px;
+            }
+          }
+          .btn-block {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .store-btn {
+            font-weight: 400;
+            font-size: 16px;
+            color: #FFF;
+            background: linear-gradient(90deg, #7161EF 0%, #3C27DC 100%);
+            border-radius: 12px;
+            width: 200px;
+            height: 40px;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+          }
+        }
       }
       .basic-info1, .basic-info2 {
         font-weight: 400;
@@ -1268,6 +1532,30 @@ export default {
           width: 349px;
         }
       }
+      .manager1-css {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .price-css {
+          font-weight: 400;
+          font-size: 24px;
+          color: #E4E4E4;
+          margin-bottom: 0;
+        }
+        .price-btn {
+          font-weight: 400;
+          font-size: 16px;
+          color: #00A0FF;
+          border: 1px solid #00A0FF;
+          border-radius: 12px;
+          width: 70px;
+          height: 30px;
+          margin-bottom: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
       .orange-css, .pink-css, .green-css, .white-css, .blue-css {
         font-weight: 400;
         font-size: 16px;
@@ -1332,6 +1620,11 @@ export default {
     .setting-img {
       width: 18px;
       height: 18px;
+    }
+    .edit-img {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
     }
     .page-content {
       background: #7161EF;
