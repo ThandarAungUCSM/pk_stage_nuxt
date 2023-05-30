@@ -87,11 +87,157 @@
           </div>
         </div>
         <div v-else-if="activeMenu !== '' && activeMenu === 'bannerAdvertise'">
-          <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
+          <div class="whole1-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
-              <p class="test-text">
-                Banner Advertise Manager Page
-              </p>
+              <div v-if="!showAds1" class="row-content">
+                <div class="left-block">
+                  <p class="equal-text">
+                    橫幅廣告管理
+                  </p>
+                  <div class="manager-css">
+                    <div class="advertise-btn" @click="toShow">
+                      <img src="../assets/pc/plus.png" class="plus-img">
+                      <p class="manager-btn">新增</p>
+                    </div>
+                  </div>
+                  <div class="pad-left">
+                    <p class="advert-count">商城廣告(0/10)</p>
+                    <p class="advert1-count">遊戲廣告(0/10)</p>
+                  </div>
+                </div>
+
+                <div id="adsId" class="center-block" :style="showCenter === true ? 'visibility: visible;' : 'visibility: hidden;'">
+                  <div class="first-row">
+                    <img src="../assets/pc/modal-close.png" class="close-ads" style="visibility: hidden;">
+                    <div class="btn-ads">
+                      <p :class="adsTab === 1 ? 'mall-ads' : 'game-ads'" @click="activeAdsTab(1)">商城廣告</p>
+                      <p :class="adsTab === 2 ? 'mall-ads' : 'game-ads'" @click="activeAdsTab(2)">遊戲廣告</p>
+                    </div>
+                    <img src="../assets/pc/modal-close.png" class="close-ads" @click="toHide">
+                  </div>
+                  <div class="sec-row">
+                    <img src="../assets/pc/img-img.png" class="img-icon">
+                  </div>
+                  <div class="third-row">
+
+                    <div class="block-css">
+                      <p class="name-lable">廣告生效時間</p>
+                      <el-input v-model="liveTime" placeholder="楓之谷" class="name-css"></el-input>
+                    </div>
+                    <div class="block-css">
+                      <p class="name-lable">廣告失效時間</p>
+                      <el-input v-model="expireTime" placeholder="楓幣" class="name-css"></el-input>
+                    </div>
+                  </div>
+                  <div class="ads-btn" @click="showAdvertise(1)">完成</div>
+                </div>
+              </div>
+              <div v-else-if="!deleteItem" class="row-content">
+                <div class="left-block">
+                  <p class="equal-text">
+                    橫幅廣告管理
+                  </p>
+                  <div class="manager-css">
+                    <div class="advertise-btn1" @click="toShow">
+                      <img src="../assets/pc/plus.png" class="plus-img">
+                      <p class="manager-btn">新增</p>
+                    </div>
+                    <div class="advertise-btn" @click="toDeleteBtn">
+                      <img src="../assets/pc/trash.png" class="trash-img">
+                      <p class="manager-btn">移除</p>
+                    </div>
+                  </div>
+                  <div class="banner-block2">
+                    <p class="advert-count">商城廣告(2/10)</p>
+                    <div>
+                      <div class="each-row">
+                        <div class="each-block">
+                          <p class="status-condition1">online</p>
+                          <img src="../assets/pc/fake-banner1.png" class="fake-img">
+                          <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                        </div>
+                        <div class="each-block">
+                          <p class="status-condition2">已排程</p>
+                          <img src="../assets/pc/fake-banner1.png" class="fake-img">
+                          <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="banner-block1">
+                    <p class="advert2-count">遊戲廣告(2/10)</p>
+                    <div>
+                      <div class="each-row">
+                        <div class="each-block">
+                          <p class="status-condition1">online</p>
+                          <img src="../assets/pc/fake-banner2.png" class="fake1-img">
+                          <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                        </div>
+                        <div class="each-block">
+                          <p class="status-condition1">online</p>
+                          <img src="../assets/pc/fake-banner2.png" class="fake1-img">
+                          <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-else-if="deleteItem" class="row-content">
+                <div class="left-block">
+                  <p class="equal-text">
+                    橫幅廣告管理
+                  </p>
+                  <div class="manager-css">
+                    <div class="advertise-btn1" @click="toShow">
+                      <img src="../assets/pc/plus.png" class="plus-img">
+                      <p class="manager-btn">新增</p>
+                    </div>
+                    <div class="advertise-btn" :class="deleteItem ? 'activeDelete' : ''" @click="toDeleteBtn">
+                      <img src="../assets/pc/trash.png" class="trash-img">
+                      <p class="manager-btn">移除</p>
+                    </div>
+                  </div>
+                  <div class="banner-block2">
+                    <p class="advert-count">商城廣告(2/10)</p>
+                    <div>
+                      <div class="each-row">
+                        <div class="each-block">
+                          <p class="status-condition1">online</p>
+                          <img src="../assets/pc/fake-banner1.png" class="fake-img">
+                          <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
+                          <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                        </div>
+                        <div class="each-block">
+                          <p class="status-condition2">已排程</p>
+                          <img src="../assets/pc/fake-banner1.png" class="fake-img">
+                          <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
+                          <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="banner-block1">
+                    <p class="advert2-count">遊戲廣告(2/10)</p>
+                    <div>
+                      <div class="each-row">
+                        <div class="each-block">
+                          <p class="status-condition1">online</p>
+                          <img src="../assets/pc/fake-banner2.png" class="fake1-img">
+                          <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
+                          <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                        </div>
+                        <div class="each-block">
+                          <p class="status-condition1">online</p>
+                          <img src="../assets/pc/fake-banner2.png" class="fake1-img">
+                          <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
+                          <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -957,7 +1103,13 @@ export default {
       editName: '', 
       editCurrency: '',
       currentIndex: null,
-      eachcondition: 'normal'
+      eachcondition: 'normal',
+      showCenter: false,
+      showAds1: false,
+      adsTab: 1,
+      liveTime: '', 
+      expireTime: '',
+      deleteItem: false
     }
   },
   computed: {
@@ -1086,6 +1238,29 @@ export default {
     closeBlock() {
       this.eachcondition = 'normal'
       this.currentIndex = null
+    },
+    toShow() {
+      this.showAds1 = false
+      this.deleteItem = false
+      this.showCenter = true
+    },
+    toHide() {
+      this.showCenter = false
+    },
+    showAdvertise() {
+      this.showCenter = false
+      this.deleteItem = false
+      this.showAds1 = true
+    },
+    activeAdsTab(val) {
+      this.adsTab = val
+    },
+    toDeleteBtn() {
+      this.showCenter = false
+      this.deleteItem = !this.deleteItem
+    },
+    toDelete() {
+      
     }
   }
 }
@@ -1298,6 +1473,19 @@ export default {
     color: #E4E4E4;
   }
 }
+#adsId {
+  .el-input__inner {
+    font-weight: 400;
+    font-size: 16px;
+    color: #E4E4E4;
+
+    width: 347px;
+    height: 48px;
+    background: #34344C;
+    border-radius: 6px;
+    border: 1px solid #34344c;
+  }
+}
 </style>
 <style lang="scss" scoped>
 .content-css {
@@ -1312,6 +1500,13 @@ export default {
       left: 50%;
       transform: translate(-50%, 0%); 
 
+      background: #132235;
+    }
+    .whole1-content {
+      width: 100%;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0%); 
       background: #132235;
     }
     .rightall-content {
@@ -1330,6 +1525,161 @@ export default {
       }
       .convertHistory-text {
         margin-bottom: 60px;
+      }
+      .banner-block {
+
+      }
+      .advert-count, .advert1-count, .advert2-count {
+        font-weight: 400;
+        font-size: 16px;
+        color: #FFF;
+        margin-top: 33px;
+      }
+      .advert1-count {
+        margin-top: 100px;
+      }
+      .advert2-count {
+        margin-top: 0;
+      }
+      .banner-block1 {
+        margin-left: 63px;
+        margin-top: 1rem;
+      }
+      .banner-block2, .pad-left {
+        margin-left: 63px;
+      }
+      .each-row {
+        display: flex;
+        .each-block {
+          margin-right: 10px;
+          position: relative;
+          .status-condition1, .status-condition2 {
+            font-weight: 400;
+            font-size: 16px;
+            color: #FFF;
+            width: 67px;
+            text-align: center;
+            position: absolute;
+          }
+          .status-condition1 {
+            background: #2BDE73;
+          }
+          .status-condition2 {
+            background: #FFA149;
+          }
+          .fake-img {
+            width: 393px;
+          }
+          .remove-img {
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            position: absolute;
+            top: -15px;
+            right: -3px;
+          }
+          .fake1-img {
+            width: 360px;
+          }
+          .date-time, .date1-time {
+            font-weight: 400;
+            font-size: 16px;
+            color: #FFF;
+            width: 393px;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.95);
+            margin-bottom: 0;
+            position: absolute;
+            bottom: 0;
+          }
+          .date1-time {
+            width: 360px;
+          }
+        }
+      }
+      .row-content {
+        display: flex;
+
+      }
+      .left-block {
+        margin-bottom: 2rem;
+      }
+      .center-block {
+        background: #191A21;
+        border: 1px solid #7161EF;
+        border-radius: 12px;
+
+        padding: 1rem 1rem 2rem;
+        width: 500px;
+        margin-left: 100px;
+        .first-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .close-ads {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+          }
+        }
+        .sec-row {
+          width: 393px;
+          height: 160px;
+          background: #191A21;
+          border: 1px solid #263B71;
+          margin: 38px auto 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .img-icon {
+            width: 64px;
+            height: 64px;
+          }
+        }
+        .third-row {
+          width: 393px;
+          margin: 90px auto 150px;
+        }
+        .ads-btn {
+          width: 200px;
+          height: 39px;
+          background: linear-gradient(90deg, #7161EF 0%, #3C27DC 100%);
+          border-radius: 12px;
+          font-weight: 400;
+          font-size: 16px;
+          color: #FFF;
+          text-align: center;
+          margin: auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+        }
+        .btn-ads {
+          display: flex;
+
+          .mall-ads, .game-ads {
+            font-weight: 400;
+            font-size: 16px;
+            border-radius: 12px;
+            width: 100px;
+            height: 36px;
+            border: 1px solid #7161EF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 11px 0 11px;
+            cursor: pointer;
+          }
+          .mall-ads {
+            color: #FFF;
+            background: #7161EF;
+          }
+          .game-ads {
+            color: #7161EF;
+            background: #191A21;
+          }
+        }
       }
       .row-css {
         display: flex;
@@ -1360,24 +1710,6 @@ export default {
             width: 18px;
             height: 18px;
             cursor: pointer;
-          }
-          .block-css {
-            margin-bottom: 1.1rem;
-            .name-lable, .name1-lable {
-              font-weight: 400;
-              font-size: 16px;
-              color: #808080;
-              margin-bottom: 10px;
-              margin-left: 7px;
-            }
-            .name1-lable {
-              margin-left: 0;
-            }
-            .name-css {
-              font-weight: 400;
-              font-size: 16px;
-              color: #E4E4E4;
-            }
           }
           .red-block {
             .disabled-btn, .removed-btn {
@@ -1417,6 +1749,24 @@ export default {
             justify-content: center;
             cursor: pointer;
           }
+        }
+      }
+      .block-css {
+        margin-bottom: 1.1rem;
+        .name-lable, .name1-lable {
+          font-weight: 400;
+          font-size: 16px;
+          color: #808080;
+          margin-bottom: 10px;
+          margin-left: 7px;
+        }
+        .name1-lable {
+          margin-left: 0;
+        }
+        .name-css {
+          font-weight: 400;
+          font-size: 16px;
+          color: #E4E4E4;
         }
       }
       .basic-info1, .basic-info2 {
@@ -1592,8 +1942,8 @@ export default {
 
         color: #00A0FF;
       }
-      .btn-div {
-        width: 140px;
+      .advertise-btn, .advertise-btn1 {
+        width: 93px;
         height: 36px;
         border: 1px solid #00A0FF;
         border-radius: 12px;
@@ -1609,7 +1959,43 @@ export default {
           cursor: pointer;
   
           color: #FFF;
-          background: #132235;
+          // background: #132235;
+        }
+        .plus-img {
+          width: 12px;
+          height: 12px;
+        }
+        .trash-img {
+          width: 18px;
+          height: 18px;
+        }
+      }
+      .advertise-btn1 {
+        margin-right: 18px;
+      }
+      .activeDelete {
+        background: #0270B1;
+        border: 1px solid #00A0FF;
+        border-radius: 12px;
+      }
+      .btn-div {
+        width: 140px;
+        height: 36px;
+        background: #132235;
+        border: 1px solid #00A0FF;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .manager-btn {
+          font-weight: 400;
+          font-size: 16px;
+          text-align: center;
+          margin-bottom: 0;
+          margin-left: 5px;
+          cursor: pointer;
+  
+          color: #FFF
         }
         .plus-img {
           width: 12px;
