@@ -75,7 +75,7 @@ export default {
     }
   },
   created() {
-    alert(JSON.stringify(this.sendData))
+    // alert(JSON.stringify(this.sendData))
   },
   methods: {
     closePopup() {

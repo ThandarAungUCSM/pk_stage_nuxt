@@ -517,12 +517,129 @@
           </div>
           <convertModal v-if="showConvertModal" :show="showConvertModal" :send-data="sendData" @close="showConvertModal = false" @convertModalData="convertModalData" />
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'refundHistory'">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'refundHistory'" id="refundHistoryId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
               <p class="test-text">
-                Refund History Page
+                退貨審核管理
               </p>
+              <div class="manager-css">
+                <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
+                <div @click="afterSearch">
+                  <p class="btn-css">查詢</p>
+                </div>
+              </div>
+              <div id="childConHisId" class="date-picker1-css">
+                <el-date-picker
+                  v-model="value3"
+                  type="date"
+                  placeholder="開始時間">
+                </el-date-picker>
+                <p class="symbol-css">~</p>
+                <el-date-picker
+                  v-model="value4"
+                  type="date"
+                  placeholder="結束時間">
+                </el-date-picker>
+              </div>
+              <div class="btnNtable">
+                <div class="btn-block">
+                  <p class="active-btn all-css">全部</p>
+                  <p class="noactvie-btn all-css">等待審核</p>
+                  <p class="noactvie-btn all-css">結束</p>
+                  <p class="noactvie-btn all-css">已拒絕</p>
+                  <p class="noactvie-btn all-css">等待取件</p>
+                </div>
+                <el-table
+                  :data="showRefundData"
+                  style="width: 100%">
+                  <el-table-column
+                    prop="redemptionNo"
+                    label="兌換編號"
+                    width="180">
+                  </el-table-column>
+                  <el-table-column
+                    prop="returnAppTime"
+                    label="退貨申請時間"
+                    width="180">
+                  </el-table-column>
+                  <el-table-column
+                    prop="memberAccout"
+                    label="會員帳號"
+                    width="180">
+                  </el-table-column>
+                  <el-table-column
+                    prop="returnItem"
+                    label="退貨品項"
+                    width="170">
+                  </el-table-column>
+                  <el-table-column
+                    prop="returnQty"
+                    label="退貨數量"
+                    width="90">
+                  </el-table-column>
+                  <el-table-column
+                    prop="receiveGoods"
+                    label="是否收貨"
+                    width="100">
+                  </el-table-column>
+                  <el-table-column
+                    prop="requestRefund"
+                    label="申請退款"
+                    width="120">
+                  </el-table-column>
+                  <el-table-column
+                    prop="trackingNo"
+                    label="運送單號"
+                    width="150">
+                  </el-table-column>
+                  <el-table-column
+                    prop="state"
+                    label="狀態"
+                    width="120">
+                    <template slot-scope="props">
+                      <div @click="refundDataModal(props.row)">
+                        <span v-if="props.row.state === '等待審核'" class="orange-css">{{props.row.state}}</span>
+                        <span v-else-if="props.row.state === '等待取件'" class="orange-css">{{props.row.state}}</span>
+                        <span v-else-if="props.row.state === '結束'" class="white-css">{{props.row.state}}</span>
+                        <span v-else-if="props.row.state === '已拒絕'" class="pink-css">{{props.row.state}}</span>
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    prop="detailInformation"
+                    label="詳細資料"
+                    width="120">
+                    <template slot-scope="props">
+                      <div @click="refundDataModal(props.row)">
+                        <span class="blue-css">開啟</span>
+                      </div>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+              <div id="selectId" class="pagi-block">
+                <p class="pagi-text1">顯示{{refund_tot_page}}頁 每頁顯示</p>
+                <el-select v-model="refund_size" placeholder="Select">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <p class="pagi-text2">項記錄</p>
+                <el-pagination
+                  background
+                  :page-size="refund_size"
+                  :pager-count="11"
+                  layout="prev, pager, next"
+                  :total="refundData.length"
+                  @current-change="handleRefundChange">
+                </el-pagination>
+              </div>
+              <refundModal v-if="showRefundModal" :show="showRefundModal" :send-data="sendData" @close="openRefund" />
+              <newRefundModal v-if="showNewRefundModal" :show="showNewRefundModal" :send-data="tograndChild" @close="showNewRefundModal = false" />
             </div>
           </div>
         </div>
@@ -634,17 +751,23 @@ export default {
       activeMenu: '',
       value1: '',
       value2: '',
+      value3: '',
+      value4: '',
       page_size: 12,
       coupon_size: 12,
       convert_size: 12,
+      refund_size: 12,
       total_page: 0,
+      refund_tot_page: 0,
       coupon_tot_page: 0,
       convert_tot_page: 0,
       currentPage: 1,
       currentCouponPage: 1,
       currentConvertPage: 1,
+      currentRefundPage: 1,
       pagiCalculate: 0,
       showData: null,
+      showRefundData: null,
       showCouponData: null,
       showConvertHistoryData: null,
       options: [{
@@ -1062,6 +1185,7 @@ export default {
       showModal: false,
       showSettingModal: false,
       showConvertModal: false,
+      showRefundModal: false,
       sendData: {},
       currencyData: [{
         gameName: '楓之谷',
@@ -1109,7 +1233,54 @@ export default {
       adsTab: 1,
       liveTime: '', 
       expireTime: '',
-      deleteItem: false
+      deleteItem: false,
+      refundData: [{
+        redemptionNo: 'sdvrn454bfdln33',
+        returnAppTime: '2024-01-26 18:59',
+        memberAccout: 'blackpink321',
+        returnItem: '商品名稱商品名稱...',
+        returnQty: '3',
+        receiveGoods: '否',
+        requestRefund: '500,000',
+        trackingNo: '15645161326',
+        state: '等待審核',
+        detailInformation: '開啟'
+      }, {
+        redemptionNo: 'berointgrty,954',
+        returnAppTime: '2024-01-26 18:59',
+        memberAccout: 'titan666',
+        returnItem: '商品名稱商品名稱...',
+        returnQty: '1',
+        receiveGoods: '是',
+        requestRefund: '100,000',
+        trackingNo: '65164651512',
+        state: '結束',
+        detailInformation: '開啟'
+      }, {
+        redemptionNo: 'berointgrty,954',
+        returnAppTime: '2024-01-26 18:59',
+        memberAccout: 'titan666',
+        returnItem: '商品名稱商品名稱...',
+        returnQty: '1',
+        receiveGoods: '是',
+        requestRefund: '100,000',
+        trackingNo: '65164651512',
+        state: '已拒絕',
+        detailInformation: '開啟'
+      }, {
+        redemptionNo: 'sdvrn454bfdln33',
+        returnAppTime: '2024-01-26 18:59',
+        memberAccout: 'blackpink321',
+        returnItem: '商品名稱商品名稱...',
+        returnQty: '3',
+        receiveGoods: '否',
+        requestRefund: '500,000',
+        trackingNo: '15645161326',
+        state: '等待取件',
+        detailInformation: '開啟'
+      }],
+      showNewRefundModal: false,
+      tograndChild: {}
     }
   },
   computed: {
@@ -1119,6 +1290,11 @@ export default {
       this.page_size = +this.page_size;
       this.pagiCalculate = 0;
       this.showItem()
+    },
+    refund_size() {
+      this.refund_size = +this.refund_size;
+      this.pagiCalculate = 0;
+      this.showReund()
     },
     coupon_size() {
       this.coupon_size = +this.coupon_size;
@@ -1133,6 +1309,7 @@ export default {
   },
   created() {
     this.showItem()
+    this.showReund()
     this.showCouponItem()
     this.showConvertHistoryItem()
   },
@@ -1149,6 +1326,10 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val
       this.showItem()
+    },
+    handleRefundChange(val) {
+      this.currentRefundPage = val
+      this.showReund()
     },
     handleCouponCurrentChange(val) {
       this.currentCouponPage = val
@@ -1178,6 +1359,16 @@ export default {
        
       this.showData = result
     },
+    showReund() {
+      this.refund_tot_page = Math.ceil(this.refundData.length/this.refund_size);
+      this.showRefundData = []
+
+      const temp = (this.currentRefundPage - 1) * this.refund_size;
+      this.clonelist = [...this.refundData]
+      const result = this.clonelist.splice(temp, this.refund_size)
+       
+      this.showRefundData = result
+    }, 
     showCouponItem() {
       this.coupon_tot_page = Math.ceil(this.couponData.length/this.coupon_size);
       this.showCouponData = []
@@ -1215,6 +1406,11 @@ export default {
     historyDataModal(val) {
       this.sendData = val
       this.showConvertModal = true
+    },
+    refundDataModal(val) {
+      this.sendData = val
+      document.body.classList.add('tofix');
+      this.showRefundModal = true
     },
     editBlock(val, index) {
       this.editData = val
@@ -1261,6 +1457,12 @@ export default {
     },
     toDelete() {
       
+    },
+    openRefund(val) {
+      this.showRefundModal = false
+      document.body.classList.add('tofix');
+      this.showNewRefundModal = true
+      this.tograndChild = this.sendData
     }
   }
 }
@@ -1277,7 +1479,7 @@ export default {
   }
 }
 
-#accountingId, #couponManagerId, #convertHistoryId, #currencyManagerId {
+#accountingId, #couponManagerId, #convertHistoryId, #currencyManagerId, #refundHistoryId {
   .el-table {
     background: #191A21;
     border-radius: 12px;
@@ -1430,6 +1632,43 @@ export default {
     color: #E4E4E4;
   }
 }
+#refundHistoryId {
+  .el-table {
+    background: #191A21;
+    border-radius: 12px;
+    padding: 1rem 1rem 2rem 5px;
+    margin: 0 auto 34px;
+  }
+  .el-input__inner {
+    width: 340px;
+    height: 30px;
+    background: #34344C;
+    border-radius: 10px;
+    border: 1px solid #34344C;
+  }
+  .el-table th.el-table_1_column_5>.cell, .el-table td.el-table_1_column_5>.cell, .el-table th.el-table_1_column_6>.cell, .el-table td.el-table_1_column_6>.cell, .el-table th.el-table_1_column_7>.cell, .el-table td.el-table_1_column_7>.cell {
+    text-align: right;
+  }
+  .el-table th.el-table_1_column_7>.cell, .el-table td.el-table_1_column_7>.cell, .el-table th.el-table_1_column_9>.cell, .el-table td.el-table_1_column_9>.cell, .el-table th.el-table_1_column_10>.cell, .el-table td.el-table_1_column_10>.cell {
+    text-align: center;
+  }
+  .el-table td.el-table__cell div {
+    color: #E4E4E4;
+  }
+  .el-table th.el-table__cell>.cell, .el-table td.el-table__cell div {
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+}
+#childConHisId {
+  .el-input__inner {
+    width: 186px;
+    height: 30px;
+    background: #34344C;
+    border-radius: 10px;
+    border: 1px solid #34344C;
+  }
+}
 #currencyManagerId {
   .el-table {
     padding: 2rem 1rem 2rem 1rem;
@@ -1485,6 +1724,10 @@ export default {
     border-radius: 6px;
     border: 1px solid #34344c;
   }
+}
+.tofix {
+  width: 100%;
+  position: fixed;
 }
 </style>
 <style lang="scss" scoped>
@@ -1835,7 +2078,7 @@ export default {
           }
         }
       }
-      .date-picker-css {
+      .date-picker-css, .date-picker1-css {
         margin-left: 63px;
         display: flex;
         align-items: center;
@@ -1846,6 +2089,48 @@ export default {
 
           margin-bottom: 0;
           padding: 0 1rem;
+        }
+      }
+      .date-picker1-css {
+        margin-top: 30px;
+      }
+      .btnNtable {
+        width: 94%;
+        background: #191A21;
+        border-radius: 12px;
+        padding: 1rem 1rem 2rem 2rem;
+        margin: 29px auto 34px;
+        .btn-block {
+          display: flex;
+          align-items: center;
+          
+          .all-css {
+            font-weight: 400;
+            font-size: 1rem;
+            margin-bottom: 0;
+
+            width: 100px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 22px;
+            cursor: pointer;
+          }
+          .active-btn {
+            background: #7161EF;
+            color: #FFF;
+
+            border: 1px solid #7161EF;
+            border-radius: 12px;
+          }
+          .noactvie-btn {
+            background: #191A21;
+            color: #7161EF;
+
+            border: 1px solid #7161EF;
+            border-radius: 12px;
+          }
         }
       }
       .pagi-block {
@@ -1909,7 +2194,7 @@ export default {
       .orange-css, .pink-css, .green-css, .white-css, .blue-css {
         font-weight: 400;
         font-size: 16px;
-        color: #D7DF7B;
+        color: #FF8A65;
       }
       .pink-css {
         color: #F35A90;
