@@ -37,7 +37,8 @@
                       label="採用"
                       width="190">
                       <template slot-scope="props">
-                        <span class="">{{ props.row.use }}</span>
+                        <span v-if="props.row.state && props.row.state === 'pause'" class="">{{ props.row.use }}(停用)</span>
+                        <span v-else class="">{{ props.row.use }}</span>
                       </template>
                     </el-table-column>
                     <el-table-column
@@ -65,11 +66,16 @@
                     </div>
                     <div class="block-css">
                       <p class="name1-lable">採用</p>
-                      <div class="manager1-css">
-                        <p class="price-css">{{editData.use}}</p>
-                        <div @click="afterSearch">
+                      <div v-if="!priceEdit" class="manager1-css">
+                        <p v-if="editData.state && editData.state === 'pause'" class="price-css">{{editData.use}}(停用)</p>
+                        <p v-else class="price-css">{{editData.use}}</p>
+                        <div v-if="!(editData.state)" @click="updateFunc">
                           <p class="price-btn">修改</p>
                         </div>
+                      </div>
+                      <div v-else class="manager2-css">
+                        <el-input v-model="editPrice" pattern="[0-9]{4} [0-9]{3} [0-9]{3}" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" placeholder="楓幣" onfocus="this.placeholder=''" class="name1-css"></el-input>
+                        <div class="price-btn" @click="exitEditMode(1)">完成</div>
                       </div>
                     </div>
                     <div class="red-block">
@@ -122,11 +128,21 @@
 
                     <div class="block-css">
                       <p class="name-lable">廣告生效時間</p>
-                      <el-input v-model="liveTime" placeholder="楓之谷" class="name-css"></el-input>
+                      <!-- <el-input v-model="liveTime" placeholder="楓之谷" class="name-css"></el-input> -->
+                      <el-date-picker
+                        v-model="liveTime"
+                        type="datetime"
+                        placeholder="">
+                      </el-date-picker>
                     </div>
                     <div class="block-css">
                       <p class="name-lable">廣告失效時間</p>
-                      <el-input v-model="expireTime" placeholder="楓幣" class="name-css"></el-input>
+                      <!-- <el-input v-model="expireTime" placeholder="楓幣" class="name-css"></el-input> -->
+                      <el-date-picker
+                        v-model="expireTime"
+                        type="datetime"
+                        placeholder="">
+                      </el-date-picker>
                     </div>
                   </div>
                   <div class="ads-btn" @click="showAdvertise(1)">完成</div>
@@ -1220,8 +1236,9 @@ export default {
       }, {
         gameName: 'OOXX',
         currency: 'OOXX',
-        use: '999,999,99(停用)',
-        edit: ''
+        use: '999,999,99',
+        edit: '',
+        state: 'pause'
       }],
       editData: {},
       editName: '', 
@@ -1280,7 +1297,9 @@ export default {
         detailInformation: '開啟'
       }],
       showNewRefundModal: false,
-      tograndChild: {}
+      tograndChild: {},
+      priceEdit: false,
+      editPrice: ''
     }
   },
   computed: {
@@ -1314,6 +1333,9 @@ export default {
     this.showConvertHistoryItem()
   },
   methods: {
+    updateFunc() {
+      this.priceEdit = true
+    },
     checkAuth(auth) {
       this.userLogin = auth
     },
@@ -1447,6 +1469,19 @@ export default {
       this.showCenter = false
       this.deleteItem = false
       this.showAds1 = true
+    },
+    exitEditMode() {
+      if(this.editPrice === '' || this.editData.use === this.editPrice) {
+        console.log('please fill new input data')
+      } else {
+        this.currencyData.map((item, index) => {
+          if(index === this.currentIndex) {
+            item.use = this.editPrice
+          }
+          return item;
+        })
+        this.priceEdit = false
+      }
     },
     activeAdsTab(val) {
       this.adsTab = val
@@ -1723,6 +1758,23 @@ export default {
     background: #34344C;
     border-radius: 6px;
     border: 1px solid #34344c;
+  }
+  .el-input__prefix {
+    display: none;
+    left: 0;
+  }
+  .el-input--prefix .el-input__inner {
+    padding-left: 27px;
+    background: #34344C;
+    border-radius: 10px;
+    border: 1px solid #34344C;
+    font-weight: 400;
+    font-size: 16px;
+    color: #CECECE;
+  }
+  .el-icon-arrow-left:before, .el-icon-arrow-right:before {
+    font-size: 32px;
+    color: #FFF;
   }
 }
 .tofix {
@@ -2177,18 +2229,30 @@ export default {
           color: #E4E4E4;
           margin-bottom: 0;
         }
-        .price-btn {
+      }
+      .price-btn {
+        font-weight: 400;
+        font-size: 16px;
+        color: #00A0FF;
+        border: 1px solid #00A0FF;
+        border-radius: 12px;
+        width: 70px;
+        height: 30px;
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .manager2-css {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .name1-css {
           font-weight: 400;
           font-size: 16px;
-          color: #00A0FF;
-          border: 1px solid #00A0FF;
-          border-radius: 12px;
-          width: 70px;
-          height: 30px;
-          margin-bottom: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          color: #E4E4E4;
+          width: 196px;
         }
       }
       .orange-css, .pink-css, .green-css, .white-css, .blue-css {

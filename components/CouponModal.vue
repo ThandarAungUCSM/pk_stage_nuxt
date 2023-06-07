@@ -18,12 +18,22 @@
                 <div class="input-row">
                   <div class="coupon-block">
                     <p class="coupon-type">生效時間</p>
-                    <input v-model="effectiveTime" type="text" class="coupon-code" onfocus="this.placeholder=''" placeholder="" />
+                    <!-- <input v-model="effectiveTime" type="text" class="coupon-code" onfocus="this.placeholder=''" placeholder="" /> -->
+                    <el-date-picker
+                      v-model="effectiveTime"
+                      type="datetime"
+                      placeholder="">
+                    </el-date-picker>
                   </div>
                   <p class="sign-css">~</p>
                   <div class="coupon-block">
                     <p class="coupon-type">失效時間</p>
-                    <input v-model="expiredTime" type="text" class="expired-time" onfocus="this.placeholder=''" placeholder="" />
+                    <!-- <input v-model="expiredTime" type="text" class="expired-time" onfocus="this.placeholder=''" placeholder="" /> -->
+                    <el-date-picker
+                      v-model="expiredTime"
+                      type="datetime"
+                      placeholder="">
+                    </el-date-picker>
                   </div>
                 </div>
                 <div class="input-row">
@@ -73,10 +83,31 @@ export default {
 }
 </script>
 <style lang="scss">
+.el-date-picker {
+  width: 250px !important;
+}
+.el-date-picker .el-picker-panel__content {
+  width: 227px !important;
+}
+.el-picker-panel__content {
+  margin-top: 0;
+}
+.el-date-picker__header {
+  margin: 5px 12px;
+}
+.el-date-table th, .el-date-table td, .el-date-table td div {
+  height: 20px;
+  line-height: 20px;
+}
+.el-date-table td span {
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+}
 #couponId {
   .modal-mask {
     position: fixed;
-    z-index: 9998;
+    z-index: 100;
     top: 0;
     left: 0;
     width: 100%;
