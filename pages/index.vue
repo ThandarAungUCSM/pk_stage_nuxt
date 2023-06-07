@@ -121,28 +121,56 @@
                     </div>
                     <img src="../assets/pc/modal-close.png" class="close-ads" @click="toHide">
                   </div>
-                  <div class="sec-row">
-                    <img src="../assets/pc/img-img.png" class="img-icon">
-                  </div>
-                  <div class="third-row">
-
-                    <div class="block-css">
-                      <p class="name-lable">廣告生效時間</p>
-                      <!-- <el-input v-model="liveTime" placeholder="楓之谷" class="name-css"></el-input> -->
-                      <el-date-picker
-                        v-model="liveTime"
-                        type="datetime"
-                        placeholder="">
-                      </el-date-picker>
+                  <div v-if="adsTab === 1" class="">
+                    <div class="sec-row">
+                      <img src="../assets/pc/img-img.png" class="img-icon">
                     </div>
-                    <div class="block-css">
-                      <p class="name-lable">廣告失效時間</p>
-                      <!-- <el-input v-model="expireTime" placeholder="楓幣" class="name-css"></el-input> -->
-                      <el-date-picker
-                        v-model="expireTime"
-                        type="datetime"
-                        placeholder="">
-                      </el-date-picker>
+                    <div class="third-row">
+
+                      <div class="block-css">
+                        <p class="name-lable">廣告生效時間</p>
+                        <!-- <el-input v-model="liveTime" placeholder="楓之谷" class="name-css"></el-input> -->
+                        <el-date-picker
+                          v-model="liveTime"
+                          type="datetime"
+                          placeholder="">
+                        </el-date-picker>
+                      </div>
+                      <div class="block-css">
+                        <p class="name-lable">廣告失效時間</p>
+                        <!-- <el-input v-model="expireTime" placeholder="楓幣" class="name-css"></el-input> -->
+                        <el-date-picker
+                          v-model="expireTime"
+                          type="datetime"
+                          placeholder="">
+                        </el-date-picker>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-else class="">
+                    <div class="sec1-row">
+                      <img src="../assets/pc/img-img.png" class="img-icon">
+                    </div>
+                    <div class="third1-row">
+
+                      <div class="block-css">
+                        <p class="name-lable">廣告生效時間</p>
+                        <!-- <el-input v-model="live1Time" placeholder="楓之谷" class="name-css"></el-input> -->
+                        <el-date-picker
+                          v-model="live1Time"
+                          type="datetime"
+                          placeholder="">
+                        </el-date-picker>
+                      </div>
+                      <div class="block-css">
+                        <p class="name-lable">廣告失效時間</p>
+                        <!-- <el-input v-model="expire1Time" placeholder="楓幣" class="name-css"></el-input> -->
+                        <el-date-picker
+                          v-model="expire1Time"
+                          type="datetime"
+                          placeholder="">
+                        </el-date-picker>
+                      </div>
                     </div>
                   </div>
                   <div class="ads-btn" @click="showAdvertise(1)">完成</div>
@@ -1250,6 +1278,8 @@ export default {
       adsTab: 1,
       liveTime: '', 
       expireTime: '',
+      live1Time: '', 
+      expire1Time: '',
       deleteItem: false,
       refundData: [{
         redemptionNo: 'sdvrn454bfdln33',
@@ -1931,9 +1961,27 @@ export default {
             height: 64px;
           }
         }
+        .sec1-row {
+          width: 393px;
+          height: 299px;
+          background: #191A21;
+          border: 1px solid #263B71;
+          margin: 38px auto 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .img-icon {
+            width: 64px;
+            height: 64px;
+          }
+        }
         .third-row {
           width: 393px;
           margin: 90px auto 150px;
+        }
+        .third1-row {
+          width: 393px;
+          margin: 30px auto 40px;
         }
         .ads-btn {
           width: 200px;
