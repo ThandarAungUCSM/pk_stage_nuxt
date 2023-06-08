@@ -3,7 +3,9 @@
     <div v-if="opensidebar" class="sidebar-open" >
       <div class="img-row">
         <img src="../assets/pc/sidebar-close.png" class="clse-img" @click="sidebarFunc">
-        <img src="../assets/pc/sidebar-logout.png" class="logout-img">
+        <el-button type="text" @click="open">
+          <img src="../assets/pc/sidebar-logout.png" class="logout-img">
+        </el-button>
       </div>
       <div>
         <div class="pk-admin">
@@ -142,6 +144,25 @@ export default {
       this.isActive = val
       this.$emit('activeTab', val)
       // this.$router.push(val)
+    }, 
+    open() {
+      this.$confirm('確定要登出嗎？', 'Warning', {
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        type: 'warning',
+        center: true
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: 'Logout completed'
+        });
+        this.$router.push('/login')
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'Logout canceled'
+        });
+      });
     }
   }
 }
@@ -175,6 +196,7 @@ export default {
     .logout-img {
       width: 24px;
       height: 24px;
+      cursor: pointer;
     }
   }
   .pk-admin {

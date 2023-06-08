@@ -121,9 +121,16 @@
                     </div>
                     <img src="../assets/pc/modal-close.png" class="close-ads" @click="toHide">
                   </div>
-                  <div v-if="adsTab === 1" class="">
+                  <div v-show="adsTab === 1" class="">
                     <div class="sec-row">
-                      <img src="../assets/pc/img-img.png" class="img-icon">
+                      <el-upload
+                        :on-change="handleChange"
+                        action="#"
+                        list-type="picture-card"
+                        :auto-upload="false"
+                        >
+                          <img v-if="imgUpload === ''" src="../assets/pc/img-img.png" class="img-icon">
+                      </el-upload>
                     </div>
                     <div class="third-row">
 
@@ -147,9 +154,16 @@
                       </div>
                     </div>
                   </div>
-                  <div v-else class="">
+                  <div v-show="adsTab === 2" class="">
                     <div class="sec1-row">
-                      <img src="../assets/pc/img-img.png" class="img-icon">
+                      <el-upload
+                        :on-change="handle1Change"
+                        action="#"
+                        list-type="picture-card"
+                        :auto-upload="false"
+                        >
+                          <img v-if="img1Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
+                      </el-upload>
                     </div>
                     <div class="third1-row">
 
@@ -1329,7 +1343,11 @@ export default {
       showNewRefundModal: false,
       tograndChild: {},
       priceEdit: false,
-      editPrice: ''
+      editPrice: '',
+      // dialogImageUrl: '',
+      // dialogVisible: false,
+      imgUpload: '',
+      img1Upload: '',
     }
   },
   computed: {
@@ -1363,6 +1381,18 @@ export default {
     this.showConvertHistoryItem()
   },
   methods: {
+    handleChange(file, fileList) {
+      this.imgUpload = fileList.url
+
+      const element = document.querySelector('.el-upload--picture-card');
+      element.className += 'imgdataHide'; 
+    },
+    handle1Change(file, fileList) {
+      this.img1Upload = fileList.url
+
+      const element = document.querySelector('.el-upload--picture-card');
+      element.className += 'imgdataHide'; 
+    },
     updateFunc() {
       this.priceEdit = true
     },
@@ -1806,6 +1836,17 @@ export default {
     font-size: 32px;
     color: #FFF;
   }
+  .el-upload-list--picture-card .el-upload-list__item {
+    height: 100%;
+    margin-bottom: 0;
+  }
+  .el-upload--picture-card {
+    border: 1px dashed transparent;
+    background: transparent;
+  }
+}
+.imgdataHide, .el-upload-list--picture-card .el-upload-list__item-actions {
+  display: none;
 }
 .tofix {
   width: 100%;
