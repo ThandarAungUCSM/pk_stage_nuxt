@@ -37,7 +37,12 @@
                     <p class="note-css">停用此優惠券後，優惠券將失效</p>
                   </div>
                 </div>
-                <div class="bottom-div">
+                <div v-if="sendData && sendData.state === '失效'" class="bottom1-div">
+                  <div class="m-bottom" @click="closePopup">
+                    <span>關閉</span>
+                  </div>
+                </div>
+                <div v-else class="bottom-div">
                   <div class="m-pink-bottom" @click="closePopup">
                     <span>確認停用</span>
                   </div>
@@ -192,7 +197,7 @@ export default {
 .yellow-css {
   color: #D7DF7B;
 }
-.bottom-div {
+.bottom-div, .bottom1-div {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -218,5 +223,8 @@ export default {
     background: linear-gradient(90deg, #C261EF 0%, #DC2727 100%);
     font-weight: 700;
   }
+}
+.bottom1-div {
+  justify-content: center;
 }
 </style>
