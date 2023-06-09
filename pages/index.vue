@@ -74,7 +74,7 @@
                         </div>
                       </div>
                       <div v-else class="manager2-css">
-                        <el-input v-model="editPrice" pattern="[0-9]{4} [0-9]{3} [0-9]{3}" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" placeholder="楓幣" onfocus="this.placeholder=''" class="name1-css"></el-input>
+                        <el-input v-model="editPrice" pattern="[0-9]{4} [0-9]{3} [0-9]{3}" oninput="this.value = this.value.replace(/^0/, ''); this.value = this.value.replace(/[^0-9.]/g, ''); " placeholder="" onfocus="this.placeholder=''" class="name1-css"></el-input>
                         <div class="price-btn" @click="exitEditMode(1)">完成</div>
                       </div>
                     </div>
@@ -1428,6 +1428,10 @@ export default {
       this.opensidebar = val;
     },
     activeTab(val) {
+      if(val === 'currencyManager') {
+        this.eachcondition = 'normal';
+        this.editPrice = '';
+      }
       this.activeMenu = val
     },
     handleCurrentChange(val) {
