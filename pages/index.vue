@@ -357,7 +357,7 @@
                     prop="state"
                     label="狀態">
                     <template slot-scope="props">
-                      <span v-if="props.row.state == '即將上線'" class="orange-css">{{ props.row.state }}</span>
+                      <span v-if="props.row.state == '即將上線'" class="yellow-css">{{ props.row.state }}</span>
                       <span v-if="props.row.state == '失效'" class="pink-css">{{ props.row.state }}</span>
                       <span v-if="props.row.state == '上線中'" class="green-css">{{ props.row.state }}</span>
                     </template>
@@ -393,7 +393,7 @@
             </div>
           </div>
           <couponModal v-if="showModal" :show="showModal" @close="showModal = false" @selectData="selectData" />
-          <settingModal v-if="showSettingModal" :show="showSettingModal" @close="showSettingModal = false" @settingData="settingData" />
+          <settingModal v-if="showSettingModal" :show="showSettingModal" :send-data="eachSetting" @close="showSettingModal = false" @settingData="settingData" />
         </div>
         <div v-else-if="activeMenu !== '' && activeMenu === 'membershipManager'" id="managerId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
@@ -1269,6 +1269,7 @@ export default {
       showConvertModal: false,
       showRefundModal: false,
       sendData: {},
+      eachSetting: {},
       currencyData: [{
         gameName: '楓之谷',
         currency: '楓幣',
@@ -1506,7 +1507,8 @@ export default {
       console.log(val)
     },
     settingModal(val) {
-      console.log(JSON.stringify(val))
+      // console.log(JSON.stringify(val))
+      this.eachSetting = val
       this.showSettingModal = true
     },
     historyDataModal(val) {
@@ -2368,7 +2370,7 @@ export default {
           width: 196px;
         }
       }
-      .orange-css, .pink-css, .green-css, .white-css, .blue-css {
+      .orange-css, .pink-css, .green-css, .white-css, .blue-css, .yellow-css {
         font-weight: 400;
         font-size: 16px;
         color: #FF8A65;
@@ -2378,6 +2380,9 @@ export default {
       }
       .green-css {
         color: #2BDE73;
+      }
+      .yellow-css {
+        color: #D7DF7B;
       }
       .white-css {
         color: #E4E4E4;
@@ -2468,6 +2473,7 @@ export default {
     .setting-img {
       width: 18px;
       height: 18px;
+      cursor: pointer;
     }
     .edit-img {
       width: 24px;

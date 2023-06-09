@@ -13,7 +13,9 @@
                   </div>
                   <div class="each-row">
                     <p class="coupon-type">狀態</p>
-                    <p class="free-shipping-coupon">即將上線</p>
+                    <p v-if="sendData && sendData.state === '即將上線'" class="yellow-css free-shipping-coupon">{{sendData.state}}</p>
+                    <p v-if="sendData && sendData.state === '失效'" class="pink-css free-shipping-coupon">{{sendData.state}}</p>
+                    <p v-if="sendData && sendData.state === '上線中'" class="green-css free-shipping-coupon">{{sendData.state}}</p>
                   </div>
                   <div class="each-row">
                     <p class="coupon-type">生效時間</p>
@@ -53,7 +55,7 @@
 </template>
 <script>
 export default {
-  props: ["show"],
+  props: ["show", "sendData"],
   data() {
     return {
       effectiveTime: '',
@@ -180,6 +182,15 @@ export default {
   color: #FFF;
   padding-left: 5px;
   width: 70%;
+}
+.pink-css {
+  color: #F35A90;
+}
+.green-css {
+  color: #2BDE73;
+}
+.yellow-css {
+  color: #D7DF7B;
 }
 .bottom-div {
   display: flex;
