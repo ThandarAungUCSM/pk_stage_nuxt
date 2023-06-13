@@ -299,14 +299,186 @@
             </div>
           </div>
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'categoryProduct'">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'categoryProduct'" id="categoryProductId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
               <p class="test-text">
-                Category Product Manager Page
+                上架商品管理(平台)
               </p>
+              <div class="content-category">
+                <div v-if="!newScreen" class="each-row">
+                  <div class="cate-left-block">
+                    <div class="cate-row-title">
+                      <p class="cate-title">分類項目管理</p>
+                      <div class="img-right">
+                        <img src="../assets/pc/setting.png" class="setting-img" @click="exchangeCate()">
+                        <img src="../assets/pc/plus.png" class="plus1-img" @click="plusCate()">
+                      </div>
+                    </div>
+                    <div>
+                      <p class="classification-css">分類</p>
+                      <div class="class-div">
+                        <p :class="currencyCate === 'all-good' ? 'activeCate' : ''" class="all-good" @click="toshowCate('all-good')">所有商品</p>
+                        <p class="all1-good">新品上市</p>
+                        <p class="all1-good">限時優惠</p>
+                        <p class="all1-good">日用雜貨</p>
+                        <p class="all1-good">零食飲料</p>
+                        <p class="all1-good">玩具公仔</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-if="showCateRight" class="catetable-block">
+                    <div class="row-right">
+                      <p class="commodity-text">商品管理</p>
+                      <img src="../assets/pc/plus.png" class="plus1-img">
+                    </div>
+                    <div class="btncate-block">
+                      <p class="active-btn all-css">全部</p>
+                      <p class="noactvie-btn all-css">販售中</p>
+                      <p class="noactvie-btn all-css">已下架</p>
+                      <p class="noactvie-btn all-css">售罄</p>
+                      <p class="noactvie-btn all-css">預售</p>
+                    </div>
+                    <el-table
+                      :data="cateData"
+                      style="width: 92%">
+                      <el-table-column
+                        prop="serialNo"
+                        label="編號"
+                        width="70">
+                      </el-table-column>
+                      <el-table-column
+                        prop="productName"
+                        label="商品名稱"
+                        width="350">
+                        <template slot-scope="props">
+                          <div @click="refundDataModal(props.row)">
+                            <span v-if="(props.row.state === '已下架') || (props.row.state === '售罄')" class="pink-css">{{props.row.productName}}</span>
+                            <span v-else>{{props.row.productName}}</span>
+                          </div>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        prop="exchangePrice"
+                        label="兌換價格"
+                        width="150">
+                        <template slot-scope="props">
+                          <div @click="refundDataModal(props.row)">
+                            <span v-if="(props.row.state === '已下架') || (props.row.state === '售罄')" class="pink-css">{{props.row.exchangePrice}}</span>
+                            <span v-else>{{props.row.exchangePrice}}</span>
+                          </div>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        prop="state"
+                        label="狀態"
+                        width="100">
+                        <template slot-scope="props">
+                          <div @click="refundDataModal(props.row)">   
+                            <span v-if="props.row.state === '販售中'" class="white-css">{{props.row.state}}</span>
+                            <span v-else-if="props.row.state === '預售'" class="yellow-css">{{props.row.state}}</span>
+                            <span v-else-if="props.row.state === '已下架'" class="pink-css">{{props.row.state}}</span>
+                            <span v-else-if="props.row.state === '售罄'" class="pink-css">{{props.row.state}}</span>
+                          </div>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        prop="advancedSetting"
+                        label="進階設定"
+                        width="80">
+                        <template slot-scope="props">
+                          <div @click="refundDataModal(props.row)">
+                            <img src="../assets/pc/setting.png" class="setting-img">
+                          </div>
+                        </template>
+                      </el-table-column>
+                    </el-table>
+                  </div>
+                  <div v-if="!newScreen && plusCondition" class="cate-right-block">
+                    <div class="right-close">
+                      <img src="../assets/pc/modal-close.png" class="closecate-img" @click="closeCate">
+                    </div>
+                    <div>
+                      <div class="input-cate">
+                        <p class="cate-name">新分類名稱</p>
+                        <el-input v-model="cateName" placeholder="" class="search-css"></el-input>
+                      </div>
+                      <p class="cate-btn" @click="closeCate">完成</p>
+                    </div>
+                  </div>
+                </div>
+                <div v-else class="each-row">
+                  <div class="cate-left1-block">
+                    <div class="cate-row-title">
+                      <p class="cate-title">分類項目管理</p>
+                      <div class="img-right">
+                        <div class="img-setting">
+                          <img src="../assets/pc/setting.png" class="setting-img" @click="exchangeCate()">
+                        </div>
+                        <img src="../assets/pc/plus.png" class="plus1-img" @click="plusCate()">
+                      </div>
+                    </div>
+                    <div>
+                      <p class="classification-css">分類</p>
+                      <div class="class-div">
+                        <div class="seccate-row">
+                          <p :class="currencyCate === 'all-good' ? 'activeCate' : ''" class="allsec-good" @click="toshowCate('all-good')">所有商品</p>
+                          <div class="img1-right">
+                            <p class="equal-img">=</p>
+                            <img src="../assets/pc/red-trash.png" class="track-img">
+                          </div>
+                        </div>
+                        <div class="seccate-row">
+                          <p class="allsec-good">新品上市</p>
+                          <div class="img1-right">
+                            <p class="equal-img">=</p>
+                            <img src="../assets/pc/red-trash.png" class="track-img">
+                          </div>
+                        </div>
+                        <div class="seccate-row">
+                          <p class="allsec-good">限時優惠</p>
+                          <div class="img1-right">
+                            <p class="equal-img">=</p>
+                            <img src="../assets/pc/red-trash.png" class="track-img">
+                          </div>
+                        </div>
+                        <div class="seccate-row">
+                          <p class="allsec-good">日用雜貨</p>
+                          <div class="img1-right">
+                            <p class="equal-img">=</p>
+                            <img src="../assets/pc/red-trash.png" class="track-img">
+                          </div>
+                        </div>
+                        <div class="seccate-row">
+                          <p class="allsec-good">零食飲料</p>
+                          <div class="img1-right">
+                            <p class="equal-img">=</p>
+                            <img src="../assets/pc/red-trash.png" class="track-img">
+                          </div>
+                        </div>
+                        <div class="seccate-row">
+                          <p class="allsec-good">玩具公仔</p>
+                          <div class="img1-right">
+                            <p class="equal-img">=</p>
+                            <img src="../assets/pc/red-trash.png" class="track-img">
+                          </div>
+                        </div>
+                      </div>
+                      <p class="notice-text">
+                        順序由上至下，對應電腦版為由左至右
+                        手機則為相同。
+                      </p>
+                      <div class="btn-cate" @click="exchangeCate()">
+                        <span >完成</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
             </div>
           </div>
+          <!-- <categoryModal v-if="plusCondition" :show="plusCondition" @close="plusCondition = false" /> -->
         </div>
         <div v-else-if="activeMenu !== '' && activeMenu === 'couponManager'" id="couponManagerId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
@@ -793,6 +965,18 @@
         </div>
       </div>
     </div>
+    <!-- <div v-if="!newScreen && plusCondition" class="cate-right-block">
+      <div class="right-close">
+        <img src="../assets/pc/modal-close.png" class="closecate-img" @click="closeCate">
+      </div>
+      <div>
+        <div class="input-cate">
+          <p class="cate-name">新分類名稱</p>
+          <el-input v-model="cateName" placeholder="" class="search-css"></el-input>
+        </div>
+        <p class="cate-btn">完成</p>
+      </div>
+    </div> -->
 
     <!-- <Footer /> -->
   </div>
@@ -805,8 +989,8 @@ export default {
   data() {
     return {
       userLogin: false,
-      opensidebar: true,
-      activeMenu: '',
+      opensidebar: false,
+      activeMenu: 'categoryProduct',
       value1: '',
       value2: '',
       value3: '',
@@ -1006,6 +1190,7 @@ export default {
       }],
       clonelist: [],
       searchInput: '',
+      cateName: '',
       showSearch: false,
       couponData: [{
         couponCreationTime: '2024-01-26 18:59',
@@ -1373,6 +1558,41 @@ export default {
       // dialogVisible: false,
       imgUpload: '',
       img1Upload: '',
+      cateData: [{
+        serialNo: '1',
+        productName: '山丘藍台灣藍莓 5盒裝 單盒淨重 100公克 ×5 盒',
+        exchangePrice: '999,999,999,999',
+        state: '販售中',
+        advancedSetting: ''
+      }, {
+        serialNo: '2',
+        productName: '商品2',
+        exchangePrice: '999,999,999,999',
+        state: '販售中',
+        advancedSetting: ''
+      }, {
+        serialNo: '3',
+        productName: '商品3',
+        exchangePrice: '999,999,999,999',
+        state: '預售',
+        advancedSetting: ''
+      }, {
+        serialNo: '4',
+        productName: '商品4',
+        exchangePrice: '5,000',
+        state: '已下架',
+        advancedSetting: ''
+      }, {
+        serialNo: '5',
+        productName: '商品5',
+        exchangePrice: '200',
+        state: '售罄',
+        advancedSetting: ''
+      }],
+      showCateRight: false,
+      currencyCate: '',
+      newScreen: false,
+      plusCondition: false
     }
   },
   computed: {
@@ -1406,6 +1626,20 @@ export default {
     this.showConvertHistoryItem()
   },
   methods: {
+    toshowCate(val) {
+      if(val === this.currencyCate) {
+        this.currencyCate = ''
+      } else {
+        this.currencyCate = val
+      }
+      this.showCateRight = !this.showCateRight
+    },
+    exchangeCate() {
+      this.newScreen = !this.newScreen;
+    },
+    plusCate() {
+      this.plusCondition = !this.plusCondition;
+    },
     handleChange(file, fileList) {
       this.imgUpload = fileList.url
 
@@ -1547,6 +1781,10 @@ export default {
       this.eachcondition = 'normal'
       this.currentIndex = null
     },
+    closeCate() {
+      this.newScreen = false
+      this.plusCondition = false
+    },
     toShow() {
       this.showAds1 = false
       this.deleteItem = false
@@ -1604,7 +1842,7 @@ export default {
   }
 }
 
-#accountingId, #couponManagerId, #convertHistoryId, #currencyManagerId, #refundHistoryId {
+#accountingId, #couponManagerId, #convertHistoryId, #currencyManagerId, #refundHistoryId, #categoryProductId {
   .el-table {
     background: #191A21;
     border-radius: 12px;
@@ -1785,6 +2023,38 @@ export default {
     padding-bottom: 3px;
   }
 }
+#categoryProductId {
+  .el-table {
+    background: #191A21;
+    border-radius: 12px;
+    padding: 0 1rem 2rem 5px;
+    margin: 0 auto 34px;
+  }
+  .el-input__inner {
+    width: 347px;
+    height: 48px;
+
+    background: #34344C;
+    border-radius: 6px;
+    border: 1px solid #34344C;
+  }
+  .el-table th.el-table_1_column_5>.cell, .el-table td.el-table_1_column_5>.cell, .el-table th.el-table_1_column_6>.cell, .el-table td.el-table_1_column_6>.cell, .el-table th.el-table_1_column_7>.cell, .el-table td.el-table_1_column_7>.cell {
+    text-align: right;
+  }
+  .el-table th.el-table_1_column_7>.cell, .el-table td.el-table_1_column_7>.cell, .el-table th.el-table_1_column_9>.cell, .el-table td.el-table_1_column_9>.cell, .el-table th.el-table_1_column_10>.cell, .el-table td.el-table_1_column_10>.cell {
+    text-align: center;
+  }
+  .el-table td.el-table__cell div {
+    color: #E4E4E4;
+  }
+  .el-table th.el-table__cell>.cell, .el-table td.el-table__cell div {
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+  .el-table td.el-table_1_column_1>.cell {
+    color: #808080;
+  }
+}
 #childConHisId {
   .el-input__inner {
     width: 186px;
@@ -1924,6 +2194,122 @@ export default {
       }
       .banner-block {
 
+      }
+      .content-category {
+        padding-top: 40px;
+        padding-left: 102px;
+        position: relative;
+        .each-row {
+          display: flex;
+          align-items: flex-start;
+        }
+      }
+      .img1-right {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 60px;
+      }
+      .img-right {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 60px;
+      }
+      .cate-left-block, .cate-left1-block {
+        background: #191A21;
+        border-radius: 12px;
+        width: 249px;
+        height: 377px;
+        padding: 1rem;
+        .cate-row-title {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 1rem;
+          .cate-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: #FFF;
+            margin-bottom: 0;
+          }
+          
+        }
+        .classification-css {
+          font-weight: 400;
+          font-size: 12px;
+          color: #808080;
+        }
+        .class-div {
+          .activeCate {
+            color: #00A0FF !important;
+          }
+          .seccate-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 9px;
+          }
+          .all-good {
+            font-weight: 400;
+            font-size: 16px;
+            color: #FFF;
+            cursor: pointer;
+          }
+          .all1-good {
+            font-weight: 400;
+            font-size: 16px;
+            color: #FFF;
+            cursor: pointer;
+          }
+          .allsec-good {
+            background: #34344C;
+            border-radius: 6px;
+            width: 109px;
+            padding: 0 0 0 3px;
+            font-weight: 400;
+            font-size: 1rem;
+            color: #FFF;
+            margin-bottom: 0;
+          }
+          .equal-img {
+            font-weight: 400;
+            font-size: 16px;
+            color: #FFF;
+            margin-bottom: 0;
+            width: 30px;
+            text-align: center;
+          }
+          .track-img {
+            width: 10px;
+            height: 10px;
+          }
+        }
+        .notice-text {
+          font-weight: 400;
+          font-size: 12px;
+          color: #808080;
+          margin-top: 21px;
+          margin-bottom: 31px;
+        }
+
+        .btn-cate {
+          font-weight: 400;
+          font-size: 1rem;
+          color: #FFF;
+
+          background: linear-gradient(90deg, #7161EF 0%, #3C27DC 100%);
+          border-radius: 12px;
+          width: 120px;
+          height: 40px;
+          line-height: 40px;
+          margin: auto;
+          text-align: center;
+          cursor: pointer;
+        }
+      }
+      .cate-left1-block {
+        height: 425px;
       }
       .advert-count, .advert1-count, .advert2-count {
         font-weight: 400;
@@ -2117,9 +2503,6 @@ export default {
           background: #191A21;
           border-radius: 12px;
           padding: 1rem 1rem 1rem 3rem;
-          .right-close {
-            text-align: right;
-          }
           .close-img {
             width: 18px;
             height: 18px;
@@ -2265,13 +2648,13 @@ export default {
       .date-picker1-css {
         margin-top: 30px;
       }
-      .btnNtable {
+      .btnNtable, .catetable-block {
         width: 94%;
         background: #191A21;
         border-radius: 12px;
         padding: 1rem 1rem 2rem 2rem;
         margin: 29px auto 34px;
-        .btn-block {
+        .btn-block, .btncate-block {
           display: flex;
           align-items: center;
           
@@ -2302,6 +2685,28 @@ export default {
             border: 1px solid #7161EF;
             border-radius: 12px;
           }
+        }
+      }
+      .commodity-text {
+        font-weight: 700;
+        font-size: 14px;
+        color: #FFF;
+        margin-bottom: 0;
+      }
+      .btncate-block {
+        margin-bottom: 45px;
+      }
+      .catetable-block {
+        width: 877px;
+        height: 496px;
+        margin: 0;
+        margin-left: 33px;
+        padding: 1rem;
+        .row-right {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 24px;
         }
       }
       .pagi-block {
@@ -2386,7 +2791,7 @@ export default {
         color: #2BDE73;
       }
       .yellow-css {
-        color: #D7DF7B;
+        color: #F0FF40;
       }
       .white-css {
         color: #E4E4E4;
@@ -2431,11 +2836,7 @@ export default {
   
           color: #FFF;
           // background: #132235;
-        }
-        .plus-img {
-          width: 12px;
-          height: 12px;
-        }
+        } 
         .trash-img {
           width: 18px;
           height: 18px;
@@ -2473,11 +2874,20 @@ export default {
           height: 12px;
         }
       }
-    }
-    .setting-img {
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
+      .img-setting {
+        width: 30px;
+        text-align: center;
+      }
+      .setting-img {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+      }
+      .plus1-img {
+        width: 12px;
+        height: 12px;
+        cursor: pointer;
+      }
     }
     .edit-img {
       width: 24px;
@@ -2498,6 +2908,45 @@ export default {
     .openfalse {
       padding-left: 109px;
     }
+  }
+}
+.right-close {
+  text-align: right;
+}
+.cate-right-block {
+  background: #191A21;
+  border-radius: 12px;
+  width: 500px;
+  height: 315px;
+  padding: 1rem;
+  margin-left: 46px;
+  // position: absolute;
+  // left: 50%;
+  // top: 50%;
+  // transform: translate(-50%, -50%); 
+  .input-cate {
+    width: 80%;
+    margin: 56px auto 65px;
+    .cate-name {
+      font-weight: 400;
+      font-size: 16px;
+      color: #808080;
+    }
+  }
+  .cate-btn {
+    background: linear-gradient(90deg, #7161EF 0%, #3C27DC 100%);
+    border-radius: 12px;
+    width: 200px;
+    height: 40px;
+    line-height: 40px;
+    margin-bottom: 0;
+    margin: auto;
+    text-align: center;
+  }
+  .closecate-img {
+    width: 20px;
+    height: 19px;
+    cursor: pointer;
   }
 }
 </style>
