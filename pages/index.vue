@@ -7,6 +7,7 @@
     <div class="content-css">
       <div class="content-block">
         <SidebarCom :opensidebar="opensidebar" @sidebarFunc="sidebarFunc" @activeTab="activeTab" />
+        <refundModal v-if="showRefundModal" :show="showRefundModal" :send-data="sendData" @close="openRefund" />
         <div v-if="activeMenu !== '' && activeMenu === 'currencyManager'" id="currencyManagerId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
@@ -961,7 +962,7 @@
                     <template slot-scope="props">
                       <div @click="refundDataModal(props.row)">
                         <span v-if="props.row.state === '等待審核'" class="orange-css">{{props.row.state}}</span>
-                        <span v-else-if="props.row.state === '等待取件'" class="orange-css">{{props.row.state}}</span>
+                        <span v-else-if="props.row.state === '等待取件'" class="yell1ow-css">{{props.row.state}}</span>
                         <span v-else-if="props.row.state === '結束'" class="white-css">{{props.row.state}}</span>
                         <span v-else-if="props.row.state === '已拒絕'" class="pink-css">{{props.row.state}}</span>
                       </div>
@@ -999,7 +1000,6 @@
                   @current-change="handleRefundChange">
                 </el-pagination>
               </div>
-              <refundModal v-if="showRefundModal" :show="showRefundModal" :send-data="sendData" @close="openRefund" />
               <newRefundModal v-if="showNewRefundModal" :show="showNewRefundModal" :send-data="tograndChild" @close="showNewRefundModal = false" />
             </div>
           </div>
@@ -3254,7 +3254,7 @@ export default {
           width: 196px;
         }
       }
-      .orange-css, .pink-css, .green-css, .white-css, .blue-css, .yellow-css {
+      .orange-css, .pink-css, .green-css, .white-css, .blue-css, .yellow-css, .yell1ow-css {
         font-weight: 400;
         font-size: 16px;
         color: #FF8A65;
@@ -3267,6 +3267,9 @@ export default {
       }
       .yellow-css {
         color: #F0FF40 !important;
+      }
+      .yell1ow-css {
+        color: #FFF965 !important;
       }
       .white-css {
         color: #E4E4E4 !important;

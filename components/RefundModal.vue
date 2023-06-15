@@ -12,7 +12,8 @@
                   </div>
                   <div :class="(sendData.state === '結束') || (sendData.state === '已拒絕') ? 'each1-row' : 'each-row'">
                     <p class="coupon-type">狀態</p>
-                    <p v-if="(sendData.state === '等待審核') || (sendData.state === '等待取件')" class="free-shipping1-coupon">{{sendData.state}}</p>
+                    <p v-if="(sendData.state === '等待審核')" class="free-shipping1-coupon">{{sendData.state}}</p>
+                    <p v-else-if="sendData.state === '等待取件'" class="free-shipping5-coupon">{{sendData.state}}</p>
                     <p v-else-if="sendData.state === '結束'" class="free-shipping2-coupon">{{sendData.state}}</p>
                     <p v-else class="free-shipping4-coupon">{{sendData.state}}</p>
                   </div>
@@ -131,12 +132,16 @@
                       </div>
                     </div>
                   </div>
-                  <div v-if="(sendData.state === '等待審核') || (sendData.state === '等待取件')" class="each-row1">
+                  <!-- <div v-if="(sendData.state === '等待審核') || (sendData.state === '等待取件')" class="each-row1">
                     <p v-if="(sendData.state === '等待審核') && !conditionChoice" class="viaRefund">進入取貨程序</p>
                     <p v-else-if="sendData.state === '等待審核'" class="viaRefund">通過退款</p>
                     <p v-else-if="sendData.state === '等待取件'" class="viaRefund">取件完成，通過退款</p>
-                  </div>
+                  </div> -->
                   <div v-if="(sendData.state === '等待審核') || (sendData.state === '等待取件')" class="each-row2">
+                    <p v-if="(sendData.state === '等待審核') && !conditionChoice" class="viaRefund">進入取貨程序</p>
+                    <p v-else-if="sendData.state === '等待審核'" class="viaRefund">通過退款</p>
+                    <p v-else-if="sendData.state === '等待取件'" class="viaRefund">取件完成，通過退款</p>
+
                     <p class="viaRefund" @click="showFunc">拒絕</p>
                     <p class="viaRefund1" @click="closePopup">關閉</p>
                   </div>
@@ -210,7 +215,7 @@ export default {
   }
   
   .modal-container {
-    width: 500px;
+    width: 741px;
     height: 730px;
     margin: 0px auto;
     padding: 1rem 3.5rem 1rem;
@@ -295,6 +300,7 @@ export default {
   }
   .each-row2 {
     justify-content: space-between;
+    margin-top: 78px;
   }
   .each-row3 {
     justify-content: center;
@@ -327,7 +333,7 @@ export default {
     border: 1px solid #06A2FF;
   }
 }
-.coupon-type, .coupon1-type, .free-shipping-coupon, .free-shipping1-coupon, .free-shipping2-coupon, .free-shipping3-coupon, .free-shipping4-coupon {
+.coupon-type, .coupon1-type, .free-shipping-coupon, .free-shipping1-coupon, .free-shipping2-coupon, .free-shipping3-coupon, .free-shipping4-coupon, .free-shipping5-coupon {
   font-weight: 400;
   font-size: 16px;
   color: #808080;
@@ -353,6 +359,9 @@ export default {
 }
 .free-shipping4-coupon {
   color: #F35A90;
+}
+.free-shipping5-coupon {
+  color: #FFF965;
 }
 .row-div1 {
   display: flex;
