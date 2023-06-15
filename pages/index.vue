@@ -305,7 +305,138 @@
               <p class="test-text">
                 上架商品管理(平台)
               </p>
-              <div class="content-category">
+              <div v-if="addnewProduct" class="content1-category">
+                <div class="cate1-left-block">
+                  <div class="cate1-row-title">
+                    <p class="cate-title">分類項目管理</p>
+                    <div class="img-right">
+                      <img src="../assets/pc/setting.png" class="setting-img" @click="exchangeCate()">
+                      <img src="../assets/pc/plus.png" class="plus1-img" @click="plusCate()">
+                    </div>
+                  </div>
+                  <div class="addbelow">
+                    <p class="classification-css">分類</p>
+                    <div class="class-div">
+                      <p :class="currencyCate === 'all-good' ? 'activeCate' : ''" class="all-good" @click="toshowCate('all-good')">所有商品</p>
+                      <p class="all1-good">新品上市</p>
+                      <p class="all1-good">限時優惠</p>
+                      <p class="all1-good">日用雜貨</p>
+                      <p class="all1-good">零食飲料</p>
+                      <p class="all1-good">玩具公仔</p>
+                    </div>
+                  </div>
+                  <!-- abc -->
+                  <div v-if="updateProduct !== {}" class="left-addprod">
+                    <p class="prod-photo">商品照片(0/8)</p>
+                    <div v-for="i in 5" :key="i" class="prodimg-div">
+                      <img src="../assets/pc/data-image.png" class="prod-img aaa" :class="i === 1 ? 'active-img' : ''">
+                      <img src="../assets/pc/remove-img.png" class="remove1-img" @click="toDelete()">
+                    </div>
+                  </div>
+                  <div v-else class="left-addprod">
+                    <p class="prod-photo">商品照片(0/8)</p>
+                  </div>
+                  <!-- abc -->
+                </div>
+                <div id="addprodId" class="right-addprod">
+                  <div>
+                    <p class="advantSetting">
+                      商品進階設定  
+                      <span v-if="updateProduct.state === '販售中'" class="advantSetting white-css">{{updateProduct.state}}</span>
+                      <span v-else-if="updateProduct.state === '預售'" class="advantSetting yellow-css">{{updateProduct.state}}</span>
+                      <span v-else-if="(updateProduct.state === '已下架') || (updateProduct.state === '售罄')" class="advantSetting pink-css">{{updateProduct.state}}</span>
+                    </p>
+                    <p class="photoPreview">商品照片預覽</p>
+                    <div class="sec2-row">
+                      <el-upload
+                        :on-change="handle2Change"
+                        action="#"
+                        list-type="picture-card"
+                        :auto-upload="false" 
+                        >
+                          <img v-if="img2Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
+                      </el-upload>
+                    </div>
+                    <div v-if="updateProduct !== {} && updateProduct.state === '已下架'" class="photo-flex">
+                      <p class="addprod-photo1-txt">刪除</p>
+                    </div>
+                    <div v-else class="photo-flex">
+                      <p class="addprod-photo-txt">新增商品照片</p>
+                      <p class="addprod-photo-txt">新增了解更多照片</p>
+                      <p v-if="updateProduct !== {}" class="addprod-photo1-txt">下架此商品</p>
+                    </div>
+                    <div class="input-block">
+                      <div class="prod-left">
+                        <div id="nameTextareaId" class="prod-div1">
+                          <p class="prod-name">商品名稱：</p>
+                          <el-input v-model="prodName" type="textarea" :rows="2" placeholder="" class="prod-css"></el-input>
+                        </div>
+                        <div class="prod-div2">
+                          <p class="prod-name">商品簡介：</p>
+                          <el-input v-model="prodDescription" type="textarea" :rows="9" placeholder="" class="prod-description"></el-input>
+                        </div>
+                      </div>
+                      <div id="secTextareaId" class="prod-div1">
+                        <p class="prod-name">商品描述：</p>
+                        <el-input v-model="prod1Description" type="textarea" :rows="11" placeholder="" class="prod-description"></el-input>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="coin-div">
+                    <img src="../assets/pc/price-coin.png" class="pricecoin-img">
+                  </div>
+                  <div class="child-right-block">
+                    <div>
+                      <div>
+                        <p class="prod-name">商品分類：</p>
+                        <div class="check-block">
+                          <el-checkbox-group v-model="checkList">
+                            <el-checkbox label="新品上市"></el-checkbox>
+                            <el-checkbox label="限時特賣"></el-checkbox>
+                            <el-checkbox label="玩具公仔"></el-checkbox>
+                            <el-checkbox label="零食飲料"></el-checkbox>
+                            <el-checkbox label="日用雜貨"></el-checkbox>
+                          </el-checkbox-group>
+                        </div>
+                      </div>
+                      <div id="time1Id" class="timecss">
+                        <p class="prod-name">預售時間</p>
+                        <el-input v-if="(updateProduct.state === '販售中') || (updateProduct.state === '已下架') || (updateProduct.state === '售罄')" v-model="presellTime" placeholder="無" class="prod-presell"></el-input>
+                        <div v-else-if="updateProduct.state === '預售'" id="childConHisId" class="date-picker2-css">
+                          <el-date-picker
+                            v-model="presellTime"
+                            type="datetime"
+                            placeholder="">
+                          </el-date-picker>
+                        </div>
+                      </div>
+                      <div id="time2Id" class="timecss">
+                        <p class="prod-name">商品兌換價：</p>
+                        <el-input v-model="excPrice" placeholder="0" class=""></el-input>
+                      </div>
+                    </div>
+                    <div>
+                      <div v-if="updateProduct.state === '售罄'" id="time3Id" class="time1css">
+                        <p class="prod-name">架上可購商品數量：</p>
+                        <el-input v-model="noofItem" placeholder="999" class=""></el-input>
+                      </div>
+                      <div v-else-if="(updateProduct.state === '販售中') || (updateProduct.state === '已下架') || (updateProduct.state === '預售')" id="time4Id" class="time1css">
+                        <p class="prod-name">架上可購商品數量：</p>
+                        <el-input v-model="noofItem" placeholder="999" class=""></el-input>
+                      </div>
+                      <div>
+                        <p v-if="updateProduct !== {} && ((updateProduct.state === '販售中') || (updateProduct.state === '預售'))" class="prod1-btn" @click="productSetting">儲存</p>
+                        <p v-else-if="updateProduct !== {} && ((updateProduct.state === '售罄') || (updateProduct.state === '已下架'))" class="prod1-btn" @click="productSetting">完成</p>
+                        <p v-else class="prod-btn">上架</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-if="updateProduct === {}" class="right1-close">
+                    <img src="../assets/pc/modal-close.png" class="closecate-img aaa" @click="productSetting">
+                  </div>
+                </div>
+              </div>
+              <div v-else class="content-category">
                 <div v-if="!newScreen" class="each-row">
                   <div class="cate-left-block">
                     <div class="cate-row-title">
@@ -330,7 +461,7 @@
                   <div v-if="showCateRight" class="catetable-block">
                     <div class="row-right">
                       <p class="commodity-text">商品管理</p>
-                      <img src="../assets/pc/plus.png" class="plus1-img">
+                      <img src="../assets/pc/plus.png" class="plus1-img" @click="toAddFunc">
                     </div>
                     <div class="btncate-block">
                       <p class="active-btn all-css">全部</p>
@@ -387,7 +518,7 @@
                         label="進階設定"
                         width="80">
                         <template slot-scope="props">
-                          <div @click="refundDataModal(props.row)">
+                          <div @click="toUpdateFunc(props.row)">
                             <img src="../assets/pc/setting.png" class="setting-img">
                           </div>
                         </template>
@@ -989,8 +1120,8 @@ export default {
   data() {
     return {
       userLogin: false,
-      opensidebar: false,
-      activeMenu: 'categoryProduct',
+      opensidebar: true,
+      activeMenu: '',
       value1: '',
       value2: '',
       value3: '',
@@ -1191,6 +1322,12 @@ export default {
       clonelist: [],
       searchInput: '',
       cateName: '',
+      prodName: '',
+      prodDescription: '',
+      prod1Description: '',
+      presellTime: '',
+      excPrice: 0,
+      noofItem: 0,
       showSearch: false,
       couponData: [{
         couponCreationTime: '2024-01-26 18:59',
@@ -1558,41 +1695,70 @@ export default {
       // dialogVisible: false,
       imgUpload: '',
       img1Upload: '',
+      img2Upload: '',
       cateData: [{
         serialNo: '1',
         productName: '山丘藍台灣藍莓 5盒裝 單盒淨重 100公克 ×5 盒',
-        exchangePrice: '999,999,999,999',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '9,999,999,999',
         state: '販售中',
-        advancedSetting: ''
+        advancedSetting: '',
+        category: '新品上市',
+        noofItem: 1,
+        preTime: '2024/02/02 00:00'
       }, {
         serialNo: '2',
         productName: '商品2',
-        exchangePrice: '999,999,999,999',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '9,999,999,999',
         state: '販售中',
-        advancedSetting: ''
+        advancedSetting: '',
+        category: '限時特賣',
+        noofItem: 2,
+        preTime: '2024/02/02 00:00'
       }, {
         serialNo: '3',
         productName: '商品3',
-        exchangePrice: '999,999,999,999',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '9,999,999,999',
         state: '預售',
-        advancedSetting: ''
+        advancedSetting: '',
+        category: '玩具公仔',
+        noofItem: 3,
+        preTime: '2024/02/02 00:00'
       }, {
         serialNo: '4',
         productName: '商品4',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
         exchangePrice: '5,000',
         state: '已下架',
-        advancedSetting: ''
+        advancedSetting: '',
+        category: '零食飲料',
+        noofItem: 4,
+        preTime: '2024/02/02 00:00'
       }, {
         serialNo: '5',
         productName: '商品5',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
         exchangePrice: '200',
         state: '售罄',
-        advancedSetting: ''
+        advancedSetting: '',
+        category: '日用雜貨',
+        noofItem: 5,
+        preTime: '2024/02/02 00:00'
       }],
       showCateRight: false,
       currencyCate: '',
       newScreen: false,
-      plusCondition: false
+      plusCondition: false,
+      addnewProduct: false,
+      checkList: ['日用雜貨'],
+      updateProduct: {}
     }
   },
   computed: {
@@ -1626,6 +1792,27 @@ export default {
     this.showConvertHistoryItem()
   },
   methods: {
+    toUpdateFunc(val) {
+      this.updateProduct = val
+      this.prodName = this.updateProduct.productName
+      this.prodDescription = this.updateProduct.description
+      this.prod1Description = this.updateProduct.description1
+      this.excPrice = this.updateProduct.exchangePrice
+      this.noofItem = this.updateProduct.noofItem
+      this.presellTime = this.updateProduct.preTime
+      this.checkList = []
+      this.checkList.push(this.updateProduct.category)
+      // alert(JSON.stringify(this.updateProduct))
+      this.addnewProduct = true
+    }, 
+    productSetting() {
+      this.updateProduct = {}
+      this.addnewProduct = false 
+    },
+    toAddFunc() {
+      this.updateProduct = {}
+      this.addnewProduct = true
+    },
     toshowCate(val) {
       if(val === this.currencyCate) {
         this.currencyCate = ''
@@ -1648,6 +1835,12 @@ export default {
     },
     handle1Change(file, fileList) {
       this.img1Upload = fileList.url
+
+      const element = document.querySelector('.el-upload--picture-card');
+      element.className += 'imgdataHide'; 
+    },
+    handle2Change(file, fileList) {
+      this.img2Upload = fileList.url
 
       const element = document.querySelector('.el-upload--picture-card');
       element.className += 'imgdataHide'; 
@@ -2032,6 +2225,7 @@ export default {
   }
   .el-input__inner {
     width: 347px;
+    width: 300px;
     height: 48px;
 
     background: #34344C;
@@ -2107,13 +2301,35 @@ export default {
     color: #E4E4E4;
   }
 }
-#adsId {
+#adsId, #addprodId {
+  .el-checkbox-group {
+    padding-top: 1rem;
+    width: 152px;
+  }
+  .el-checkbox {
+    font-weight: 400;
+    font-size: 12px !important;
+    color: #808080;
+    margin-left: 14px;
+  }
+  .el-checkbox__inner {
+    background-color: #34344C;
+    border: 1px solid #808080;
+  }
+  .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background-color: #FFF;
+    border: 1px solid #FFF;
+  }
+  .el-checkbox__input.is-checked+.el-checkbox__label {
+    color: #FFF;
+  }
   .el-input__inner {
     font-weight: 400;
     font-size: 16px;
     color: #E4E4E4;
 
     width: 347px;
+    width: 300px;
     height: 48px;
     background: #34344C;
     border-radius: 6px;
@@ -2139,10 +2355,64 @@ export default {
   .el-upload-list--picture-card .el-upload-list__item {
     height: 100%;
     margin-bottom: 0;
+    width: 180px;
   }
   .el-upload--picture-card {
     border: 1px dashed transparent;
     background: transparent;
+  }
+  .el-textarea__inner {
+    background: #34344C;
+    border-radius: 6px;
+    border: 1px solid #34344c;
+    height: 200px;
+    font-weight: 400;
+    font-size: 16px;
+    color: #FFF;
+  }
+  #nameTextareaId {
+    .el-textarea__inner {
+      height: 72px;
+    }
+  }
+  #secTextareaId {
+    .el-textarea__inner {
+      height: 302px;
+    }
+  }
+  #time1Id {
+    .el-input__inner {
+      width: 152px;
+      height: 32px;
+      font-size: 12px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
+  #time2Id, #time4Id {
+    .el-input__inner {
+      width: 152px;
+      height: 32px;
+      font-weight: 400;
+      font-size: 16px;
+      text-align: right;
+    }
+  }
+  #time3Id {
+    .el-input__inner {
+      width: 152px;
+      height: 32px;
+      color: #FF0000;
+    }
+  }
+}
+#addprodId {
+  .el-upload-list--picture-card .el-upload-list__item-thumbnail {
+    width: auto;
+    height: auto;
+  }
+  .el-upload-list--picture-card .el-upload-list__item {
+    margin: 0;
   }
 }
 .imgdataHide, .el-upload-list--picture-card .el-upload-list__item-actions {
@@ -2195,7 +2465,7 @@ export default {
       .banner-block {
 
       }
-      .content-category {
+      .content-category, .content1-category {
         padding-top: 40px;
         padding-left: 102px;
         position: relative;
@@ -2203,6 +2473,199 @@ export default {
           display: flex;
           align-items: flex-start;
         }
+        .left-addprod {
+          background: rgba(25, 26, 33, 0.9);
+          border: 1px solid #7161EF;
+          backdrop-filter: blur(2px);
+          border-radius: 12px;
+
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          padding: 1rem;
+          .prod-photo {
+            font-weight: 700;
+            font-size: 12px;
+            color: #FFF;
+          }
+          .prodimg-div {
+            text-align: center;
+            margin-bottom: 9px;
+            position: relative;
+            .prod-img {
+              width: 120px;
+              height: 120px;
+            }
+            .active-img {
+              border: 5px solid #E9F8FF;
+            }
+            .remove1-img {
+              width: 36px;
+              height: 36px;
+              cursor: pointer;
+              position: absolute;
+              top: -14px;
+              right: 6px;
+            }
+          }
+        }
+        .right-addprod {
+          background: rgba(25, 26, 33, 0.9);
+          border: 1px solid #7161EF;
+          backdrop-filter: blur(2px);
+          border-radius: 12px;
+
+          padding: 1rem 1rem 2rem 2rem;
+          position: relative;
+          margin-left: 10px;
+          display: flex;
+          width: 1000px;
+          max-width: 1110px;
+          .coin-div {
+            display: flex;
+            align-items: center;
+            margin-top: 7rem;
+            .pricecoin-img {
+              width: 24px;
+              height: 24px;
+              margin-left: 10px;
+              margin-right: 10px;
+            }
+          }
+          .child-right-block {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .check-block {
+              background: #34344C;
+              border-radius: 6px;
+              width: 152px;
+            }
+            .timecss {
+              margin-top: 11px;
+            }
+            .time1css {
+              margin-top: 11px;
+              margin-bottom: 34px;
+            }
+          }
+          .prod-btn, .prod1-btn {
+            background: #332B50;
+            color: #5D4C9A;
+            border-radius: 12px;
+            width: 200px;
+            height: 40px;
+            line-height: 40px;
+            font-weight: 400;
+            font-size: 20px;
+            text-align: center;
+            cursor: pointer;
+          }
+          .prod1-btn {
+            background: linear-gradient(90deg, #7161EF 0%, #432FDE 100%);
+            color: #FFF;
+          }
+          .prod-photo {
+            font-weight: 700;
+            font-size: 12px;
+            color: #FFF;
+          }
+          .advantSetting {
+            font-weight: 700;
+            font-size: 12px;
+            color: #FFF;
+            margin-bottom: 5px;
+          }
+          .photoPreview {
+            font-weight: 400;
+            font-size: 12px;
+            color: #808080;
+            margin-bottom: 10px;
+          }
+          .sec2-row {
+            width: 150px;
+            width: 180px;
+            height: 150px;
+            height: 180px;
+            background: #191A21;
+            border: 1px solid #263B71;
+            margin: 0 auto 13px;
+            margin-left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            justify-content: center;
+            .img-icon {
+              width: 64px;
+              height: 64px;
+            }
+          }
+          .photo-flex {
+            display: flex;
+            align-items: flex-end;
+            .addprod-photo-txt, .addprod-photo1-txt {
+              font-weight: 400;
+              font-size: 14px;
+              color: #FFF;
+              border: 1px solid #00A0FF;
+              width: 150px;
+              width: 180px;
+              height: 30px;
+              line-height: 30px;
+              text-align: center;
+              margin-right: 27px;
+              margin-bottom: 0;
+            }
+            .addprod-photo1-txt {
+              font-size: 12px;
+              color: #FFF;
+              border: 1px solid #F35A90;
+              width: 120px;
+              height: 24px;
+              line-height: 24px;
+            }
+          }
+          .input-block {
+            display: flex;
+            .prod-left {
+              margin-right: 20px;
+            }
+            .prod-div1, .prod-div2 {
+              margin-top: 37px;
+              
+              .prod-css {
+                background: #34344C;
+                border-radius: 6px;
+                width: 347px;
+                width: 300px;
+                // height: 72px; 
+              }
+              .prod-description {
+                background: #34344C;
+                border-radius: 6px;
+                width: 347px;
+                width: 300px;
+                height: 200px;
+              }
+            }
+            .prod-div2 {
+              margin-top: 26px;
+            }
+          }
+          .prod-name {
+            font-weight: 400;
+            font-size: 12px;
+            color: #808080;
+            margin-bottom: 10px;
+          }
+        }
+      }
+      .content1-category {
+        max-width: 1322px;
+        padding-top: 0;
+        padding-left: 33px;
+        display: flex;
       }
       .img1-right {
         display: flex;
@@ -2216,13 +2679,13 @@ export default {
         justify-content: space-between;
         width: 60px;
       }
-      .cate-left-block, .cate-left1-block {
+      .cate-left-block, .cate-left1-block, .cate1-left-block {
         background: #191A21;
         border-radius: 12px;
         width: 249px;
-        height: 377px;
+        // height: 377px;
         padding: 1rem;
-        .cate-row-title {
+        .cate-row-title, .cate1-row-title {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -2234,6 +2697,9 @@ export default {
             margin-bottom: 0;
           }
           
+        }
+        .cate1-row-title, .addbelow {
+          padding: 0 1rem;
         }
         .classification-css {
           font-weight: 400;
@@ -2310,6 +2776,12 @@ export default {
       }
       .cate-left1-block {
         height: 425px;
+      }
+      .cate1-left-block {
+        position: relative;
+        padding: 1rem 0;
+        min-width: 202px;
+        max-width: 202px;
       }
       .advert-count, .advert1-count, .advert2-count {
         font-weight: 400;
@@ -2632,7 +3104,7 @@ export default {
           }
         }
       }
-      .date-picker-css, .date-picker1-css {
+      .date-picker-css, .date-picker1-css, .date-picker2-css {
         margin-left: 63px;
         display: flex;
         align-items: center;
@@ -2647,6 +3119,9 @@ export default {
       }
       .date-picker1-css {
         margin-top: 30px;
+      }
+      .date-picker2-css {
+        margin-left: 0px;
       }
       .btnNtable, .catetable-block {
         width: 94%;
@@ -2785,16 +3260,16 @@ export default {
         color: #FF8A65;
       }
       .pink-css {
-        color: #F35A90;
+        color: #F35A90 !important;
       }
       .green-css {
         color: #2BDE73;
       }
       .yellow-css {
-        color: #F0FF40;
+        color: #F0FF40 !important;
       }
       .white-css {
-        color: #E4E4E4;
+        color: #E4E4E4 !important;
       }
       .blue-css {
         color: #00A0FF;
@@ -2910,8 +3385,18 @@ export default {
     }
   }
 }
-.right-close {
+.right-close, .right1-close {
   text-align: right;
+  .closecate-img {
+    width: 20px;
+    height: 19px;
+    cursor: pointer;
+  }
+}
+.right1-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
 }
 .cate-right-block {
   background: #191A21;
@@ -2942,11 +3427,6 @@ export default {
     margin-bottom: 0;
     margin: auto;
     text-align: center;
-  }
-  .closecate-img {
-    width: 20px;
-    height: 19px;
-    cursor: pointer;
   }
 }
 </style>
