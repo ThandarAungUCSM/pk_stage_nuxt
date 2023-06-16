@@ -327,7 +327,7 @@
                     </div>
                   </div>
                   <!-- abc -->
-                  <div v-if="updateProduct !== {}" class="left-addprod">
+                  <div v-if="Object.keys(updateProduct).length > 0" class="left-addprod">
                     <p class="prod-photo">商品照片(0/8)</p>
                     <div v-for="i in 5" :key="i" class="prodimg-div">
                       <img src="../assets/pc/data-image.png" class="prod-img aaa" :class="i === 1 ? 'active-img' : ''">
@@ -358,13 +358,13 @@
                           <img v-if="img2Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
                       </el-upload>
                     </div>
-                    <div v-if="updateProduct !== {} && updateProduct.state === '已下架'" class="photo-flex">
+                    <div v-if="(Object.keys(updateProduct).length > 0) && (updateProduct.state === '已下架')" class="photo-flex">
                       <p class="addprod-photo1-txt">刪除</p>
                     </div>
                     <div v-else class="photo-flex">
                       <p class="addprod-photo-txt">新增商品照片</p>
                       <p class="addprod-photo-txt">新增了解更多照片</p>
-                      <p v-if="updateProduct !== {}" class="addprod-photo1-txt">下架此商品</p>
+                      <p v-if="Object.keys(updateProduct).length > 0" class="addprod-photo1-txt">下架此商品</p>
                     </div>
                     <div class="input-block">
                       <div class="prod-left">
@@ -379,7 +379,7 @@
                       </div>
                       <div id="secTextareaId" class="prod-div1">
                         <p class="prod-name">商品描述：</p>
-                        <el-input v-model="prod1Description" type="textarea" :rows="11" placeholder="" class="prod-description"></el-input>
+                        <el-input v-model="prod1Description" type="textarea" :rows="11" placeholder="" class="prod1-description"></el-input>
                       </div>
                     </div>
                   </div>
@@ -402,7 +402,14 @@
                       </div>
                       <div id="time1Id" class="timecss">
                         <p class="prod-name">預售時間</p>
-                        <el-input v-if="(updateProduct.state === '販售中') || (updateProduct.state === '已下架') || (updateProduct.state === '售罄')" v-model="presellTime" placeholder="無" class="prod-presell"></el-input>
+                        <div v-if="Object.keys(updateProduct).length === 0" id="childConHisId" class="date-picker2-css">
+                          <el-date-picker
+                            v-model="presellTime"
+                            type="datetime"
+                            placeholder="無">
+                          </el-date-picker>
+                        </div>
+                        <el-input v-else-if="(updateProduct.state === '販售中') || (updateProduct.state === '已下架') || (updateProduct.state === '售罄')" v-model="presellTime" placeholder="無" class="prod-presell"></el-input>
                         <div v-else-if="updateProduct.state === '預售'" id="childConHisId" class="date-picker2-css">
                           <el-date-picker
                             v-model="presellTime"
@@ -417,7 +424,11 @@
                       </div>
                     </div>
                     <div>
-                      <div v-if="updateProduct.state === '售罄'" id="time3Id" class="time1css">
+                      <div v-if="Object.keys(updateProduct).length === 0" id="time4Id" class="time1css">
+                        <p class="prod-name">架上可購商品數量：</p>
+                        <el-input v-model="noofItem" placeholder="999" class=""></el-input>
+                      </div>
+                      <div v-else-if="updateProduct.state === '售罄'" id="time3Id" class="time1css">
                         <p class="prod-name">架上可購商品數量：</p>
                         <el-input v-model="noofItem" placeholder="999" class=""></el-input>
                       </div>
@@ -426,13 +437,13 @@
                         <el-input v-model="noofItem" placeholder="999" class=""></el-input>
                       </div>
                       <div>
-                        <p v-if="updateProduct !== {} && ((updateProduct.state === '販售中') || (updateProduct.state === '預售'))" class="prod1-btn" @click="productSetting">儲存</p>
-                        <p v-else-if="updateProduct !== {} && ((updateProduct.state === '售罄') || (updateProduct.state === '已下架'))" class="prod1-btn" @click="productSetting">完成</p>
+                        <p v-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '販售中') || (updateProduct.state === '預售'))" class="prod1-btn" @click="productSetting">儲存</p>
+                        <p v-else-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '售罄') || (updateProduct.state === '已下架'))" class="prod1-btn" @click="productSetting">完成</p>
                         <p v-else class="prod-btn">上架</p>
                       </div>
                     </div>
                   </div>
-                  <div v-if="updateProduct === {}" class="right1-close">
+                  <div v-if="Object.keys(updateProduct).length === 0" class="right1-close">
                     <img src="../assets/pc/modal-close.png" class="closecate-img aaa" @click="productSetting">
                   </div>
                 </div>
@@ -2387,7 +2398,7 @@ export default {
   }
   #secTextareaId {
     .el-textarea__inner {
-      height: 302px;
+      height: 326px;
     }
   }
   #time1Id {
@@ -2661,6 +2672,13 @@ export default {
                 width: 347px;
                 width: 300px;
                 height: 200px;
+              }
+              .prod1-description {
+                background: #34344C;
+                border-radius: 6px;
+                width: 347px;
+                width: 300px;
+                height: 326px;
               }
             }
             .prod-div2 {
