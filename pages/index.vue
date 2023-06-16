@@ -2016,9 +2016,11 @@ export default {
     },
     openRefund(val) {
       this.showRefundModal = false
-      document.body.classList.add('tofix');
-      this.showNewRefundModal = true
-      this.tograndChild = this.sendData
+      if(val && val === 'newRefundPopup') {
+        document.body.classList.add('tofix');
+        this.showNewRefundModal = true
+        this.tograndChild = this.sendData
+      }
     }
   }
 }

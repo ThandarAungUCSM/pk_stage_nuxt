@@ -3,7 +3,7 @@
     <transition name="modal">
       <div v-if="show" class="modal-mask">
         <div class="modal-wrapper">
-          <div class="modal-container">
+          <div class="modal-container" :style="((sendData.state === '結束') || (sendData.state === '已拒絕')) ? 'width: 627px' : ''">
             <div class="modal-body">
               <slot name="body">
                 <div class="parent-block">
@@ -170,7 +170,7 @@ export default {
       textarea2: '',
       textarea3: '',
       textarea4: '',
-      conditionChoice: false,
+      conditionChoice: true,
       tograndChild: {}
     }
   },
@@ -182,7 +182,6 @@ export default {
   },
   methods: {
     closePopup() {
-      this.$emit('settingData', 'hi')
       document.body.classList.remove('tofix');
       this.$emit('close');
     },
