@@ -2046,6 +2046,9 @@ export default {
     background: #34344C;
     border-radius: 10px;
     border: 1px solid #34344C;
+    color: #CECECE;
+    font-weight: 400;
+    font-size: 1rem;
   }
 }
 
@@ -2195,6 +2198,9 @@ export default {
     background: #34344C;
     border-radius: 10px;
     border: 1px solid #34344C;
+    font-weight: 400;
+    font-size: 16px;
+    color: #CECECE;
   }
   .el-table th.el-table_1_column_5>.cell, .el-table th.el-table_1_column_6>.cell {
     text-align: right;
@@ -2219,6 +2225,9 @@ export default {
     background: #34344C;
     border-radius: 10px;
     border: 1px solid #34344C;
+    font-weight: 400;
+    font-size: 16px;
+    color: #CECECE;
   }
   .el-table th.el-table_1_column_5>.cell, .el-table td.el-table_1_column_5>.cell, .el-table th.el-table_1_column_6>.cell, .el-table td.el-table_1_column_6>.cell, .el-table th.el-table_1_column_7>.cell, .el-table td.el-table_1_column_7>.cell {
     text-align: right;
