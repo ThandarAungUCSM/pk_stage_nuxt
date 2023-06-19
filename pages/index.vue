@@ -566,8 +566,9 @@
                     <div>
                       <p class="classification-css">分類</p>
                       <div class="class-div">
-                        <div v-for="(i, index) in cateShow" :key="index" class="seccate-row">
-                          <p :class="currencyCate === i.value ? 'activeCate' : ''" class="allsec-good" @click="toshowCate(i.value)">{{i.name}}</p>
+                        <div v-for="(i, index) in cateShow" id="childCateId" :key="index" class="seccate-row">
+                          <!-- <p class="allsec-good">{{i.name}}</p> -->
+                          <el-input v-model="cateArrname[index]" class="allsec-input-good"></el-input>
                           <div class="img1-right">
                             <p class="equal-img">=</p>
                             <img src="../assets/pc/red-trash.png" class="track-img" @click="deleteCate(i.value)">
@@ -1745,7 +1746,8 @@ export default {
         {name: '日用雜貨', value: 'val4'},
         {name: '零食飲料', value: 'val5'}, 
         {name: '玩具公仔', value: 'val6'},    
-      ]
+      ],
+      cateArrname: ['所有商品', '新品上市', '限時優惠', '日用雜貨', '零食飲料', '玩具公仔']
     }
   },
   computed: {
@@ -2278,6 +2280,19 @@ export default {
   .el-table td.el-table_1_column_1>.cell {
     color: #808080;
   }
+  #childCateId {
+    .el-input__inner {
+      background: #34344C;
+      border-radius: 6px;
+      width: 109px;
+      height: 27px;
+      padding: 0 0 0 3px;
+      font-weight: 400;
+      font-size: 1rem;
+      color: #FFF;
+      margin-bottom: 0;
+    }
+  }
 }
 #childConHisId {
   .el-input__inner {
@@ -2730,7 +2745,7 @@ export default {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          margin-bottom: 1rem;
+          margin-bottom: 12px;
           .cate-title {
             font-weight: 700;
             font-size: 14px;
@@ -2746,6 +2761,7 @@ export default {
           font-weight: 400;
           font-size: 12px;
           color: #808080;
+          margin-bottom: 10px;
         }
         .class-div {
           .activeCate {
@@ -2755,7 +2771,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 9px;
+            margin-bottom: 8px;
           }
           .all-good {
             font-weight: 400;
@@ -2770,6 +2786,16 @@ export default {
             cursor: pointer;
           }
           .allsec-good {
+            background: #34344C;
+            border-radius: 6px;
+            width: 109px;
+            padding: 0 0 0 3px;
+            font-weight: 400;
+            font-size: 1rem;
+            color: #FFF;
+            margin-bottom: 0;
+          }
+          .allsec-input-good {
             background: #34344C;
             border-radius: 6px;
             width: 109px;
@@ -2798,7 +2824,7 @@ export default {
           font-size: 12px;
           color: #808080;
           margin-top: 21px;
-          margin-bottom: 31px;
+          margin-bottom: 29px;
         }
 
         .btn-cate {
@@ -2818,6 +2844,7 @@ export default {
       }
       .cate-left1-block {
         height: 425px;
+        padding: 10px 1rem 1rem;
       }
       .cate1-left-block {
         position: relative;
