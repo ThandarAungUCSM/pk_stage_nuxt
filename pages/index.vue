@@ -494,7 +494,7 @@
                         <el-table-column
                           prop="productName"
                           label="商品名稱"
-                          width="350">
+                          width="393">
                           <template slot-scope="props">
                             <div @click="refundDataModal(props.row)">
                               <span v-if="(props.row.state === '已下架') || (props.row.state === '售罄')" class="pink-css">{{props.row.productName}}</span>
@@ -529,7 +529,7 @@
                         <el-table-column
                           prop="advancedSetting"
                           label="進階設定"
-                          width="80">
+                          width="100">
                           <template slot-scope="props">
                             <div @click="toUpdateFunc(props.row)">
                               <img src="../assets/pc/setting.png" class="setting-img">
@@ -2262,11 +2262,11 @@ export default {
     font-size: 1rem;
     color: #FFF;
   }
-  .el-table th.el-table_1_column_5>.cell, .el-table td.el-table_1_column_5>.cell, .el-table th.el-table_1_column_6>.cell, .el-table td.el-table_1_column_6>.cell, .el-table th.el-table_1_column_7>.cell, .el-table td.el-table_1_column_7>.cell {
-    text-align: right;
-  }
-  .el-table th.el-table_1_column_7>.cell, .el-table td.el-table_1_column_7>.cell, .el-table th.el-table_1_column_9>.cell, .el-table td.el-table_1_column_9>.cell, .el-table th.el-table_1_column_10>.cell, .el-table td.el-table_1_column_10>.cell {
+  .el-table_2_column_10 {
     text-align: center;
+  }
+  .el-table_2_column_8, .el-table_2_column_9 {
+    text-align: right;
   }
   .el-table td.el-table__cell div {
     color: #E4E4E4;
