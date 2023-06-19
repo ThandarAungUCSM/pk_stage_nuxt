@@ -62,6 +62,7 @@
                       type="textarea"
                       :rows="2"
                       placeholder="收到貨物保存期限過期"
+                      readonly
                       >
                     </el-input>
                     <el-input 
@@ -70,6 +71,7 @@
                       type="textarea"
                       :rows="2"
                       placeholder="一直沒有收到貨"
+                      readonly
                       >
                     </el-input>
                     <el-input
@@ -78,6 +80,7 @@
                       type="textarea"
                       :rows="2"
                       placeholder="收到貨物保存期限過期"
+                      readonly
                       >
                     </el-input>
                     <el-input
@@ -86,6 +89,7 @@
                       type="textarea"
                       :rows="2"
                       placeholder="貨物有破損"
+                      readonly
                       >
                     </el-input>
                     <el-input
@@ -94,6 +98,7 @@
                       type="textarea"
                       :rows="2"
                       placeholder="貨物有破損"
+                      readonly
                       >
                     </el-input>
                   </div>
