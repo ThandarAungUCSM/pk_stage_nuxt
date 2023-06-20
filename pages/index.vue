@@ -566,14 +566,17 @@
                     <div>
                       <p class="classification-css">分類</p>
                       <div class="class-div">
-                        <div v-for="(i, index) in cateShow" id="childCateId" :key="index" class="seccate-row">
-                          <!-- <p class="allsec-good">{{i.name}}</p> -->
-                          <el-input v-model="cateArrname[index]" class="allsec-input-good"></el-input>
-                          <div class="img1-right">
-                            <p class="equal-img">=</p>
-                            <img src="../assets/pc/red-trash.png" class="track-img" @click="deleteCate(i.value)">
+                        <draggable v-model="cateShow" @start="drag=true" @end="drag=false">
+                          <div v-for="(i, index) in cateShow" id="childCateId" :key="index" class="seccate-row">
+                            <!-- <p class="allsec-good">{{i.name}}</p> -->
+                            <!-- <el-input v-model="cateArrname[index]" class="allsec-good"></el-input> -->
+                            <el-input v-model="cateShow[index].name" class="allsec-good"></el-input>
+                            <div class="img1-right">
+                              <p class="equal-img">=</p>
+                              <img src="../assets/pc/red-trash.png" class="track-img" @click="deleteCate(i.value)">
+                            </div>
                           </div>
-                        </div>
+                        </draggable>
                       </div>
                       <p class="notice-text">
                         順序由上至下，對應電腦版為由左至右
@@ -1094,9 +1097,13 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 import "element-ui/lib/theme-chalk/index.css"; 
 export default {
   name: 'IndexPage',
+  components: {
+    draggable,
+  },
   data() {
     return {
       userLogin: false,
@@ -2786,16 +2793,6 @@ export default {
             cursor: pointer;
           }
           .allsec-good {
-            background: #34344C;
-            border-radius: 6px;
-            width: 109px;
-            padding: 0 0 0 3px;
-            font-weight: 400;
-            font-size: 1rem;
-            color: #FFF;
-            margin-bottom: 0;
-          }
-          .allsec-input-good {
             background: #34344C;
             border-radius: 6px;
             width: 109px;
