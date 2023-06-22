@@ -12,6 +12,10 @@
         <p class="version-css">ver1.0.0</p>
       </div>
     </div>
+    <div class="store-owner-block">
+      <p class="txt-store" @click="currencyFunc('currencyManager')">Admin</p>
+      <p class="txt1-store" @click="storeOwnerFunc('')">Store owner</p>
+    </div>
   </div>
   <Footer :page="pName" />
 </div>
@@ -40,6 +44,12 @@ export default {
         this.updateLogin(true);
         this.$router.push('/')
       }
+    },
+    currencyFunc(val) {
+      this.$router.push({ name: "index", query: { item: val} });
+    },
+    storeOwnerFunc() {
+      this.$router.push({ name: "storeOwner", query: { item: 'storeowner'} });
     }
   }
 }
@@ -53,6 +63,7 @@ export default {
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; 
+  position: relative;
   @media screen and (max-width: 768px) {
     
   }
@@ -77,6 +88,21 @@ export default {
 
       width: 90%;
       margin: -5px auto 0;
+    }
+  }
+  .store-owner-block {
+    position: absolute;
+    right: 65px;
+    bottom: 43px;
+    text-align: right;
+    .txt-store, .txt1-store {
+      font-weight: 400;
+      font-size: 16px;
+      color: #FFF;
+      cursor: pointer;
+    }
+    .txt1-store {
+      margin-bottom: 0;
     }
   }
   .welcome-back {

@@ -7,7 +7,7 @@
           <img src="../assets/pc/sidebar-logout.png" class="logout-img">
         </el-button>
       </div>
-      <div>
+      <div v-if="activedata === 'admin'">
         <div class="pk-admin">
           <p class="pk-title">PK 管理後台 Admin</p>
         </div>
@@ -47,6 +47,29 @@
           <div class="each-row" @click="gotoPage('accounting')">
             <img src="../assets/pc/close-document.png" class="sideopen-img">
             <span class="dollar-text">對帳資料</span>
+          </div>
+        </div>
+      </div>
+      <div v-else-if="activedata === 'storeOwner'">
+        <div class="pk-admin">
+          <p class="pk-title">PK 管理後台 Store Owner</p>
+        </div>
+        <div class="each-pk">
+          <p class="each-title">商品管理</p>
+          <div class="each-row" @click="gotoPage('categoryProduct')">
+            <img src="../assets/pc/close-cart.png" class="sideopen-img">
+            <span class="dollar-text">上架商品管理</span>
+          </div>
+        </div>
+        <div class="each-pk">
+          <p class="each-title">兌換管理</p>
+          <div class="each-row" @click="gotoPage('membershipManager')">
+            <img src="../assets/pc/delisystem.png" class="deli-img">
+            <span class="dollar-text">訂單&出貨管理</span>
+          </div>
+          <div class="each-row" @click="gotoPage('refundHistory')">
+            <img src="../assets/pc/close-vector.png" class="sideopen-img">
+            <span class="dollar-text">會員退貨申請</span>
           </div>
         </div>
       </div>
@@ -125,10 +148,7 @@
 <script>
 export default {
   name: 'IndexPage',
-  // props: ['opensidebar'],
-  props: {
-    opensidebar: Boolean
-  },
+  props: ['opensidebar', 'activedata'],
   data() {
     return {
       sidebarcondition: true,
@@ -228,6 +248,11 @@ export default {
         font-weight: 500;
         font-size: 20px;
         color: #06A2FF;
+      }
+      .deli-img {
+        width: 30px;
+        height: 24px;
+        margin-right: 10px;
       }
     }
   }

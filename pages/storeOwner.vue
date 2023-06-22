@@ -300,20 +300,17 @@
             </div>
           </div>
         </div>
+        <!-- abc  -->
         <div v-else-if="activeMenu !== '' && activeMenu === 'categoryProduct'" id="categoryProductId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
               <p class="test-text">
-                上架商品管理(平台)
+                上架商品管理
               </p>
               <div v-if="addnewProduct" class="content1-category">
                 <div class="cate1-left-block">
                   <div class="cate1-row-title">
                     <p class="cate-title">分類項目管理</p>
-                    <div class="img-right">
-                      <img src="../assets/pc/setting.png" class="setting-img" @click="exchangeCate()">
-                      <img src="../assets/pc/plus.png" class="plus1-img" @click="plusCate()">
-                    </div>
                   </div>
                   <div class="addbelow">
                     <p class="classification-css">分類</p>
@@ -341,30 +338,51 @@
                 </div>
                 <div id="addprodId" class="right-addprod">
                   <div>
-                    <p class="advantSetting">
-                      商品進階設定  
-                      <span v-if="updateProduct.state === '販售中'" class="advantSetting white-css">{{updateProduct.state}}</span>
-                      <span v-else-if="updateProduct.state === '預售'" class="advantSetting yellow-css">{{updateProduct.state}}</span>
-                      <span v-else-if="(updateProduct.state === '已下架') || (updateProduct.state === '售罄')" class="advantSetting pink-css">{{updateProduct.state}}</span>
-                    </p>
-                    <p class="photoPreview">商品照片預覽</p>
-                    <div class="sec2-row">
-                      <el-upload
-                        :on-change="handle2Change"
-                        action="#"
-                        list-type="picture-card"
-                        :auto-upload="false" 
-                        >
-                          <img v-if="img2Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
-                      </el-upload>
+                    <div class="one1row">
+                      <p class="advant1Setting">
+                        商品進階設定  
+                        <span v-if="updateProduct.state === '販售中'" class="advantSetting white-css">{{updateProduct.state}}</span>
+                        <span v-else-if="updateProduct.state === '預售'" class="advantSetting yellow-css">{{updateProduct.state}}</span>
+                        <span v-else-if="(updateProduct.state === '已下架') || (updateProduct.state === '售罄')" class="advantSetting pink-css">{{updateProduct.state}}</span>
+                      </p>
+                      <p v-if="(updateProduct.state === '販售中') || (updateProduct.state === '預售') || (updateProduct.state === '售罄')" class="newSettingTxt">下架此商品</p>
+                      <p v-else-if="(updateProduct.state === '已下架')" class="newSettingTxt">刪除</p>
                     </div>
-                    <div v-if="(Object.keys(updateProduct).length > 0) && (updateProduct.state === '已下架')" class="photo-flex">
-                      <p class="addprod-photo1-txt">刪除</p>
+                    <div class="onerow">
+                      <p class="hidetext">hi</p>
+                      <div class="one2row">
+                        <p class="photoPreview">了解更多照片(0/5)</p>
+                        <p class="viewall">查看全部</p>
+                      </div>
                     </div>
-                    <div v-else class="photo-flex">
-                      <p class="addprod-photo-txt">新增商品照片</p>
-                      <p class="addprod-photo-txt">新增了解更多照片</p>
-                      <p v-if="Object.keys(updateProduct).length > 0" class="addprod-photo1-txt">下架此商品</p>
+                    <div class="imgupload-row">
+                      <div class="img-row">
+                        <div class="sec2-row">
+                          <el-upload
+                            :on-change="handle5Change"
+                            action="#"
+                            list-type="picture-card"
+                            :auto-upload="false" 
+                            >
+                              <img v-if="img5Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
+                              <p class="text-photo">新增商品照片</p>
+                          </el-upload>
+                        </div>
+                        <div class="sec2-row">
+                          <el-upload
+                            :on-change="handle2Change"
+                            action="#"
+                            list-type="picture-card"
+                            :auto-upload="false" 
+                            >
+                              <img v-if="img2Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
+                              <p class="text-photo">新增了解更多照片</p>
+                          </el-upload>
+                        </div>
+                      </div>
+                      <div>
+                        <img src="../assets/pc/showimg.png" class="show-img">
+                      </div>
                     </div>
                     <div class="input-block">
                       <div class="prod-left">
@@ -372,7 +390,7 @@
                           <p class="prod-name">商品名稱：</p>
                           <el-input v-model="prodName" type="textarea" :rows="2" placeholder="" class="prod-css"></el-input>
                         </div>
-                        <div class="prod-div2">
+                        <div id="nameTextarea1Id" class="prod-div2">
                           <p class="prod-name">商品簡介：</p>
                           <el-input v-model="prodDescription" type="textarea" :rows="9" placeholder="" class="prod-description"></el-input>
                         </div>
@@ -453,10 +471,6 @@
                   <div class="cate-left-block">
                     <div class="cate-row-title">
                       <p class="cate-title">分類項目管理</p>
-                      <div class="img-right">
-                        <img src="../assets/pc/setting.png" class="setting-img" @click="exchangeCate()">
-                        <img src="../assets/pc/plus.png" class="plus1-img" @click="plusCate()">
-                      </div>
                     </div>
                     <div>
                       <p class="classification-css">分類</p>
@@ -470,7 +484,7 @@
                       </div>
                     </div>
                   </div>
-                  <div v-if="showCateRight" class="catetable-block">
+                  <div class="catetable-block">
                     <div class="row-right">
                       <p class="commodity-text">商品管理</p>
                       <img src="../assets/pc/plus.png" class="plus1-img" @click="toAddFunc">
@@ -485,6 +499,7 @@
                     <div v-if="cateData">
                       <el-table
                         :data="cateData"
+                        height="675"
                         style="width: 92%">
                         <el-table-column
                           prop="serialNo"
@@ -556,12 +571,6 @@
                   <div class="cate-left1-block">
                     <div class="cate-row-title">
                       <p class="cate-title">分類項目管理</p>
-                      <div class="img-right">
-                        <div class="img-setting">
-                          <img src="../assets/pc/setting.png" class="setting-img" @click="exchangeCate()">
-                        </div>
-                        <img src="../assets/pc/plus.png" class="plus1-img" @click="plusCate()">
-                      </div>
                     </div>
                     <div>
                       <p class="classification-css">分類</p>
@@ -594,6 +603,7 @@
           </div>
           <!-- <categoryModal v-if="plusCondition" :show="plusCondition" @close="plusCondition = false" /> -->
         </div>
+        <!-- abc  -->
         <div v-else-if="activeMenu !== '' && activeMenu === 'couponManager'" id="couponManagerId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
@@ -1106,10 +1116,11 @@ export default {
   },
   data() {
     return {
+      activeData: 'storeOwner',
+      activeMenu: 'categoryProduct',
+      currencyCate: 'all-good',
       userLogin: false,
       opensidebar: true,
-      activeMenu: '',
-      activeData: 'admin',
       value1: '',
       value2: '',
       value3: '',
@@ -1679,11 +1690,10 @@ export default {
       tograndChild: {},
       priceEdit: false,
       editPrice: '',
-      // dialogImageUrl: '',
-      // dialogVisible: false,
       imgUpload: '',
       img1Upload: '',
       img2Upload: '',
+      img5Upload: '',
       cateData: [{
         serialNo: '1',
         productName: '山丘藍台灣藍莓 5盒裝 單盒淨重 100公克 ×5 盒',
@@ -1739,9 +1749,173 @@ export default {
         category: '日用雜貨',
         noofItem: 5,
         preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '6',
+        productName: '山丘藍台灣藍莓 5盒裝 單盒淨重 100公克 ×5 盒',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '9,999,999,999',
+        state: '販售中',
+        advancedSetting: '',
+        category: '新品上市',
+        noofItem: 1,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '7',
+        productName: '商品2',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '9,999,999,999',
+        state: '販售中',
+        advancedSetting: '',
+        category: '限時特賣',
+        noofItem: 2,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '8',
+        productName: '商品3',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '9,999,999,999',
+        state: '販售中',
+        advancedSetting: '',
+        category: '玩具公仔',
+        noofItem: 3,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '9',
+        productName: '商品4',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '5,000',
+        state: '販售中',
+        advancedSetting: '',
+        category: '零食飲料',
+        noofItem: 4,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '10',
+        productName: '商品5',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '200',
+        state: '販售中',
+        advancedSetting: '',
+        category: '日用雜貨',
+        noofItem: 5,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '11',
+        productName: '山丘藍台灣藍莓 5盒裝 單盒淨重 100公克 ×5 盒',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '9,999,999,999',
+        state: '販售中',
+        advancedSetting: '',
+        category: '新品上市',
+        noofItem: 1,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '12',
+        productName: '商品2',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '9,999,999,999',
+        state: '販售中',
+        advancedSetting: '',
+        category: '限時特賣',
+        noofItem: 2,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '13',
+        productName: '商品3',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '9,999,999,999',
+        state: '販售中',
+        advancedSetting: '',
+        category: '玩具公仔',
+        noofItem: 3,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '14',
+        productName: '商品4',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '5,000',
+        state: '販售中',
+        advancedSetting: '',
+        category: '零食飲料',
+        noofItem: 4,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '15',
+        productName: '商品5',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '200',
+        state: '販售中',
+        advancedSetting: '',
+        category: '日用雜貨',
+        noofItem: 5,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '16',
+        productName: '山丘藍台灣藍莓 5盒裝 單盒淨重 100公克 ×5 盒',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '9,999,999,999',
+        state: '販售中',
+        advancedSetting: '',
+        category: '新品上市',
+        noofItem: 1,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '17',
+        productName: '商品2',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '9,999,999,999',
+        state: '販售中',
+        advancedSetting: '',
+        category: '限時特賣',
+        noofItem: 2,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '18',
+        productName: '商品3',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '9,999,999,999',
+        state: '販售中',
+        advancedSetting: '',
+        category: '玩具公仔',
+        noofItem: 3,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '19',
+        productName: '商品4',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '5,000',
+        state: '販售中',
+        advancedSetting: '',
+        category: '零食飲料',
+        noofItem: 4,
+        preTime: '2024/02/02 00:00'
+      }, {
+        serialNo: '20',
+        productName: '商品5',
+        description: '藍莓是一種深藍色的小果實，是近年來越來越受歡迎的農產品之一。藍莓味道鮮美，並且擁有豐富的營養價值，含有豐富的維生素C、維生素K、維生素E和膳食纖維等多種營養成分。此外，藍莓還含有豐富的抗氧化物質，能夠幫助抵禦自由基對身體的損害，對保持身體健康有很大的幫助。',
+        description1: '【注意事項】【商品特色】【商品規格】',
+        exchangePrice: '200',
+        state: '販售中',
+        advancedSetting: '',
+        category: '日用雜貨',
+        noofItem: 5,
+        preTime: '2024/02/02 00:00'
       }],
       showCateRight: false,
-      currencyCate: '',
       newScreen: false,
       plusCondition: false,
       addnewProduct: false,
@@ -1846,12 +2020,12 @@ export default {
       this.addnewProduct = true
     },
     toshowCate(val) {
-      if(val === this.currencyCate) {
-        this.currencyCate = ''
-      } else {
-        this.currencyCate = val
-      }
-      this.showCateRight = !this.showCateRight
+      // if(val === this.currencyCate) {
+      //   this.currencyCate = ''
+      // } else {
+      //   this.currencyCate = val
+      // }
+      // this.showCateRight = !this.showCateRight
     },
     exchangeCate() {
       this.newScreen = !this.newScreen;
@@ -1867,6 +2041,12 @@ export default {
     },
     handle1Change(file, fileList) {
       this.img1Upload = fileList.url
+
+      const element = document.querySelector('.el-upload--picture-card');
+      element.className += 'imgdataHide'; 
+    },
+    handle5Change(file, fileList) {
+      this.img5Upload = fileList.url
 
       const element = document.querySelector('.el-upload--picture-card');
       element.className += 'imgdataHide'; 
@@ -2361,6 +2541,7 @@ export default {
   .el-checkbox-group {
     padding-top: 1rem;
     width: 152px;
+    height: 243px;
   }
   .el-checkbox {
     font-weight: 400;
@@ -2428,7 +2609,13 @@ export default {
   }
   #nameTextareaId {
     .el-textarea__inner {
+      width: 347px;
       height: 72px;
+    }
+  }
+  #nameTextarea1Id {
+    .el-textarea__inner {
+      width: 347px;
     }
   }
   #secTextareaId {
@@ -2470,6 +2657,12 @@ export default {
   .el-upload-list--picture-card .el-upload-list__item {
     margin: 0;
   }
+  .el-upload--picture-card {
+    width: 124px;
+    height: 124px;
+    line-height: 124px;
+    position: relative;
+  }
 }
 .imgdataHide, .el-upload-list--picture-card .el-upload-list__item-actions {
   display: none;
@@ -2508,6 +2701,7 @@ export default {
         font-size: 24px;
         color: #FFF;
         margin-left: 63px;
+        margin-bottom: 0;
       }
       .banAds {
         width: 100%;
@@ -2527,7 +2721,7 @@ export default {
       }
       .content-category, .content1-category {
         padding-top: 40px;
-        padding-left: 102px;
+        padding-left: 63px;
         position: relative;
         .each-row {
           display: flex;
@@ -2548,6 +2742,8 @@ export default {
             font-weight: 700;
             font-size: 12px;
             color: #FFF;
+            width: 120px;
+            margin: auto auto 9px;
           }
           .prodimg-div {
             text-align: center;
@@ -2580,8 +2776,9 @@ export default {
           position: relative;
           margin-left: 10px;
           display: flex;
-          width: 1000px;
+          width: 1050px;
           max-width: 1110px;
+          height: 763px;
           .coin-div {
             display: flex;
             align-items: center;
@@ -2621,6 +2818,7 @@ export default {
             font-size: 20px;
             text-align: center;
             cursor: pointer;
+            margin-bottom: 0;
           }
           .prod1-btn {
             background: linear-gradient(90deg, #7161EF 0%, #432FDE 100%);
@@ -2630,60 +2828,91 @@ export default {
             font-weight: 700;
             font-size: 12px;
             color: #FFF;
+            width: 120px;
+            margin: auto auto 9px;
           }
           .advantSetting {
+            margin-left: 7px;
+          }
+          .advantSetting, .advant1Setting, .newSettingTxt {
             font-weight: 700;
             font-size: 12px;
             color: #FFF;
-            margin-bottom: 5px;
+            margin-bottom: 0;
+            width: calc(124px + 17px);
           }
-          .photoPreview {
-            font-weight: 400;
-            font-size: 12px;
-            color: #808080;
-            margin-bottom: 10px;
+          .newSettingTxt {
+            width: 124px;
+            border: 1px solid #F35A90;
+            text-align: center;
+            height: 24px;
+            line-height: 20px;
+          }
+          .one1row {
+            display: flex;
+            width: 347px;
+          }
+          .onerow {
+            display: flex;
+            justify-content: space-between;
+            .hidetext {
+              width: 347px;
+              margin-bottom: 10px;
+            }
+          }
+          .one2row {
+            display: flex;
+            justify-content: space-between;
+            width: 370px;
+            .photoPreview {
+              color: #FFF;
+              font-size: 12px;
+              margin-bottom: 0;
+              line-height: 34px;
+              font-weight: 700;
+              text-align: center;
+            }
+            .viewall {
+              color: #00A0FF;
+              font-size: 12px;
+              margin-bottom: 0;
+              line-height: 34px;
+            }
+          }
+          .imgupload-row {
+            display: flex;
+            .img-row {
+              display: flex;
+              width: 347px;
+            }
+            .show-img {
+              width: 370px;
+              height: 194px;
+            }
           }
           .sec2-row {
-            width: 150px;
-            width: 180px;
-            height: 150px;
-            height: 180px;
+            width: 124px;
+            height: 124px;
             background: #191A21;
             border: 1px solid #263B71;
-            margin: 0 auto 13px;
+            margin: 0 17px 13px;
             margin-left: 0;
             display: flex;
             align-items: center;
             justify-content: flex-start;
             justify-content: center;
             .img-icon {
-              width: 64px;
-              height: 64px;
+              width: 40px;
+              height: 40px;
             }
-          }
-          .photo-flex {
-            display: flex;
-            align-items: flex-end;
-            .addprod-photo-txt, .addprod-photo1-txt {
+            .text-photo {
               font-weight: 400;
               font-size: 14px;
               color: #FFF;
-              border: 1px solid #00A0FF;
-              width: 150px;
-              width: 180px;
-              height: 30px;
-              line-height: 30px;
-              text-align: center;
-              margin-right: 27px;
               margin-bottom: 0;
-            }
-            .addprod-photo1-txt {
-              font-size: 12px;
-              color: #FFF;
-              border: 1px solid #F35A90;
-              width: 120px;
-              height: 24px;
-              line-height: 24px;
+              position: absolute;
+              bottom: -47px;
+              width: 100%;
             }
           }
           .input-block {
@@ -2698,7 +2927,7 @@ export default {
                 background: #34344C;
                 border-radius: 6px;
                 width: 347px;
-                width: 300px;
+                width: 347px;
                 // height: 72px; 
               }
               .prod-description {
@@ -2712,7 +2941,7 @@ export default {
                 background: #34344C;
                 border-radius: 6px;
                 width: 347px;
-                width: 300px;
+                width: 347px;
                 height: 326px;
               }
             }
@@ -2724,7 +2953,7 @@ export default {
             font-weight: 400;
             font-size: 12px;
             color: #808080;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
           }
         }
       }
@@ -2740,16 +2969,12 @@ export default {
         justify-content: space-between;
         width: 60px;
       }
-      .img-right {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 60px;
-      }
+
       .cate-left-block, .cate-left1-block, .cate1-left-block {
         background: #191A21;
         border-radius: 12px;
         width: 249px;
+        min-width: 170px;
         // height: 377px;
         padding: 1rem;
         .cate-row-title, .cate1-row-title {
@@ -2963,8 +3188,8 @@ export default {
           align-items: center;
           justify-content: center;
           .img-icon {
-            width: 64px;
-            height: 64px;
+            width: 40px;
+            height: 40px;
           }
         }
         .sec1-row {
@@ -2977,8 +3202,8 @@ export default {
           align-items: center;
           justify-content: center;
           .img-icon {
-            width: 64px;
-            height: 64px;
+            width: 40px;
+            height: 40px;
           }
         }
         .third-row {
@@ -3253,9 +3478,8 @@ export default {
       }
       .catetable-block {
         width: 877px;
-        height: 496px;
         margin: 0;
-        margin-left: 33px;
+        margin-left: 1rem;
         padding: 1rem;
         .row-right {
           display: flex;
