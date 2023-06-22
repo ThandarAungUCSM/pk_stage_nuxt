@@ -7,301 +7,8 @@
     <div class="content-css">
       <div class="content-block">
         <SidebarCom :opensidebar="opensidebar" :activedata="activeData" @sidebarFunc="sidebarFunc" @activeTab="activeTab" />
-        <refundModal v-if="showRefundModal" :show="showRefundModal" :send-data="sendData" @close="openRefund" />
-        <div v-if="activeMenu !== '' && activeMenu === 'currencyManager'" id="currencyManagerId">
-          <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
-            <div class="rightall-content" >
-              <p class="equal-text">
-                遊戲幣值比率
-              </p>
-              <div class="row-css">
-                <div v-if="currencyData" class="left-content">
-                  <el-table
-                    :data="currencyData"
-                    style="width: 85%"
-                    :row-class-name="tableRowClassName">
-                    <el-table-column
-                      prop="gameName"
-                      label="遊戲名稱"
-                      width="190">
-                    </el-table-column>
-                    <el-table-column
-                      prop="currency"
-                      label="幣別"
-                      width="190">
-                      <template slot-scope="props">
-                        <span class="">PK/{{ props.row.currency }}</span>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-                      prop="use"
-                      label="採用"
-                      width="190">
-                      <template slot-scope="props">
-                        <span v-if="props.row.state && props.row.state === 'pause'" class="">{{ props.row.use }}(停用)</span>
-                        <span v-else class="">{{ props.row.use }}</span>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-                      prop="edit"
-                      label="編輯"
-                      width="132">
-                      <template slot-scope="props">
-                        <div @click="editBlock(props.row, props.$index)"><img src="../assets/pc/btn-edit.png" class="edit-img"></div>
-                      </template>
-                    </el-table-column>
-                  </el-table>
-                </div>
-                <div id="rightId" class="right-content" :class="(eachcondition && (eachcondition === 'disabled' || eachcondition === 'active')) ? 'showcss' : 'hidecss'">
-                  <div class="right-div">
-                    <div class="right-close">
-                      <img src="../assets/pc/modal-close.png" class="close-img" @click="closeBlock">
-                    </div>
-                    <div class="block-css">
-                      <p class="name-lable">遊戲名稱</p>
-                      <el-input v-model="editName" placeholder="楓之谷" class="name-css"></el-input>
-                    </div>
-                    <div class="block-css">
-                      <p class="name-lable">幣別</p>
-                      <el-input v-model="editCurrency" placeholder="楓幣" class="name-css"></el-input>
-                    </div>
-                    <div class="block-css">
-                      <p class="name1-lable">採用</p>
-                      <div v-if="!priceEdit" class="manager1-css">
-                        <p v-if="editData.state && editData.state === 'pause'" class="price-css">{{editData.use}}(停用)</p>
-                        <p v-else class="price-css">{{editData.use}}</p>
-                        <div v-if="!(editData.state)" @click="updateFunc">
-                          <p class="price-btn">修改</p>
-                        </div>
-                      </div>
-                      <div v-else class="manager2-css">
-                        <el-input v-model="editPrice" pattern="[0-9]{4} [0-9]{3} [0-9]{3}" oninput="this.value = this.value.replace(/^0/, ''); this.value = this.value.replace(/[^0-9.]/g, ''); " placeholder="" onfocus="this.placeholder=''" class="name1-css"></el-input>
-                        <div class="price-btn" @click="exitEditMode(1)">完成</div>
-                      </div>
-                    </div>
-                    <div class="red-block">
-                      <p v-if="eachcondition === 'active'" class="disabled-btn">停用</p>
-                      <p v-else-if="eachcondition === 'disabled'"  class="disabled-btn">解除停用</p>
-                      <p class="removed-btn">從官網移除</p>
-                    </div>
-                    <div class="btn-block">
-                      <p class="store-btn" @click="closeBlock">儲存</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'bannerAdvertise'">
-          <div class="whole1-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
-            <div class="rightall-content" >
-              <div v-if="!showAds1" class="row-content">
-                <div class="left-block">
-                  <p class="equal-text">
-                    橫幅廣告管理
-                  </p>
-                  <div class="manager-css">
-                    <div class="advertise-btn" @click="toShow">
-                      <img src="../assets/pc/plus.png" class="plus-img">
-                      <p class="manager-btn">新增</p>
-                    </div>
-                  </div>
-                  <div class="pad-left">
-                    <p class="advert-count">商城廣告(0/10)</p>
-                    <p class="advert1-count">遊戲廣告(0/10)</p>
-                  </div>
-                </div>
-
-                <div id="adsId" :class="opensidebar ? 'center-block' : 'center1-block'" :style="showCenter === true ? 'visibility: visible;' : 'visibility: hidden;'">
-                  <div class="first-row">
-                    <img src="../assets/pc/modal-close.png" class="close-ads" style="visibility: hidden;">
-                    <div class="btn-ads">
-                      <p :class="adsTab === 1 ? 'mall-ads' : 'game-ads'" @click="activeAdsTab(1)">商城廣告</p>
-                      <p :class="adsTab === 2 ? 'mall-ads' : 'game-ads'" @click="activeAdsTab(2)">遊戲廣告</p>
-                    </div>
-                    <img src="../assets/pc/modal-close.png" class="close-ads" @click="toHide">
-                  </div>
-                  <div v-show="adsTab === 1" class="">
-                    <div class="sec-row">
-                      <el-upload
-                        :on-change="handleChange"
-                        action="#"
-                        list-type="picture-card"
-                        :auto-upload="false"
-                        >
-                          <img v-if="imgUpload === ''" src="../assets/pc/img-img.png" class="img-icon">
-                      </el-upload>
-                    </div>
-                    <div class="third-row">
-
-                      <div class="block-css">
-                        <p class="name-lable">廣告生效時間</p>
-                        <!-- <el-input v-model="liveTime" placeholder="楓之谷" class="name-css"></el-input> -->
-                        <el-date-picker
-                          v-model="liveTime"
-                          type="datetime"
-                          placeholder="">
-                        </el-date-picker>
-                      </div>
-                      <div class="block-css">
-                        <p class="name-lable">廣告失效時間</p>
-                        <!-- <el-input v-model="expireTime" placeholder="楓幣" class="name-css"></el-input> -->
-                        <el-date-picker
-                          v-model="expireTime"
-                          type="datetime"
-                          placeholder="">
-                        </el-date-picker>
-                      </div>
-                    </div>
-                  </div>
-                  <div v-show="adsTab === 2" class="">
-                    <div class="sec1-row">
-                      <el-upload
-                        :on-change="handle1Change"
-                        action="#"
-                        list-type="picture-card"
-                        :auto-upload="false"
-                        >
-                          <img v-if="img1Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
-                      </el-upload>
-                    </div>
-                    <div class="third1-row">
-
-                      <div class="block-css">
-                        <p class="name-lable">廣告生效時間</p>
-                        <!-- <el-input v-model="live1Time" placeholder="楓之谷" class="name-css"></el-input> -->
-                        <el-date-picker
-                          v-model="live1Time"
-                          type="datetime"
-                          placeholder="">
-                        </el-date-picker>
-                      </div>
-                      <div class="block-css">
-                        <p class="name-lable">廣告失效時間</p>
-                        <!-- <el-input v-model="expire1Time" placeholder="楓幣" class="name-css"></el-input> -->
-                        <el-date-picker
-                          v-model="expire1Time"
-                          type="datetime"
-                          placeholder="">
-                        </el-date-picker>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="ads-btn" @click="showAdvertise(1)">完成</div>
-                </div>
-              </div>
-              <div v-else-if="!deleteItem" class="row-content">
-                <div class="left-block">
-                  <p class="equal-text">
-                    橫幅廣告管理
-                  </p>
-                  <div class="manager-css">
-                    <div class="advertise-btn1" @click="toShow">
-                      <img src="../assets/pc/plus.png" class="plus-img">
-                      <p class="manager-btn">新增</p>
-                    </div>
-                    <div class="advertise-btn" @click="toDeleteBtn">
-                      <img src="../assets/pc/trash.png" class="trash-img">
-                      <p class="manager-btn">移除</p>
-                    </div>
-                  </div>
-                  <div class="banner-block2">
-                    <p class="advert-count">商城廣告(2/10)</p>
-                    <div>
-                      <div class="each-row">
-                        <div class="each-block">
-                          <p class="status-condition1">online</p>
-                          <img src="../assets/pc/fake-banner1.png" class="fake-img">
-                          <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
-                        </div>
-                        <div class="each-block">
-                          <p class="status-condition2">已排程</p>
-                          <img src="../assets/pc/fake-banner1.png" class="fake-img">
-                          <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="banner-block1">
-                    <p class="advert2-count">遊戲廣告(2/10)</p>
-                    <div>
-                      <div class="each-row">
-                        <div class="each-block">
-                          <p class="status-condition1">online</p>
-                          <img src="../assets/pc/fake-banner2.png" class="fake1-img">
-                          <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
-                        </div>
-                        <div class="each-block">
-                          <p class="status-condition1">online</p>
-                          <img src="../assets/pc/fake-banner2.png" class="fake1-img">
-                          <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div v-else-if="deleteItem" class="row-content">
-                <div class="left-block">
-                  <p class="equal-text">
-                    橫幅廣告管理
-                  </p>
-                  <div class="manager-css">
-                    <div class="advertise-btn1" @click="toShow">
-                      <img src="../assets/pc/plus.png" class="plus-img">
-                      <p class="manager-btn">新增</p>
-                    </div>
-                    <div class="advertise-btn" :class="deleteItem ? 'activeDelete' : ''" @click="toDeleteBtn">
-                      <img src="../assets/pc/trash.png" class="trash-img">
-                      <p class="manager-btn">移除</p>
-                    </div>
-                  </div>
-                  <div class="banner-block2">
-                    <p class="advert-count">商城廣告(2/10)</p>
-                    <div>
-                      <div class="each-row">
-                        <div class="each-block">
-                          <p class="status-condition1">online</p>
-                          <img src="../assets/pc/fake-banner1.png" class="fake-img">
-                          <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
-                          <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
-                        </div>
-                        <div class="each-block">
-                          <p class="status-condition2">已排程</p>
-                          <img src="../assets/pc/fake-banner1.png" class="fake-img">
-                          <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
-                          <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="banner-block1">
-                    <p class="advert2-count">遊戲廣告(2/10)</p>
-                    <div>
-                      <div class="each-row">
-                        <div class="each-block">
-                          <p class="status-condition1">online</p>
-                          <img src="../assets/pc/fake-banner2.png" class="fake1-img">
-                          <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
-                          <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
-                        </div>
-                        <div class="each-block">
-                          <p class="status-condition1">online</p>
-                          <img src="../assets/pc/fake-banner2.png" class="fake1-img">
-                          <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
-                          <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- abc  -->
-        <div v-else-if="activeMenu !== '' && activeMenu === 'categoryProduct'" id="categoryProductId">
+        <storeOwnerOrderManagerModal v-if="showRefundModal" :show="showRefundModal" :send-data="sendData" @close="openRefund" />
+        <div v-if="activeMenu !== '' && activeMenu === 'categoryProduct'" id="categoryProductId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
               <p class="test-text">
@@ -511,7 +218,7 @@
                           label="商品名稱"
                           width="393">
                           <template slot-scope="props">
-                            <div @click="refundDataModal(props.row)">
+                            <div>
                               <span v-if="(props.row.state === '已下架') || (props.row.state === '售罄')" class="pink-css">{{props.row.productName}}</span>
                               <span v-else>{{props.row.productName}}</span>
                             </div>
@@ -522,7 +229,7 @@
                           label="兌換價格"
                           width="150">
                           <template slot-scope="props">
-                            <div @click="refundDataModal(props.row)">
+                            <div>
                               <span v-if="(props.row.state === '已下架') || (props.row.state === '售罄')" class="pink-css">{{props.row.exchangePrice}}</span>
                               <span v-else>{{props.row.exchangePrice}}</span>
                             </div>
@@ -533,7 +240,7 @@
                           label="狀態"
                           width="100">
                           <template slot-scope="props">
-                            <div @click="refundDataModal(props.row)">   
+                            <div>   
                               <span v-if="props.row.state === '販售中'" class="white-css">{{props.row.state}}</span>
                               <span v-else-if="props.row.state === '預售'" class="yellow-css">{{props.row.state}}</span>
                               <span v-else-if="props.row.state === '已下架'" class="pink-css">{{props.row.state}}</span>
@@ -546,7 +253,7 @@
                           label="進階設定"
                           width="100">
                           <template slot-scope="props">
-                            <div @click="toUpdateFunc(props.row)">
+                            <div @click="refundDataModal(props.row)">
                               <img src="../assets/pc/setting.png" class="setting-img">
                             </div>
                           </template>
@@ -603,278 +310,11 @@
           </div>
           <!-- <categoryModal v-if="plusCondition" :show="plusCondition" @close="plusCondition = false" /> -->
         </div>
-        <!-- abc  -->
-        <div v-else-if="activeMenu !== '' && activeMenu === 'couponManager'" id="couponManagerId">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'orderManager'" id="orderManagerId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
-              <p class="coupon-text">
-                優惠券管理 
-              </p>
-              <div class="manager-css">
-                <div class="btn-div" @click="showModal = true">
-                  <img src="../assets/pc/plus.png" class="plus-img">
-                  <p class="manager-btn">新增優惠券</p>
-                </div>
-              </div>
-              <div v-if="showCouponData">
-                <el-table
-                  :data="showCouponData"
-                  style="width: 94%">
-                  <el-table-column
-                    prop="couponCreationTime"
-                    label="優惠券建立日期"
-                    width="170">
-                  </el-table-column>
-                  <el-table-column
-                    prop="offerType"
-                    label="優惠類型"
-                    width="100">
-                  </el-table-column>
-                  <el-table-column
-                    prop="lowConsumption"
-                    label="低消(pk)"
-                    width="100">
-                  </el-table-column>
-                  <el-table-column
-                    prop="startPeriod"
-                    label="開始期限"
-                    width="170">
-                  </el-table-column>
-                  <el-table-column
-                    prop="deadline"
-                    label="截止期限"
-                    width="170">
-                  </el-table-column>
-                  <el-table-column
-                    prop="offerContent"
-                    label="優惠內容">
-                  </el-table-column>
-                  <el-table-column
-                    prop="state"
-                    label="狀態">
-                    <template slot-scope="props">
-                      <span v-if="props.row.state == '即將上線'" class="yellow-css">{{ props.row.state }}</span>
-                      <span v-if="props.row.state == '失效'" class="pink-css">{{ props.row.state }}</span>
-                      <span v-if="props.row.state == '上線中'" class="green-css">{{ props.row.state }}</span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    label="停用">
-                    <template slot-scope="props">
-                      <div @click="settingModal(props.row)"><img src="../assets/pc/setting.png" class="setting-img"></div>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </div>
-              <div id="selectId" class="pagi-block">
-                <p class="pagi-text1">顯示{{coupon_tot_page}}頁 每頁顯示</p>
-                <el-select v-model="coupon_size" placeholder="Select">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-                <p class="pagi-text2">項記錄</p>
-                <el-pagination
-                  background
-                  :page-size="coupon_size"
-                  :pager-count="11"
-                  layout="prev, pager, next"
-                  :total="couponData.length"
-                  @current-change="handleCouponCurrentChange">
-                </el-pagination>
-              </div>
-            </div>
-          </div>
-          <couponModal v-if="showModal" :show="showModal" @close="showModal = false" @selectData="selectData" />
-          <settingModal v-if="showSettingModal" :show="showSettingModal" :send-data="eachSetting" @close="showSettingModal = false" @settingData="settingData" />
-        </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'membershipManager'" id="managerId">
-          <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
-            <div class="rightall-content" >
-              <p class="equal-text">
-                會員資料查詢
-              </p>
-              <div class="manager-css">
-                <el-input v-model="searchInput" placeholder="請輸入會員帳號" class="search-css"></el-input>
-                <div @click="afterSearch">
-                  <p class="btn-css">查詢</p>
-                </div>
-              </div>
-
-              <div v-if="showSearch" class="" >
-                <p class="basic-info1">基本資料</p>
-                <div class="each-black-block">
-                  <div class="head-div">
-                    <p class="head-css">帳號</p>
-                    <p class="head-css">會員姓名</p>
-                    <p class="head-css">性別</p>
-                    <p class="head-css">生日</p>
-                    <p class="head-css">手機</p>
-                    <p class="long-headcss">EMAIL</p>
-                    <p class="long-headcss">註冊時間</p>
-                  </div>
-                  <div class="td-div">
-                    <p class="td-css">uukk5566</p>
-                    <p class="td-css">麥克</p>
-                    <p class="td-css">男生</p>
-                    <p class="td-css">1987-06-24</p>
-                    <p class="td-css">09-12345678</p>
-                    <p class="long-tdcss">example@gmail.com</p>
-                    <p class="long-tdcss">2024-01-26 18:59:59</p>
-                  </div>
-                  <div class="head-div">
-                    <p class="head1-css">地址</p>
-                    <p class="head2-css">連動遊戲數量</p>
-                    <p class="head2-css">總計持有PK幣</p>
-                    <p class="head2-css">狀態</p>
-                  </div>
-                  <div class="td-div">
-                    <p class="td1-css">新北市五股區中正路一段187號</p>
-                    <p class="td2-css">3</p>
-                    <p class="td2-css">66,600</p>
-                    <p class="td2-css">正常</p>
-                  </div>
-                </div>
-
-                <p class="basic-info2">已連動的遊戲</p>
-                <div class="each-black-block">
-                  <div class="head-div">
-                    <p class="head-css">遊戲名稱</p>
-                    <p class="head-css">持有遊戲幣</p>
-                    <p class="head-css">等值PK幣</p>
-                    <p class="headl-css">連動時間</p>
-                    <p class="head-css">狀態</p>
-                  </div>
-                  <div class="td-div">
-                    <p class="td-css">遊戲A</p>
-                    <p class="td-css">500,000</p>
-                    <p class="td-css">250</p>
-                    <p class="tdl-css">2024.02.02,13:25</p>
-                    <p class="td-css">連動中</p>
-                  </div>
-                  <div class="td-div">
-                    <p class="td-css">遊戲B</p>
-                    <p class="td-css">250,000</p>
-                    <p class="td-css">190</p>
-                    <p class="tdl-css">2024.02.02,13:25</p>
-                    <p class="td-css">連動中</p>
-                  </div>
-                  <div class="td-div">
-                    <p class="td-css">遊戲C</p>
-                    <p class="td-css">1,000</p>
-                    <p class="td-css">2</p>
-                    <p class="tdl-css">2024.02.02,13:25</p>
-                    <p class="tdcolor-css">取消連動 2024.02.02,13:25</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'convertHistory'" id="convertHistoryId">
-          <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
-            <div class="rightall-content" >
-              <p class="convertHistory-text">
-                會員兌換記錄
-              </p>
-              <div class="manager-css">
-                <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
-                <div @click="afterSearch">
-                  <p class="btn-css">查詢</p>
-                </div>
-              </div>
-              <div v-if="showConvertHistoryData">
-                <el-table
-                  :data="showConvertHistoryData"
-                  style="width: 94%">
-                  <el-table-column
-                    prop="memberAccount"
-                    label="會員帳號"
-                    width="160">
-                  </el-table-column>
-                  <el-table-column
-                    prop="redemptionNumber"
-                    label="兌換編號"
-                    width="160">
-                  </el-table-column>
-                  <el-table-column
-                    prop="exchangeCreation"
-                    label="兌換建立時間"
-                    width="160">
-                  </el-table-column>
-                  <el-table-column
-                    prop="redemptionContent"
-                    label="兌換內容"
-                    width="160">
-                  </el-table-column>
-                  <el-table-column
-                    prop="noofProduct"
-                    label="商品數量"
-                    width="85">
-                    <template slot-scope="props">
-                      <p class="no-css">{{ props.row.noofProduct }}</p>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    prop="exchangeTotal"
-                    label="兌換合計"
-                    width="110">
-                    <template slot-scope="props">
-                      <p class="no-css">{{ props.row.exchangeTotal }}</p>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    prop="state"
-                    label="狀態"
-                    width="90">
-                    <template slot-scope="props">
-                      <span v-if="props.row.state == '已完成'" class="white-css">{{ props.row.state }}</span>
-                      <span v-else-if="props.row.state == '處理中'" class="green-css">{{ props.row.state }}</span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    prop="view"
-                    label="檢視">
-                    <template slot-scope="props">
-                      <div @click="historyDataModal(props.row)">
-                        <span class="blue-css">查看</span>
-                      </div>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </div>
-              <div id="selectId" class="pagi-block">
-                <p class="pagi-text1">顯示{{convert_tot_page}}頁 每頁顯示</p>
-                <el-select v-model="convert_size" placeholder="Select">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-                <p class="pagi-text2">項記錄</p>
-                <el-pagination
-                  background
-                  :page-size="convert_size"
-                  :pager-count="11"
-                  layout="prev, pager, next"
-                  :total="convertData.length"
-                  @current-change="handleConvertCurrentChange">
-                </el-pagination>
-              </div>
-            </div>
-          </div>
-          <convertModal v-if="showConvertModal" :show="showConvertModal" :send-data="sendData" @close="showConvertModal = false" @convertModalData="convertModalData" />
-        </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'refundHistory'" id="refundHistoryId">
-          <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
-            <div class="rightall-content" >
-              <p class="test-text">
-                退貨審核管理
+              <p class="test1-text">
+                訂單&出貨管理
               </p>
               <div class="manager-css">
                 <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
@@ -898,72 +338,119 @@
               <div class="btnNtable">
                 <div class="btn-block">
                   <p class="active-btn all-css">全部</p>
-                  <p class="noactvie-btn all-css">等待審核</p>
-                  <p class="noactvie-btn all-css">結束</p>
-                  <p class="noactvie-btn all-css">已拒絕</p>
-                  <p class="noactvie-btn all-css">等待取件</p>
+                  <p class="noactvie-btn all-css">待處理</p>
+                  <p class="noactvie-btn all-css">已出貨</p>
+                  <p class="noactvie-btn all-css">已取消</p>
                 </div>
-                <div v-if="showRefundData">
+                <div v-if="showOrderData.length > 0">
                   <el-table
-                    :data="showRefundData"
+                    :data="showOrderData"
                     style="width: 100%">
                     <el-table-column
                       prop="redemptionNo"
                       label="兌換編號"
-                      width="180">
+                      width="150">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.redemptionNo}}</span>
+                          <span v-else>{{props.row.redemptionNo}}</span>
+                        </div>
+                      </template>
                     </el-table-column>
                     <el-table-column
                       prop="returnAppTime"
                       label="退貨申請時間"
                       width="180">
-                    </el-table-column>
-                    <el-table-column
-                      prop="memberAccout"
-                      label="會員帳號"
-                      width="180">
-                    </el-table-column>
-                    <el-table-column
-                      prop="returnItem"
-                      label="退貨品項"
-                      width="170">
-                    </el-table-column>
-                    <el-table-column
-                      prop="returnQty"
-                      label="退貨數量"
-                      width="90">
-                    </el-table-column>
-                    <el-table-column
-                      prop="receiveGoods"
-                      label="是否收貨"
-                      width="100">
-                    </el-table-column>
-                    <el-table-column
-                      prop="requestRefund"
-                      label="申請退款"
-                      width="120">
-                    </el-table-column>
-                    <el-table-column
-                      prop="trackingNo"
-                      label="運送單號"
-                      width="150">
-                    </el-table-column>
-                    <el-table-column
-                      prop="state"
-                      label="狀態"
-                      width="120">
                       <template slot-scope="props">
-                        <div @click="refundDataModal(props.row)">
-                          <span v-if="props.row.state === '等待審核'" class="orange-css">{{props.row.state}}</span>
-                          <span v-else-if="props.row.state === '等待取件'" class="yell1ow-css">{{props.row.state}}</span>
-                          <span v-else-if="props.row.state === '結束'" class="white-css">{{props.row.state}}</span>
-                          <span v-else-if="props.row.state === '已拒絕'" class="pink-css">{{props.row.state}}</span>
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.returnAppTime}}</span>
+                          <span v-else>{{props.row.returnAppTime}}</span>
                         </div>
                       </template>
                     </el-table-column>
                     <el-table-column
-                      prop="detailInformation"
+                      prop="memberAcc"
+                      label="會員帳號"
+                      width="100">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.memberAcc}}</span>
+                          <span v-else>{{props.row.memberAcc}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="returnItem"
+                      label="退貨品項"
+                      width="225">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.returnItem}}</span>
+                          <span v-else>{{props.row.returnItem}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="returnQty"
+                      label="退貨數量"
+                      width="160">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.returnQty}}</span>
+                          <span v-else>{{props.row.returnQty}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="receiveGood"
+                      label="是否收貨"
+                      width="160">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.receiveGood}}</span>
+                          <span v-else>{{props.row.receiveGood}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="requestRefund"
+                      label="申請退款"
+                      width="160">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.requestRefund}}</span>
+                          <span v-else>{{props.row.requestRefund}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="trackingNo"
+                      label="運送單號"
+                      width="160">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.trackingNo}}</span>
+                          <span v-else>{{props.row.trackingNo}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="state"
+                      label="狀態"
+                      width="85">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '等待審核'" class="org-css">{{props.row.state}}</span>
+                          <span v-else-if="props.row.state === '等待取件'" class="org1-css">{{props.row.state}}</span>
+                          <span v-else-if="props.row.state === '已拒絕'" class="pink-css">{{props.row.state}}</span>
+                          <span v-else-if="props.row.state === '結束'" class="white-css">{{props.row.state}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="detail"
                       label="詳細資料"
-                      width="120">
+                      width="80">
                       <template slot-scope="props">
                         <div @click="refundDataModal(props.row)">
                           <span class="blue-css">開啟</span>
@@ -997,71 +484,126 @@
             </div>
           </div>
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'accounting'" id="accountingId">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'refundHistory'" id="refundHistoryId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
-              <p class="test-text">
-                對帳資料
+              <p class="test1-text">
+                訂單&出貨管理
               </p>
-              <div class="date-picker-css">
+              <div class="manager-css">
+                <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
+                <div @click="afterSearch">
+                  <p class="btn-css">查詢</p>
+                </div>
+              </div>
+              <div id="childConHisId" class="date-picker1-css">
                 <el-date-picker
-                  v-model="value1"
+                  v-model="value3"
                   type="date"
                   placeholder="開始時間">
                 </el-date-picker>
                 <p class="symbol-css">~</p>
                 <el-date-picker
-                  v-model="value2"
+                  v-model="value4"
                   type="date"
                   placeholder="結束時間">
                 </el-date-picker>
-                <div>
-                  <p class="btn-css">查詢</p>
+              </div>
+              <div class="btnNtable">
+                <p class="ordercss">訂單</p>
+                <div class="btn-block">
+                  <p class="active-btn all-css">全部</p>
+                  <p class="noactvie-btn all-css">待處理</p>
+                  <p class="noactvie-btn all-css">已出貨</p>
+                  <p class="noactvie-btn all-css">已取消</p>
+                </div>
+                <div v-if="showRefundData">
+                  <el-table
+                    :data="showRefundData"
+                    style="width: 100%">
+                    <el-table-column
+                      prop="redemptionNo"
+                      label="兌換編號"
+                      width="150">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.redemptionNo}}</span>
+                          <span v-else>{{props.row.redemptionNo}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="orderCreateDate"
+                      label="訂單建立日期"
+                      width="180">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.orderCreateDate}}</span>
+                          <span v-else>{{props.row.orderCreateDate}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="memberAccount"
+                      label="會員帳號"
+                      width="100">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.memberAccount}}</span>
+                          <span v-else>{{props.row.memberAccount}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="productName"
+                      label="商品名稱"
+                      width="225">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.productName}}</span>
+                          <span v-else>{{props.row.productName}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="exchangePrice"
+                      label="兌換價格"
+                      width="160">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.exchangePrice}}</span>
+                          <span v-else>{{props.row.exchangePrice}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="state"
+                      label="狀態"
+                      width="85">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '待處理'" class="orange-css">{{props.row.state}}</span>
+                          <span v-else-if="props.row.state === '已出貨'" class="green-css">{{props.row.state}}</span>
+                          <span v-else-if="props.row.state === '已取消'" class="pink-css">{{props.row.state}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="advancedSetting"
+                      label="進階設定"
+                      width="80">
+                      <template slot-scope="props">
+                        <div @click="refundDataModal(props.row)">
+                          <img src="../assets/pc/setting.png" class="setting-img">
+                        </div>
+                      </template>
+                    </el-table-column>
+                  </el-table>
                 </div>
               </div>
-              <div v-if="showData">
-                <el-table
-                  :data="showData"
-                  style="width: 94%">
-                  <el-table-column
-                    prop="exchangeCreationTime"
-                    label="兌換建立時間"
-                    width="180">
-                  </el-table-column>
-                  <el-table-column
-                    prop="exchangeNumber"
-                    label="兌換編號"
-                    width="180">
-                  </el-table-column>
-                  <el-table-column
-                    prop="exchangeSubtotal"
-                    label="兌換小計(PK)">
-                  </el-table-column>
-                  <el-table-column
-                    prop="typeofCoupon"
-                    label="優惠券種類">
-                  </el-table-column>
-                  <el-table-column
-                    prop="discountPoint"
-                    label="優惠點數(PK)">
-                  </el-table-column>
-                  <el-table-column
-                    prop="gameName"
-                    label="扣除遊戲名稱">
-                  </el-table-column>
-                  <el-table-column
-                    prop="gameCurrency"
-                    label="扣除遊戲幣">
-                  </el-table-column>
-                  <el-table-column
-                    prop="totalConversion"
-                    label="兌換合計(PK)">
-                  </el-table-column>
-                </el-table>
-              </div>
               <div id="selectId" class="pagi-block">
-                <p class="pagi-text1">顯示{{total_page}}頁 每頁顯示</p>
-                <el-select v-model="page_size" placeholder="Select">
+                <p class="pagi-text1">顯示{{refund_tot_page}}頁 每頁顯示</p>
+                <el-select v-model="refund_size" placeholder="Select">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -1072,13 +614,14 @@
                 <p class="pagi-text2">項記錄</p>
                 <el-pagination
                   background
-                  :page-size="page_size"
+                  :page-size="refund_size"
                   :pager-count="11"
                   layout="prev, pager, next"
-                  :total="tableData.length"
-                  @current-change="handleCurrentChange">
+                  :total="refundData.length"
+                  @current-change="handleRefundChange">
                 </el-pagination>
               </div>
+              <newRefundModal v-if="showNewRefundModal" :show="showNewRefundModal" :send-data="tograndChild" @close="showNewRefundModal = false" />
             </div>
           </div>
         </div>
@@ -1125,7 +668,6 @@ export default {
       value2: '',
       value3: '',
       value4: '',
-      page_size: 20,
       coupon_size: 20,
       convert_size: 20,
       refund_size: 20,
@@ -1139,8 +681,8 @@ export default {
       currentRefundPage: 1,
       pagiCalculate: 0,
       showData: null,
-      showRefundData: null,
-      showCouponData: null,
+      showRefundData: [],
+      showOrderData: [],
       showConvertHistoryData: null,
       options: [{
         value: '5',
@@ -1328,126 +870,72 @@ export default {
       excPrice: 0,
       noofItem: 0,
       showSearch: false,
-      couponData: [{
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '即將上線'
+      orderData: [{
+        redemptionNo: 'sdvrn454bfdln33',
+        returnAppTime: '2024-01-26 18:59',
+        memberAcc: 'blackpink321',
+        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
+        returnQty: '3',
+        receiveGood: '否',
+        requestRefund: '500,000',
+        trackingNo: '15645161326',
+        state: '等待審核',
+        detail: '開啟'
       }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '即將上線'
+        redemptionNo: 'berointgrty,954',
+        returnAppTime: '2024-01-26 18:59',
+        memberAcc: 'titan666',
+        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
+        returnQty: '1',
+        receiveGood: '是',
+        requestRefund: '100,000',
+        trackingNo: '65164651512',
+        state: '等待審核',
+        detail: '開啟'
       }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '即將上線'
+        redemptionNo: 'sdvrn454bfdln33',
+        returnAppTime: '2024-01-26 18:59',
+        memberAcc: 'blackpink321',
+        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
+        returnQty: '3',
+        receiveGood: '是',
+        requestRefund: '500,000',
+        trackingNo: '15645161326',
+        state: '等待取件',
+        detail: '開啟'
       }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '失效'
+        redemptionNo: 'berointgrty,954',
+        returnAppTime: '2024-01-26 18:59',
+        memberAcc: 'titan666',
+        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
+        returnQty: '1',
+        receiveGood: '是',
+        requestRefund: '100,000',
+        trackingNo: '65164651512',
+        state: '已拒絕',
+        detail: '開啟'
       }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '失效'
+        redemptionNo: 'berointgrty,954',
+        returnAppTime: '2024-01-26 18:59',
+        memberAcc: 'titan666',
+        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
+        returnQty: '1',
+        receiveGood: '是',
+        requestRefund: '100,000',
+        trackingNo: '65164651512',
+        state: '結束',
+        detail: '開啟'
       }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '上線中'
-      }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '即將上線'
-      }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '即將上線'
-      }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '即將上線'
-      }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '即將上線'
-      }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '即將上線'
-      }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '即將上線'
-      }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '即將上線'
-      }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '即將上線'
-      }, {
-        couponCreationTime: '2024-01-26 18:59',
-        offerType: '免運券',
-        lowConsumption: '50,000',
-        startPeriod: '2024.03.18,00:00',
-        deadline: '2024.04.18,23:59',
-        offerContent: '免運費',
-        state: '即將上線'
+        redemptionNo: 'berointgrty,954',
+        returnAppTime: '2024-01-26 18:59',
+        memberAcc: 'titan666',
+        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
+        returnQty: '1',
+        receiveGood: '否',
+        requestRefund: '100,000',
+        trackingNo: '65164651512',
+        state: '結束',
+        detail: '開啟'
       }],
       convertData: [{
         memberAccount: 'berointgrty,954',
@@ -1642,49 +1130,37 @@ export default {
       expire1Time: '',
       deleteItem: false,
       refundData: [{
-        redemptionNo: 'sdvrn454bfdln33',
-        returnAppTime: '2024-01-26 18:59',
-        memberAccout: 'blackpink321',
-        returnItem: '商品名稱商品名稱...',
-        returnQty: '3',
-        receiveGoods: '否',
-        requestRefund: '500,000',
-        trackingNo: '15645161326',
-        state: '等待審核',
-        detailInformation: '開啟'
+        redemptionNo: '16513521351313',
+        orderCreateDate: '2024-12-02 23:56:30',
+        memberAccount: 'test01',
+        productName: '山丘藍台灣藍莓5盒裝 單盒淨重 100公克 ×5 盒',
+        exchangePrice: '999,999,999,999',
+        state: '待處理',
+        advancedSetting: ''
       }, {
-        redemptionNo: 'berointgrty,954',
-        returnAppTime: '2024-01-26 18:59',
-        memberAccout: 'titan666',
-        returnItem: '商品名稱商品名稱...',
-        returnQty: '1',
-        receiveGoods: '是',
-        requestRefund: '100,000',
-        trackingNo: '65164651512',
-        state: '結束',
-        detailInformation: '開啟'
+        redemptionNo: '35135135133651',
+        orderCreateDate: '2024-12-02 23:56:30',
+        memberAccount: 'test02',
+        productName: '商品2',
+        exchangePrice: '999,999',
+        state: '待處理',
+        advancedSetting: ''
       }, {
-        redemptionNo: 'berointgrty,954',
-        returnAppTime: '2024-01-26 18:59',
-        memberAccout: 'titan666',
-        returnItem: '商品名稱商品名稱...',
-        returnQty: '1',
-        receiveGoods: '是',
-        requestRefund: '100,000',
-        trackingNo: '65164651512',
-        state: '已拒絕',
-        detailInformation: '開啟'
+        redemptionNo: '13232135213132',
+        orderCreateDate: '2024-12-02 23:56:30',
+        memberAccount: 'test03',
+        productName: '商品3',
+        exchangePrice: '9,999',
+        state: '已出貨',
+        advancedSetting: ''
       }, {
-        redemptionNo: 'sdvrn454bfdln33',
-        returnAppTime: '2024-01-26 18:59',
-        memberAccout: 'blackpink321',
-        returnItem: '商品名稱商品名稱...',
-        returnQty: '3',
-        receiveGoods: '否',
-        requestRefund: '500,000',
-        trackingNo: '15645161326',
-        state: '等待取件',
-        detailInformation: '開啟'
+        redemptionNo: '13232135213132',
+        orderCreateDate: '2024-12-02 23:56:30',
+        memberAccount: 'test04',
+        productName: '商品3',
+        exchangePrice: '9,999',
+        state: '已取消',
+        advancedSetting: ''
       }],
       showNewRefundModal: false,
       tograndChild: {},
@@ -1935,11 +1411,6 @@ export default {
   computed: {
   },
   watch: {
-    page_size() {
-      this.page_size = +this.page_size;
-      this.pagiCalculate = 0;
-      this.showItem()
-    },
     refund_size() {
       this.refund_size = +this.refund_size;
       this.pagiCalculate = 0;
@@ -1948,13 +1419,8 @@ export default {
     coupon_size() {
       this.coupon_size = +this.coupon_size;
       this.pagiCalculate = 0;
-      this.showCouponItem()
+      this.showOrderItem()
     },
-    convert_size() {
-      this.convert_size = +this.convert_size;
-      this.pagiCalculate = 0;
-      this.showConvertHistoryItem()
-    }
   },
   created() {
     if(this.$route.query && this.$route.query.item) {
@@ -1963,19 +1429,11 @@ export default {
   },
   methods: {
     activeTab(val) {
-      if(val === 'currencyManager') {
-        this.eachcondition = 'normal';
-        this.editPrice = '';
-      }
       this.activeMenu = val
-      if(val === 'convertHistory') {
-        this.showConvertHistoryItem()
-      } else if(val === 'couponManager') {
-        this.showCouponItem()
-      } else if(val === 'refundHistory') {
+      if(val === 'refundHistory') {
         this.showReund()
-      } else if(val === 'accounting') {
-        this.showItem()
+      } else if(val === 'orderManager') {
+        this.showOrderItem()
       }
     },
     deleteCate(val) {
@@ -2008,7 +1466,6 @@ export default {
       this.presellTime = this.updateProduct.preTime
       this.checkList = []
       this.checkList.push(this.updateProduct.category)
-      // alert(JSON.stringify(this.updateProduct))
       this.addnewProduct = true
     }, 
     productSetting() {
@@ -2066,43 +1523,15 @@ export default {
     sidebarFunc(val) {
       this.opensidebar = val;
     },
-    handleCurrentChange(val) {
-      this.currentPage = val
-      this.showItem()
-    },
     handleRefundChange(val) {
       this.currentRefundPage = val
       this.showReund()
     },
     handleCouponCurrentChange(val) {
       this.currentCouponPage = val
-      this.showCouponItem()
+      this.showOrderItem()
     },
-    handleConvertCurrentChange(val) {
-      this.currentConvertPage = val
-      this.showConvertHistoryItem()
-    },
-    showItem() {
-      this.total_page = Math.ceil(this.tableData.length/this.page_size);
-      this.showData = []
-      // for(let i = this.pagiCalculate; i < this.tableData.length; i++) {
-      //   if(this.showData.length < this.page_size){
-      //     this.showData.push(this.tableData[i])
-      //     this.pagiCalculate++
-      //   }
-      // }
-      // if(this.tableData.length === this.pagiCalculate) {
-      //   this.pagiCalculate = 0;
-      // }
-
-      const temp = (this.currentPage - 1) * this.page_size;
-      // const temp2 = this.currentPage * this.page_size;
-      this.clonelist = [...this.tableData]
-      const result = this.clonelist.splice(temp, this.page_size)
-       
-      this.showData = result
-    },
-    showReund() {
+    showReund(val) {
       this.refund_tot_page = Math.ceil(this.refundData.length/this.refund_size);
       this.showRefundData = []
 
@@ -2112,23 +1541,14 @@ export default {
        
       this.showRefundData = result
     }, 
-    showCouponItem() {
-      this.coupon_tot_page = Math.ceil(this.couponData.length/this.coupon_size);
-      this.showCouponData = []
+    showOrderItem(val) {
+      this.coupon_tot_page = Math.ceil(this.orderData.length/this.coupon_size);
+      this.showOrderData = []
       const temp = (this.currentCouponPage - 1) * this.coupon_size;
-      this.clonelist = [...this.couponData]
+      this.clonelist = [...this.orderData]
       const result = this.clonelist.splice(temp, this.coupon_size)
        
-      this.showCouponData = result
-    },
-    showConvertHistoryItem() {
-      this.convert_tot_page = Math.ceil(this.convertData.length/this.convert_size);
-      this.showConvertHistoryData = []
-      const temp = (this.currentConvertPage - 1) * this.convert_size;
-      this.clonelist = [...this.convertData]
-      const result = this.clonelist.splice(temp, this.convert_size)
-       
-      this.showConvertHistoryData = result
+      this.showOrderData = result
     },
     afterSearch() {
       this.showSearch = true
@@ -2245,7 +1665,7 @@ export default {
   }
 }
 
-#accountingId, #couponManagerId, #convertHistoryId, #currencyManagerId, #refundHistoryId, #categoryProductId {
+#refundHistoryId, #accountingId, #orderManagerId, #categoryProductId {
   .el-table {
     background: #191A21;
     border-radius: 12px;
@@ -2384,28 +1804,7 @@ export default {
     }
   }
 }
-#convertHistoryId {
-  .el-input__inner {
-    width: 349px;
-    height: 30px;
-    background: #34344C;
-    border-radius: 10px;
-    border: 1px solid #34344C;
-    font-weight: 400;
-    font-size: 16px;
-    color: #CECECE;
-  }
-  .el-table th.el-table_1_column_5>.cell, .el-table th.el-table_1_column_6>.cell {
-    text-align: right;
-  }
-  .el-table th.el-table_1_column_7>.cell, .el-table td.el-table_1_column_7>.cell {
-    text-align: center;
-  }
-  .el-table td.el-table__cell div {
-    color: #E4E4E4;
-  }
-}
-#refundHistoryId {
+#refundHistoryId, #orderManagerId {
   .el-table {
     background: #191A21;
     border-radius: 12px;
@@ -2434,6 +1833,10 @@ export default {
   .el-table th.el-table__cell>.cell, .el-table td.el-table__cell div {
     padding-top: 3px;
     padding-bottom: 3px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 #categoryProductId {
@@ -2492,42 +1895,6 @@ export default {
     background: #34344C;
     border-radius: 10px;
     border: 1px solid #34344C;
-  }
-}
-#currencyManagerId {
-  .el-table {
-    padding: 2rem 1rem 2rem 1rem;
-    margin-top: 0;
-    margin-left: 63px;
-  }
-  .el-table .active-row {
-    td.el-table__cell div {
-      color: #EDFF21;
-    }
-  }
-  .el-table th.el-table_1_column_3>.cell, .el-table td.el-table_1_column_3>.cell {
-    text-align: right;
-  }
-  .el-table th.el-table_1_column_4>.cell, .el-table td.el-table_1_column_4>.cell {
-    text-align: center;
-  }
-  .el-table td.el-table__cell, .el-table th.el-table__cell>.cell {
-    padding-bottom: 5px;
-  }
-  .el-table td.el-table__cell div {
-    color: #E4E4E4;
-  }
-  .el-table tr:last-child td.el-table__cell div {
-    color: #F35A90;
-  }
-  .el-input__inner {
-    width: 196px;
-    height: 30px;
-    border: 1px solid #34344C;
-
-    background: #343449;
-    border-radius: 6px;
-    padding: 0 7px;
   }
 }
 #rightId {
@@ -2696,28 +2063,16 @@ export default {
     }
     .rightall-content {
       margin: 32px auto 32px;
-      .test-text, .equal-text, .coupon-text, .convertHistory-text {
+      .test-text, .test1-text {
         font-weight: 700;
         font-size: 24px;
         color: #FFF;
         margin-left: 63px;
         margin-bottom: 0;
       }
-      .banAds {
-        width: 100%;
-        height: calc(100vh - 64px);
-      }
-      .equal-text {
-        margin-bottom: 120px;
-      }
-      .coupon-text {
-        margin-bottom: 100px;
-      }
-      .convertHistory-text {
-        margin-bottom: 60px;
-      }
-      .banner-block {
-
+      .test1-text {
+        width: 94%;
+        margin: 0px auto 70px;
       }
       .content-category, .content1-category {
         padding-top: 40px;
@@ -3078,25 +2433,6 @@ export default {
         min-width: 202px;
         max-width: 202px;
       }
-      .advert-count, .advert1-count, .advert2-count {
-        font-weight: 400;
-        font-size: 16px;
-        color: #FFF;
-        margin-top: 33px;
-      }
-      .advert1-count {
-        margin-top: 100px;
-      }
-      .advert2-count {
-        margin-top: 0;
-      }
-      .banner-block1 {
-        margin-left: 63px;
-        margin-top: 1rem;
-      }
-      .banner-block2, .pad-left {
-        margin-left: 63px;
-      }
       .each-row {
         display: flex;
         .each-block {
@@ -3423,7 +2759,8 @@ export default {
         }
       }
       .date-picker1-css {
-        margin-top: 30px;
+        width: 94%;
+        margin: 30px auto 0;
       }
       .date-picker2-css {
         margin-left: 0px;
@@ -3433,7 +2770,12 @@ export default {
         background: #191A21;
         border-radius: 12px;
         padding: 1rem 1rem 2rem 2rem;
-        margin: 29px auto 34px;
+        margin: 30px auto 34px;
+        .ordercss {
+          color: #FFF;
+          font-size: 14px;
+          font-weight: 700;
+        }
         .btn-block, .btncate-block {
           display: flex;
           align-items: center;
@@ -3508,7 +2850,8 @@ export default {
         }
       }
       .manager-css {
-        margin-left: 63px;
+        width: 94%;
+        margin: 30px auto 0;
         display: flex;
         align-items: center;
         .search-css, .search-css1 {
@@ -3558,22 +2901,29 @@ export default {
           width: 196px;
         }
       }
-      .orange-css, .pink-css, .green-css, .white-css, .blue-css, .yellow-css, .yell1ow-css {
+      .orange-css, .pink-css, .green-css, .white-css, .blue-css, .yellow-css, .gray-css, .org-css, .org1-css {
         font-weight: 400;
         font-size: 16px;
-        color: #FF8A65;
+        color: #FFA451;
       }
       .pink-css {
         color: #F35A90 !important;
       }
+      .org-css {
+        color: #FF8A65;
+      }
+      .org1-css {
+        color: #FFF965;
+      }
+      .gray-css {
+        color: #677198;
+        font-size: 16px;
+      }
       .green-css {
-        color: #2BDE73;
+        color: #35E818;
       }
       .yellow-css {
         color: #F0FF40 !important;
-      }
-      .yell1ow-css {
-        color: #FFF965 !important;
       }
       .white-css {
         color: #E4E4E4 !important;
@@ -3595,7 +2945,7 @@ export default {
         font-size: 16px;
         text-align: center;
         margin-bottom: 0;
-        margin-left: 1rem;
+        margin-left: 5px;
         cursor: pointer;
 
         color: #00A0FF;
