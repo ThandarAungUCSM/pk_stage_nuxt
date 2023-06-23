@@ -63,11 +63,11 @@
         </div>
         <div class="each-pk">
           <p class="each-title">兌換管理</p>
-          <div class="each-row" @click="gotoPage('refundHistory')">
+          <div class="each-row" @click="gotoPage('orderManager')">
             <img src="../assets/pc/delisystem.png" class="deli-img">
             <span class="dollar-text">訂單&出貨管理</span>
           </div>
-          <div class="each-row" @click="gotoPage('orderManager')">
+          <div class="each-row" @click="gotoPage('refundHistory')">
             <img src="../assets/pc/close-vector.png" class="sideopen-img">
             <span class="dollar-text">會員退貨申請</span>
           </div>
