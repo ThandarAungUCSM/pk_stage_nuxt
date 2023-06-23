@@ -336,15 +336,156 @@
                 </el-date-picker>
               </div>
               <div class="btnNtable">
+                <p class="ordercss">訂單</p>
                 <div class="btn-block">
                   <p class="active-btn all-css">全部</p>
                   <p class="noactvie-btn all-css">待處理</p>
                   <p class="noactvie-btn all-css">已出貨</p>
                   <p class="noactvie-btn all-css">已取消</p>
                 </div>
-                <div v-if="showOrderData.length > 0">
+                <div v-if="showOrderData">
                   <el-table
                     :data="showOrderData"
+                    style="width: 100%">
+                    <el-table-column
+                      prop="redemptionNo"
+                      label="兌換編號"
+                      width="150">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.redemptionNo}}</span>
+                          <span v-else>{{props.row.redemptionNo}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="orderCreateDate"
+                      label="訂單建立日期"
+                      width="180">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.orderCreateDate}}</span>
+                          <span v-else>{{props.row.orderCreateDate}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="memberAccount"
+                      label="會員帳號"
+                      width="100">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.memberAccount}}</span>
+                          <span v-else>{{props.row.memberAccount}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="productName"
+                      label="商品名稱"
+                      width="225">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.productName}}</span>
+                          <span v-else>{{props.row.productName}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="exchangePrice"
+                      label="兌換價格"
+                      width="160">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.exchangePrice}}</span>
+                          <span v-else>{{props.row.exchangePrice}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="state"
+                      label="狀態"
+                      width="85">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '待處理'" class="orange-css">{{props.row.state}}</span>
+                          <span v-else-if="props.row.state === '已出貨'" class="green-css">{{props.row.state}}</span>
+                          <span v-else-if="props.row.state === '已取消'" class="pink-css">{{props.row.state}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="advancedSetting"
+                      label="進階設定"
+                      width="80">
+                      <template slot-scope="props">
+                        <div @click="refundDataModal(props.row)">
+                          <img src="../assets/pc/setting.png" class="setting-img">
+                        </div>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
+              </div>
+              <div id="selectId" class="pagi-block">
+                <p class="pagi-text1">顯示{{refund_tot_page}}頁 每頁顯示</p>
+                <el-select v-model="refund_size" placeholder="Select">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <p class="pagi-text2">項記錄</p>
+                <el-pagination
+                  background
+                  :page-size="refund_size"
+                  :pager-count="11"
+                  layout="prev, pager, next"
+                  :total="refundData.length"
+                  @current-change="handleRefundChange">
+                </el-pagination>
+              </div>
+              <newRefundModal v-if="showNewRefundModal" :show="showNewRefundModal" :send-data="tograndChild" @close="showNewRefundModal = false" />
+            </div>
+          </div>
+        </div>
+        <div v-else-if="activeMenu !== '' && activeMenu === 'refundHistory'" id="refundHistoryId">
+          <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
+            <div class="rightall-content" >
+              <p class="test1-text">
+                會員退貨申請
+              </p>
+              <div class="manager-css">
+                <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
+                <div @click="afterSearch">
+                  <p class="btn-css">查詢</p>
+                </div>
+              </div>
+              <div id="childConHisId" class="date-picker1-css">
+                <el-date-picker
+                  v-model="value3"
+                  type="date"
+                  placeholder="開始時間">
+                </el-date-picker>
+                <p class="symbol-css">~</p>
+                <el-date-picker
+                  v-model="value4"
+                  type="date"
+                  placeholder="結束時間">
+                </el-date-picker>
+              </div>
+              <div class="btnNtable">
+                <div class="btn-block">
+                  <p class="active-btn all-css">全部</p>
+                  <p class="noactvie-btn all-css">待處理</p>
+                  <p class="noactvie-btn all-css">已出貨</p>
+                  <p class="noactvie-btn all-css">已取消</p>
+                </div>
+                <div v-if="showRefundData">
+                  <el-table
+                    :data="showRefundData"
                     style="width: 100%">
                     <el-table-column
                       prop="redemptionNo"
@@ -484,150 +625,8 @@
             </div>
           </div>
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'refundHistory'" id="refundHistoryId">
-          <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
-            <div class="rightall-content" >
-              <p class="test1-text">
-                訂單&出貨管理
-              </p>
-              <div class="manager-css">
-                <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
-                <div @click="afterSearch">
-                  <p class="btn-css">查詢</p>
-                </div>
-              </div>
-              <div id="childConHisId" class="date-picker1-css">
-                <el-date-picker
-                  v-model="value3"
-                  type="date"
-                  placeholder="開始時間">
-                </el-date-picker>
-                <p class="symbol-css">~</p>
-                <el-date-picker
-                  v-model="value4"
-                  type="date"
-                  placeholder="結束時間">
-                </el-date-picker>
-              </div>
-              <div class="btnNtable">
-                <p class="ordercss">訂單</p>
-                <div class="btn-block">
-                  <p class="active-btn all-css">全部</p>
-                  <p class="noactvie-btn all-css">待處理</p>
-                  <p class="noactvie-btn all-css">已出貨</p>
-                  <p class="noactvie-btn all-css">已取消</p>
-                </div>
-                <div v-if="showRefundData">
-                  <el-table
-                    :data="showRefundData"
-                    style="width: 100%">
-                    <el-table-column
-                      prop="redemptionNo"
-                      label="兌換編號"
-                      width="150">
-                      <template slot-scope="props">
-                        <div>
-                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.redemptionNo}}</span>
-                          <span v-else>{{props.row.redemptionNo}}</span>
-                        </div>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-                      prop="orderCreateDate"
-                      label="訂單建立日期"
-                      width="180">
-                      <template slot-scope="props">
-                        <div>
-                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.orderCreateDate}}</span>
-                          <span v-else>{{props.row.orderCreateDate}}</span>
-                        </div>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-                      prop="memberAccount"
-                      label="會員帳號"
-                      width="100">
-                      <template slot-scope="props">
-                        <div>
-                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.memberAccount}}</span>
-                          <span v-else>{{props.row.memberAccount}}</span>
-                        </div>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-                      prop="productName"
-                      label="商品名稱"
-                      width="225">
-                      <template slot-scope="props">
-                        <div>
-                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.productName}}</span>
-                          <span v-else>{{props.row.productName}}</span>
-                        </div>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-                      prop="exchangePrice"
-                      label="兌換價格"
-                      width="160">
-                      <template slot-scope="props">
-                        <div>
-                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.exchangePrice}}</span>
-                          <span v-else>{{props.row.exchangePrice}}</span>
-                        </div>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-                      prop="state"
-                      label="狀態"
-                      width="85">
-                      <template slot-scope="props">
-                        <div>
-                          <span v-if="props.row.state === '待處理'" class="orange-css">{{props.row.state}}</span>
-                          <span v-else-if="props.row.state === '已出貨'" class="green-css">{{props.row.state}}</span>
-                          <span v-else-if="props.row.state === '已取消'" class="pink-css">{{props.row.state}}</span>
-                        </div>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-                      prop="advancedSetting"
-                      label="進階設定"
-                      width="80">
-                      <template slot-scope="props">
-                        <div @click="refundDataModal(props.row)">
-                          <img src="../assets/pc/setting.png" class="setting-img">
-                        </div>
-                      </template>
-                    </el-table-column>
-                  </el-table>
-                </div>
-              </div>
-              <div id="selectId" class="pagi-block">
-                <p class="pagi-text1">顯示{{refund_tot_page}}頁 每頁顯示</p>
-                <el-select v-model="refund_size" placeholder="Select">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-                <p class="pagi-text2">項記錄</p>
-                <el-pagination
-                  background
-                  :page-size="refund_size"
-                  :pager-count="11"
-                  layout="prev, pager, next"
-                  :total="refundData.length"
-                  @current-change="handleRefundChange">
-                </el-pagination>
-              </div>
-              <newRefundModal v-if="showNewRefundModal" :show="showNewRefundModal" :send-data="tograndChild" @close="showNewRefundModal = false" />
-            </div>
-          </div>
-        </div>
         <div v-else class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
           <!-- <div class="page-content" >
-            
           </div> -->
         </div>
       </div>
@@ -870,73 +869,6 @@ export default {
       excPrice: 0,
       noofItem: 0,
       showSearch: false,
-      orderData: [{
-        redemptionNo: 'sdvrn454bfdln33',
-        returnAppTime: '2024-01-26 18:59',
-        memberAcc: 'blackpink321',
-        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
-        returnQty: '3',
-        receiveGood: '否',
-        requestRefund: '500,000',
-        trackingNo: '15645161326',
-        state: '等待審核',
-        detail: '開啟'
-      }, {
-        redemptionNo: 'berointgrty,954',
-        returnAppTime: '2024-01-26 18:59',
-        memberAcc: 'titan666',
-        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
-        returnQty: '1',
-        receiveGood: '是',
-        requestRefund: '100,000',
-        trackingNo: '65164651512',
-        state: '等待審核',
-        detail: '開啟'
-      }, {
-        redemptionNo: 'sdvrn454bfdln33',
-        returnAppTime: '2024-01-26 18:59',
-        memberAcc: 'blackpink321',
-        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
-        returnQty: '3',
-        receiveGood: '是',
-        requestRefund: '500,000',
-        trackingNo: '15645161326',
-        state: '等待取件',
-        detail: '開啟'
-      }, {
-        redemptionNo: 'berointgrty,954',
-        returnAppTime: '2024-01-26 18:59',
-        memberAcc: 'titan666',
-        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
-        returnQty: '1',
-        receiveGood: '是',
-        requestRefund: '100,000',
-        trackingNo: '65164651512',
-        state: '已拒絕',
-        detail: '開啟'
-      }, {
-        redemptionNo: 'berointgrty,954',
-        returnAppTime: '2024-01-26 18:59',
-        memberAcc: 'titan666',
-        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
-        returnQty: '1',
-        receiveGood: '是',
-        requestRefund: '100,000',
-        trackingNo: '65164651512',
-        state: '結束',
-        detail: '開啟'
-      }, {
-        redemptionNo: 'berointgrty,954',
-        returnAppTime: '2024-01-26 18:59',
-        memberAcc: 'titan666',
-        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
-        returnQty: '1',
-        receiveGood: '否',
-        requestRefund: '100,000',
-        trackingNo: '65164651512',
-        state: '結束',
-        detail: '開啟'
-      }],
       convertData: [{
         memberAccount: 'berointgrty,954',
         redemptionNumber: 'sdvrn454bfdln33',
@@ -1129,7 +1061,7 @@ export default {
       live1Time: '', 
       expire1Time: '',
       deleteItem: false,
-      refundData: [{
+      orderData: [{
         redemptionNo: '16513521351313',
         orderCreateDate: '2024-12-02 23:56:30',
         memberAccount: 'test01',
@@ -1161,6 +1093,73 @@ export default {
         exchangePrice: '9,999',
         state: '已取消',
         advancedSetting: ''
+      }],
+      refundData: [{
+        redemptionNo: 'sdvrn454bfdln33',
+        returnAppTime: '2024-01-26 18:59',
+        memberAcc: 'blackpink321',
+        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
+        returnQty: '3',
+        receiveGood: '否',
+        requestRefund: '500,000',
+        trackingNo: '15645161326',
+        state: '等待審核',
+        detail: '開啟'
+      }, {
+        redemptionNo: 'berointgrty,954',
+        returnAppTime: '2024-01-26 18:59',
+        memberAcc: 'titan666',
+        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
+        returnQty: '1',
+        receiveGood: '是',
+        requestRefund: '100,000',
+        trackingNo: '65164651512',
+        state: '等待審核',
+        detail: '開啟'
+      }, {
+        redemptionNo: 'sdvrn454bfdln33',
+        returnAppTime: '2024-01-26 18:59',
+        memberAcc: 'blackpink321',
+        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
+        returnQty: '3',
+        receiveGood: '是',
+        requestRefund: '500,000',
+        trackingNo: '15645161326',
+        state: '等待取件',
+        detail: '開啟'
+      }, {
+        redemptionNo: 'berointgrty,954',
+        returnAppTime: '2024-01-26 18:59',
+        memberAcc: 'titan666',
+        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
+        returnQty: '1',
+        receiveGood: '是',
+        requestRefund: '100,000',
+        trackingNo: '65164651512',
+        state: '已拒絕',
+        detail: '開啟'
+      }, {
+        redemptionNo: 'berointgrty,954',
+        returnAppTime: '2024-01-26 18:59',
+        memberAcc: 'titan666',
+        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
+        returnQty: '1',
+        receiveGood: '是',
+        requestRefund: '100,000',
+        trackingNo: '65164651512',
+        state: '結束',
+        detail: '開啟'
+      }, {
+        redemptionNo: 'berointgrty,954',
+        returnAppTime: '2024-01-26 18:59',
+        memberAcc: 'titan666',
+        returnItem: 'abcdeljsflkshfkjskdh 商品名稱商品名稱...',
+        returnQty: '1',
+        receiveGood: '否',
+        requestRefund: '100,000',
+        trackingNo: '65164651512',
+        state: '結束',
+        detail: '開啟'
       }],
       showNewRefundModal: false,
       tograndChild: {},
