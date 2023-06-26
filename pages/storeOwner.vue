@@ -593,7 +593,7 @@
                       label="詳細資料"
                       width="80">
                       <template slot-scope="props">
-                        <div @click="refundDataModal(props.row)">
+                        <div @click="refundDataModal1(props.row)">
                           <span class="blue-css">開啟</span>
                         </div>
                       </template>
@@ -1574,6 +1574,9 @@ export default {
       this.sendData = val
       document.body.classList.add('tofix');
       this.showRefundModal = true
+    },
+    refundDataModal1(val) {
+      console.log(val);
     },
     editBlock(val, index) {
       this.editData = val

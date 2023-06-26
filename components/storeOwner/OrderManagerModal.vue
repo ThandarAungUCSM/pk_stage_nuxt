@@ -1,5 +1,5 @@
 <template>
-  <div id="orderManagerId" >
+  <div id="orderManagerModalId" >
     <transition name="modal">
       <div v-if="show" class="modal-mask">
         <div class="modal-wrapper">
@@ -153,7 +153,7 @@ export default {
 }
 </script>
 <style lang="scss">
-#orderManagerId {
+#orderManagerModalId {
   .modal-mask {
     position: fixed;
     z-index: 9998;
