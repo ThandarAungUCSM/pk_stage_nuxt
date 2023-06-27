@@ -65,7 +65,7 @@ export default {
   background-size: cover; 
   position: relative;
   @media screen and (max-width: 768px) {
-    
+    background-image: url('../assets/mobile/login-bg.png');
   }
   .login-child {
     display: flex;
@@ -84,10 +84,9 @@ export default {
     transform: translate(-50%, -50%); 
     padding-top: 76px;
     @media screen and (max-width: 768px) {
-      display: none;
-
       width: 90%;
       margin: -5px auto 0;
+      padding-top: 73px;
     }
   }
   .store-owner-block {
@@ -95,6 +94,9 @@ export default {
     right: 65px;
     bottom: 43px;
     text-align: right;
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
     .txt-store, .txt1-store {
       font-weight: 400;
       font-size: 16px;
@@ -110,6 +112,9 @@ export default {
     font-size: 20px;
     color: #DFDFDF;
     margin-bottom: 60px;
+    @media screen and (max-width: 768px) {
+      margin-bottom: 58px;
+    }
   }
   .accountCss1, .accountCss2 {
     font-weight: 400;
@@ -126,6 +131,11 @@ export default {
     min-height: 53px;
     padding-left: 25px;
     margin: 0 auto;
+    @media screen and (max-width: 768px) {
+      width: 70%;
+      height: 51px;
+      min-height: 51px;
+    }
   }
   .accountCss1:focus, .accountCss2:focus {
     outline: none;
@@ -138,6 +148,10 @@ export default {
   .accountCss2 {
     margin-top: 60px;
     margin-bottom: 96px;
+    @media screen and (max-width: 768px) {
+      margin-top: 58px;
+      margin-bottom: 93px;
+    }
   }
   .btn-div {
     width: 45%;
@@ -158,12 +172,20 @@ export default {
       align-items: center;
       width: 72%;
       margin: 0 auto;
+      @media screen and (max-width: 768px) {
+        height: 62px;
+        width: 100%;
+      }
     }
     .version-css {
       font-weight: 400;
       font-size: 12px;
       color: #FFF;
       margin-top: 28px;
+      @media screen and (max-width: 768px) {
+        margin-top: 33px;
+        margin-bottom: 9px;
+      }
     }
   }
 }

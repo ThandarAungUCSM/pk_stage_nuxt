@@ -3,7 +3,10 @@
     <div v-if="opensidebar" class="sidebar-open" >
       <div class="img-row">
         <img src="../assets/pc/sidebar-close.png" class="clse-img" @click="sidebarFunc">
-        <el-button type="text" @click="open">
+        <el-button class="pc-css" type="text" @click="open">
+          <img src="../assets/pc/sidebar-logout.png" class="logout-img">
+        </el-button>
+        <el-button class="mobile-css" type="text" @click="mobileopen">
           <img src="../assets/pc/sidebar-logout.png" class="logout-img">
         </el-button>
       </div>
@@ -183,6 +186,9 @@ export default {
           message: 'Logout canceled'
         });
       });
+    },
+    mobileopen() {
+      this.$router.push('/login')
     }
   }
 }
@@ -196,6 +202,9 @@ export default {
   min-height: 100vh;
   max-height: 100vh;
   position: fixed;
+  @media screen and (max-width: 768px) {
+    background: transparent;
+  }
 }
 .sidebar-open {
   width: 319px;
@@ -208,10 +217,28 @@ export default {
     margin-top: 36px;
     margin-bottom: 100px;
     padding: 0;
+    @media screen and (max-width: 768px) {
+      margin-top: 5px;
+      margin-bottom: 71px;
+    }
     .clse-img {
       width: 24px;
       height: 24px;
       cursor: pointer;
+      @media screen and (max-width: 768px) {
+        visibility: hidden;
+      }
+    }
+    .pc-css {
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+    .mobile-css {
+      display: none;
+      @media screen and (max-width: 768px) {
+        display: block;
+      }
     }
     .logout-img {
       width: 24px;
@@ -233,12 +260,18 @@ export default {
       font-weight: 400;
       font-size: 16px;
       color: #FFF;
+      @media screen and (max-width: 768px) {
+        margin-bottom: 10px;
+      }
     }
     .each-row {
       display: flex;
       align-items: center;
       margin-bottom: 1.3rem;
       cursor: pointer;
+      @media screen and (max-width: 768px) {
+        margin-bottom: 1rem;
+      }
       .sideopen-img {
         width: 24px;
         height: 24px;
@@ -271,6 +304,9 @@ export default {
     flex-direction: column;
     align-items: center;
     margin-top: 120px;
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
     .activeMenu, .noactive {
       display: flex;
       align-items: center;
