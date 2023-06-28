@@ -6,9 +6,9 @@
 
     <div class="content-css">
       <div class="content-block">
-        <SidebarCom :opensidebar="opensidebar" :activedata="activeData" @sidebarFunc="sidebarFunc" @activeTab="activeTab" />
+        <SidebarCom :opensidebar="opensidebar" :activedata="activeData" @sidebarFunc="sidebarFunc" @activeTab="activeTab" @activemTab="activemTab" />
         <refundModal v-if="showRefundModal" :show="showRefundModal" :send-data="sendData" @close="openRefund" />
-        <div v-if="activeMenu !== '' && activeMenu === 'currencyManager'" id="currencyManagerId">
+        <div v-if="activeMenu !== '' && activeMenu === 'currencyManager'" :class="opensidebar ? 'm1-currency' : 'm-currency'" id="currencyManagerId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
               <p class="equal-text">
@@ -17,6 +17,7 @@
               <div class="row-css">
                 <div v-if="currencyData" class="left-content">
                   <el-table
+                    class="for-pc"
                     :data="currencyData"
                     style="width: 85%"
                     :row-class-name="tableRowClassName">
@@ -46,6 +47,42 @@
                       prop="edit"
                       label="編輯"
                       width="132">
+                      <template slot-scope="props">
+                        <div @click="editBlock(props.row, props.$index)"><img src="../assets/pc/btn-edit.png" class="edit-img"></div>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                  <el-table
+                    class="for-mobile"
+                    :data="currencyData"
+                    style="width: 97%"
+                    :row-class-name="tableRowClassName">
+                    <el-table-column
+                      prop="gameName"
+                      label="遊戲名稱"
+                      width="72">
+                    </el-table-column>
+                    <el-table-column
+                      prop="currency"
+                      label="幣別"
+                      width="93">
+                      <template slot-scope="props">
+                        <span class="">PK/{{ props.row.currency }}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="use"
+                      label="採用"
+                      width="135">
+                      <template slot-scope="props">
+                        <span v-if="props.row.state && props.row.state === 'pause'" class="">{{ props.row.use }}(停用)</span>
+                        <span v-else class="">{{ props.row.use }}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="edit"
+                      label="編輯"
+                      width="47">
                       <template slot-scope="props">
                         <div @click="editBlock(props.row, props.$index)"><img src="../assets/pc/btn-edit.png" class="edit-img"></div>
                       </template>
@@ -1804,6 +1841,23 @@ export default {
         this.showItem()
       }
     },
+    activemTab(val) {
+      if(val === 'currencyManager') {
+        this.eachcondition = 'normal';
+        this.editPrice = '';
+      }
+      this.activeMenu = val
+      if(val === 'convertHistory') {
+        this.showConvertHistoryItem()
+      } else if(val === 'couponManager') {
+        this.showCouponItem()
+      } else if(val === 'refundHistory') {
+        this.showReund()
+      } else if(val === 'accounting') {
+        this.showItem()
+      }
+      this.opensidebar = !this.opensidebar;
+    },
     deleteCate(val) {
       this.$confirm('確定要移除該項目嗎？', 'Warning', {
         confirmButtonText: '是',
@@ -2094,6 +2148,9 @@ export default {
     font-weight: 400 !important;
     font-size: 16px;
     color: #808080;
+    @media screen and (max-width: 768px) {
+      font-size: 12px;
+    }
   }
   // .el-table .cell {
   //   font-weight: 400;
@@ -2105,7 +2162,9 @@ export default {
     font-size: 1rem;
     color: #FFF;
     line-height: 30px;
-
+    @media screen and (max-width: 768px) {
+      font-size: 14px;
+    }
     // text-align: center; //coupon
   }
   .el-table th.el-table__cell div {
@@ -2223,6 +2282,9 @@ export default {
   }
   .el-table td.el-table__cell div {
     color: #E4E4E4;
+    @media screen and (max-width: 768px) {
+      font-size: 14px;
+    }
   }
 }
 #refundHistoryId {
@@ -2319,6 +2381,11 @@ export default {
     padding: 2rem 1rem 2rem 1rem;
     margin-top: 0;
     margin-left: 63px;
+    @media screen and (max-width: 768px) {
+      margin-left: 0;
+      margin: auto;
+      padding: 2rem 5px;
+    }
   }
   .el-table .active-row {
     td.el-table__cell div {
@@ -2486,6 +2553,19 @@ export default {
   .content-block {
     display: flex;
     position: relative;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+    .m-currency {
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
+    }
+    .m1-currency {
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+    }
     .whole-content {
       width: 100%;
       position: absolute;
@@ -2493,6 +2573,11 @@ export default {
       transform: translate(-50%, 0%); 
 
       background: #132235;
+      @media screen and (max-width: 768px) {
+        left: unset;
+        transform: unset;
+        position: unset;
+      }
     }
     .whole1-content {
       width: 100%;
@@ -2508,6 +2593,9 @@ export default {
         font-size: 24px;
         color: #FFF;
         margin-left: 63px;
+        @media screen and (max-width: 768px) {
+          margin-left: 0;
+        }
       }
       .banAds {
         width: 100%;
@@ -2515,6 +2603,11 @@ export default {
       }
       .equal-text {
         margin-bottom: 120px;
+        @media screen and (max-width: 768px) {
+          text-align: center;
+          margin-bottom: 90px;
+          font-size: 20px;
+        }
       }
       .coupon-text {
         margin-bottom: 100px;
@@ -3037,17 +3130,46 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        @media screen and (max-width: 768px) {
+          width: 100%;
+          flex-direction: column;
+          justify-content: center;
+          position: relative;
+        }
         .left-content {
           width: 65%;
+          @media screen and (max-width: 768px) {
+            width: 98%;
+          }
+          .for-pc {
+            @media screen and (max-width: 768px) {
+              display: none;
+            }
+          }
+          .for-mobile {
+            display: none;
+            @media screen and (max-width: 768px) {
+              display: block;
+            }
+          }
         }
         .right-content {
           width: 33%;
+          @media screen and (max-width: 768px) {
+            width: 100%;
+          }
         }
         .showcss {
           visibility: visible;
+          @media screen and (max-width: 768px) {
+            position: absolute;
+          }
         }
         .hidecss {
           visibility: hidden;
+          @media screen and (max-width: 768px) {
+            display: none;
+          }
         }
         .right-div {
           width: 360px;
@@ -3055,6 +3177,9 @@ export default {
           background: #191A21;
           border-radius: 12px;
           padding: 1rem 1rem 1rem 3rem;
+          @media screen and (max-width: 768px) {
+            margin: auto;
+          }
           .close-img {
             width: 18px;
             height: 18px;
@@ -3465,6 +3590,9 @@ export default {
     }
     .openfalse {
       padding-left: 109px;
+      @media screen and (max-width: 768px) {
+        padding-left: 0;
+      }
     }
   }
 }

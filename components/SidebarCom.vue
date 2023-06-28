@@ -1,5 +1,5 @@
 <template>
-  <div class="when-component">
+  <div :class="opensidebar ? 'when1-component' : 'when-component'">
     <div v-if="opensidebar" class="sidebar-open" >
       <div class="img-row">
         <img src="../assets/pc/sidebar-close.png" class="clse-img" @click="sidebarFunc">
@@ -11,45 +11,90 @@
         </el-button>
       </div>
       <div v-if="activedata === 'admin'">
-        <div class="pk-admin">
-          <p class="pk-title">PK 管理後台 Admin</p>
+        <div class="for-pc">
+          <div class="pk-admin">
+            <p class="pk-title">PK 管理後台 Admin</p>
+          </div>
+          <div class="each-pk">
+            <p class="each-title">平台管理</p>
+            <div class="each-row" @click="gotoPage('currencyManager')">
+              <img src="../assets/pc/close-dollar.png" class="sideopen-img">
+              <span class="dollar-text">幣值比率管理</span>
+            </div>
+            <div class="each-row" @click="gotoPage('bannerAdvertise')">
+              <img src="../assets/pc/close-manager.png" class="sideopen-img">
+              <span class="dollar-text">橫幅廣告設定</span>
+            </div>
+            <div class="each-row" @click="gotoPage('categoryProduct')">
+              <img src="../assets/pc/close-cart.png" class="sideopen-img">
+              <span class="dollar-text">上架商品管理</span>
+            </div>
+            <div class="each-row" @click="gotoPage('couponManager')">
+              <img src="../assets/pc/close-coupon.png" class="sideopen-img">
+              <span class="dollar-text">優惠券設定</span>
+            </div>
+          </div>
+          <div class="each-pk">
+            <p class="each-title">會員管理</p>
+            <div class="each-row" @click="gotoPage('membershipManager')">
+              <img src="../assets/pc/close-info.png" class="sideopen-img">
+              <span class="dollar-text">會員資料與連動遊戲</span>
+            </div>
+            <div class="each-row" @click="gotoPage('convertHistory')">
+              <img src="../assets/pc/close-receipt.png" class="sideopen-img">
+              <span class="dollar-text">會員兌換記錄查詢</span>
+            </div>
+            <div class="each-row" @click="gotoPage('refundHistory')">
+              <img src="../assets/pc/close-vector.png" class="sideopen-img">
+              <span class="dollar-text">會員退貨審核管理</span>
+            </div>
+            <div class="each-row" @click="gotoPage('accounting')">
+              <img src="../assets/pc/close-document.png" class="sideopen-img">
+              <span class="dollar-text">對帳資料</span>
+            </div>
+          </div>
         </div>
-        <div class="each-pk">
-          <p class="each-title">平台管理</p>
-          <div class="each-row" @click="gotoPage('currencyManager')">
-            <img src="../assets/pc/close-dollar.png" class="sideopen-img">
-            <span class="dollar-text">幣值比率管理</span>
+        <div class="for-mobile">
+          <div class="pk-admin">
+            <p class="pk-title">PK 管理後台 Admin</p>
           </div>
-          <div class="each-row" @click="gotoPage('bannerAdvertise')">
-            <img src="../assets/pc/close-manager.png" class="sideopen-img">
-            <span class="dollar-text">橫幅廣告設定</span>
+          <div class="each-pk">
+            <p class="each-title">平台管理</p>
+            <div class="each-row" @click="gotomPage('currencyManager')">
+              <img src="../assets/pc/close-dollar.png" class="sideopen-img">
+              <span class="dollar-text">幣值比率管理</span>
+            </div>
+            <div class="each-row" @click="gotomPage('bannerAdvertise')">
+              <img src="../assets/pc/close-manager.png" class="sideopen-img">
+              <span class="dollar-text">橫幅廣告設定</span>
+            </div>
+            <div class="each-row" @click="gotomPage('categoryProduct')">
+              <img src="../assets/pc/close-cart.png" class="sideopen-img">
+              <span class="dollar-text">上架商品管理</span>
+            </div>
+            <div class="each-row" @click="gotomPage('couponManager')">
+              <img src="../assets/pc/close-coupon.png" class="sideopen-img">
+              <span class="dollar-text">優惠券設定</span>
+            </div>
           </div>
-          <div class="each-row" @click="gotoPage('categoryProduct')">
-            <img src="../assets/pc/close-cart.png" class="sideopen-img">
-            <span class="dollar-text">上架商品管理</span>
-          </div>
-          <div class="each-row" @click="gotoPage('couponManager')">
-            <img src="../assets/pc/close-coupon.png" class="sideopen-img">
-            <span class="dollar-text">優惠券設定</span>
-          </div>
-        </div>
-        <div class="each-pk">
-          <p class="each-title">會員管理</p>
-          <div class="each-row" @click="gotoPage('membershipManager')">
-            <img src="../assets/pc/close-info.png" class="sideopen-img">
-            <span class="dollar-text">會員資料與連動遊戲</span>
-          </div>
-          <div class="each-row" @click="gotoPage('convertHistory')">
-            <img src="../assets/pc/close-receipt.png" class="sideopen-img">
-            <span class="dollar-text">會員兌換記錄查詢</span>
-          </div>
-          <div class="each-row" @click="gotoPage('refundHistory')">
-            <img src="../assets/pc/close-vector.png" class="sideopen-img">
-            <span class="dollar-text">會員退貨審核管理</span>
-          </div>
-          <div class="each-row" @click="gotoPage('accounting')">
-            <img src="../assets/pc/close-document.png" class="sideopen-img">
-            <span class="dollar-text">對帳資料</span>
+          <div class="each-pk">
+            <p class="each-title">會員管理</p>
+            <div class="each-row" @click="gotomPage('membershipManager')">
+              <img src="../assets/pc/close-info.png" class="sideopen-img">
+              <span class="dollar-text">會員資料與連動遊戲</span>
+            </div>
+            <div class="each-row" @click="gotomPage('convertHistory')">
+              <img src="../assets/pc/close-receipt.png" class="sideopen-img">
+              <span class="dollar-text">會員兌換記錄查詢</span>
+            </div>
+            <div class="each-row" @click="gotomPage('refundHistory')">
+              <img src="../assets/pc/close-vector.png" class="sideopen-img">
+              <span class="dollar-text">會員退貨審核管理</span>
+            </div>
+            <div class="each-row" @click="gotomPage('accounting')">
+              <img src="../assets/pc/close-document.png" class="sideopen-img">
+              <span class="dollar-text">對帳資料</span>
+            </div>
           </div>
         </div>
       </div>
@@ -154,19 +199,25 @@ export default {
   props: ['opensidebar', 'activedata'],
   data() {
     return {
-      sidebarcondition: true,
+      sidebarcondition: false,
       isActive: ''
     }
   },
   methods: {
     sidebarFunc() {
-      this.sidebarcondition = !this.sidebarcondition;
+      // this.sidebarcondition = !this.sidebarcondition;
+      this.sidebarcondition = !this.opensidebar;
+      // alert('hi ' + this.opensidebar)
       this.$emit("sidebarFunc", this.sidebarcondition)
     },
     gotoPage(val) {
       this.isActive = val
       this.$emit('activeTab', val)
       // this.$router.push(val)
+    }, 
+    gotomPage(val) {
+      this.isActive = val
+      this.$emit('activemTab', val)
     }, 
     open() {
       this.$confirm('確定要登出嗎？', 'Warning', {
@@ -194,7 +245,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.when-component {
+.when-component, .when1-component {
   background: #191A21;
   height: 100vh;
   z-index: 10;
@@ -202,6 +253,8 @@ export default {
   min-height: 100vh;
   max-height: 100vh;
   position: fixed;
+}
+.when-component {
   @media screen and (max-width: 768px) {
     background: transparent;
   }
@@ -244,6 +297,17 @@ export default {
       width: 24px;
       height: 24px;
       cursor: pointer;
+    }
+  }
+  .for-pc {
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+  .for-mobile {
+    display: none;
+    @media screen and (max-width: 768px) {
+      display: block;
     }
   }
   .pk-admin {
