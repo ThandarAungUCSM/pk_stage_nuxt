@@ -14,115 +14,117 @@
               <p class="equal-text">
                 遊戲幣值比率
               </p>
-              <div class="row-css">
-                <div v-if="currencyData" class="left-content">
-                  <el-table
-                    class="for-pc"
-                    :data="currencyData"
-                    style="width: 85%"
-                    :row-class-name="tableRowClassName">
-                    <el-table-column
-                      prop="gameName"
-                      label="遊戲名稱"
-                      width="190">
-                    </el-table-column>
-                    <el-table-column
-                      prop="currency"
-                      label="幣別"
-                      width="190">
-                      <template slot-scope="props">
-                        <span class="">PK/{{ props.row.currency }}</span>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-                      prop="use"
-                      label="採用"
-                      width="190">
-                      <template slot-scope="props">
-                        <span v-if="props.row.state && props.row.state === 'pause'" class="">{{ props.row.use }}(停用)</span>
-                        <span v-else class="">{{ props.row.use }}</span>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-                      prop="edit"
-                      label="編輯"
-                      width="132">
-                      <template slot-scope="props">
-                        <div @click="editBlock(props.row, props.$index)"><img src="../assets/pc/btn-edit.png" class="edit-img"></div>
-                      </template>
-                    </el-table-column>
-                  </el-table>
-                  <el-table
-                    class="for-mobile"
-                    :data="currencyData"
-                    style="width: 97%"
-                    :row-class-name="tableRowClassName">
-                    <el-table-column
-                      prop="gameName"
-                      label="遊戲名稱"
-                      width="72">
-                    </el-table-column>
-                    <el-table-column
-                      prop="currency"
-                      label="幣別"
-                      width="93">
-                      <template slot-scope="props">
-                        <span class="">PK/{{ props.row.currency }}</span>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-                      prop="use"
-                      label="採用"
-                      width="135">
-                      <template slot-scope="props">
-                        <span v-if="props.row.state && props.row.state === 'pause'" class="">{{ props.row.use }}(停用)</span>
-                        <span v-else class="">{{ props.row.use }}</span>
-                      </template>
-                    </el-table-column>
-                    <el-table-column
-                      prop="edit"
-                      label="編輯"
-                      width="47">
-                      <template slot-scope="props">
-                        <div @click="editBlock(props.row, props.$index)"><img src="../assets/pc/btn-edit.png" class="edit-img"></div>
-                      </template>
-                    </el-table-column>
-                  </el-table>
-                </div>
-                <div id="rightId" class="right-content" :class="(eachcondition && (eachcondition === 'disabled' || eachcondition === 'active')) ? 'showcss' : 'hidecss'">
-                  <div class="right-div">
-                    <div class="right-close">
-                      <img src="../assets/pc/modal-close.png" class="close-img" @click="closeBlock">
-                    </div>
-                    <div class="block-css">
-                      <p class="name-lable">遊戲名稱</p>
-                      <el-input v-model="editName" placeholder="楓之谷" class="name-css"></el-input>
-                    </div>
-                    <div class="block-css">
-                      <p class="name-lable">幣別</p>
-                      <el-input v-model="editCurrency" placeholder="楓幣" class="name-css"></el-input>
-                    </div>
-                    <div class="block-css">
-                      <p class="name1-lable">採用</p>
-                      <div v-if="!priceEdit" class="manager1-css">
-                        <p v-if="editData.state && editData.state === 'pause'" class="price-css">{{editData.use}}(停用)</p>
-                        <p v-else class="price-css">{{editData.use}}</p>
-                        <div v-if="!(editData.state)" @click="updateFunc">
-                          <p class="price-btn">修改</p>
+              <div class="pad-css">
+                <div class="row-css">
+                  <div v-if="currencyData" class="left-content">
+                    <el-table
+                      class="for-pc"
+                      :data="currencyData"
+                      style="width: 85%"
+                      :row-class-name="tableRowClassName">
+                      <el-table-column
+                        prop="gameName"
+                        label="遊戲名稱"
+                        width="190">
+                      </el-table-column>
+                      <el-table-column
+                        prop="currency"
+                        label="幣別"
+                        width="190">
+                        <template slot-scope="props">
+                          <span class="">PK/{{ props.row.currency }}</span>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        prop="use"
+                        label="採用"
+                        width="190">
+                        <template slot-scope="props">
+                          <span v-if="props.row.state && props.row.state === 'pause'" class="">{{ props.row.use }}(停用)</span>
+                          <span v-else class="">{{ props.row.use }}</span>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        prop="edit"
+                        label="編輯"
+                        width="132">
+                        <template slot-scope="props">
+                          <div @click="editBlock(props.row, props.$index)"><img src="../assets/pc/btn-edit.png" class="edit-img"></div>
+                        </template>
+                      </el-table-column>
+                    </el-table>
+                    <el-table
+                      class="for-mobile"
+                      :data="currencyData"
+                      style="width: 97%"
+                      :row-class-name="tableRowClassName">
+                      <el-table-column
+                        prop="gameName"
+                        label="遊戲名稱"
+                        width="72">
+                      </el-table-column>
+                      <el-table-column
+                        prop="currency"
+                        label="幣別"
+                        width="93">
+                        <template slot-scope="props">
+                          <span class="">PK/{{ props.row.currency }}</span>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        prop="use"
+                        label="採用"
+                        width="135">
+                        <template slot-scope="props">
+                          <span v-if="props.row.state && props.row.state === 'pause'" class="">{{ props.row.use }}(停用)</span>
+                          <span v-else class="">{{ props.row.use }}</span>
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        prop="edit"
+                        label="編輯"
+                        width="47">
+                        <template slot-scope="props">
+                          <div @click="editBlock(props.row, props.$index)"><img src="../assets/pc/btn-edit.png" class="edit-img"></div>
+                        </template>
+                      </el-table-column>
+                    </el-table>
+                  </div>
+                  <div id="rightId" class="right-content" :class="(eachcondition && (eachcondition === 'disabled' || eachcondition === 'active')) ? 'showcss' : 'hidecss'">
+                    <div class="right-div">
+                      <div class="right-close">
+                        <img src="../assets/pc/modal-close.png" class="close-img" @click="closeBlock">
+                      </div>
+                      <div class="block-css">
+                        <p class="name-lable">遊戲名稱</p>
+                        <el-input v-model="editName" placeholder="楓之谷" class="name-css"></el-input>
+                      </div>
+                      <div class="block-css">
+                        <p class="name-lable">幣別</p>
+                        <el-input v-model="editCurrency" placeholder="楓幣" class="name-css"></el-input>
+                      </div>
+                      <div class="block-css">
+                        <p class="name1-lable">採用</p>
+                        <div v-if="!priceEdit" class="manager1-css">
+                          <p v-if="editData.state && editData.state === 'pause'" class="price-css">{{editData.use}}(停用)</p>
+                          <p v-else class="price-css">{{editData.use}}</p>
+                          <div v-if="!(editData.state)" @click="updateFunc">
+                            <p class="price-btn">修改</p>
+                          </div>
+                        </div>
+                        <div v-else class="manager2-css">
+                          <el-input v-model="editPrice" pattern="[0-9]{4} [0-9]{3} [0-9]{3}" oninput="this.value = this.value.replace(/^0/, ''); this.value = this.value.replace(/[^0-9.]/g, ''); " placeholder="" onfocus="this.placeholder=''" class="name1-css"></el-input>
+                          <div class="price-btn" @click="exitEditMode(1)">完成</div>
                         </div>
                       </div>
-                      <div v-else class="manager2-css">
-                        <el-input v-model="editPrice" pattern="[0-9]{4} [0-9]{3} [0-9]{3}" oninput="this.value = this.value.replace(/^0/, ''); this.value = this.value.replace(/[^0-9.]/g, ''); " placeholder="" onfocus="this.placeholder=''" class="name1-css"></el-input>
-                        <div class="price-btn" @click="exitEditMode(1)">完成</div>
+                      <div class="red-block">
+                        <p v-if="eachcondition === 'active'" class="disabled-btn">停用</p>
+                        <p v-else-if="eachcondition === 'disabled'"  class="disabled-btn">解除停用</p>
+                        <p class="removed-btn">從官網移除</p>
                       </div>
-                    </div>
-                    <div class="red-block">
-                      <p v-if="eachcondition === 'active'" class="disabled-btn">停用</p>
-                      <p v-else-if="eachcondition === 'disabled'"  class="disabled-btn">解除停用</p>
-                      <p class="removed-btn">從官網移除</p>
-                    </div>
-                    <div class="btn-block">
-                      <p class="store-btn" @click="closeBlock">儲存</p>
+                      <div class="btn-block">
+                        <p class="store-btn" @click="closeBlock">儲存</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -130,102 +132,106 @@
             </div>
           </div>
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'bannerAdvertise'">
-          <div class="whole1-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'bannerAdvertise'" :class="opensidebar ? 'm1-currency' : 'm-currency'">
+          <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
               <div v-if="!showAds1" class="row-content">
                 <div class="left-block">
                   <p class="equal-text">
                     橫幅廣告管理
                   </p>
-                  <div class="manager-css">
-                    <div class="advertise-btn" @click="toShow">
-                      <img src="../assets/pc/plus.png" class="plus-img">
-                      <p class="manager-btn">新增</p>
+                  <div class="pad-css">
+                    <div class="manager-css">
+                      <div class="advertise-btn" @click="toShow">
+                        <img src="../assets/pc/plus.png" class="plus-img">
+                        <p class="manager-btn">新增</p>
+                      </div>
                     </div>
-                  </div>
-                  <div class="pad-left">
-                    <p class="advert-count">商城廣告(0/10)</p>
-                    <p class="advert1-count">遊戲廣告(0/10)</p>
+                    <div class="pad-left">
+                      <p class="advert-count">商城廣告(0/10)</p>
+                      <p class="advert1-count">遊戲廣告(0/10)</p>
+                    </div>
                   </div>
                 </div>
 
-                <div id="adsId" :class="opensidebar ? 'center-block' : 'center1-block'" :style="showCenter === true ? 'visibility: visible;' : 'visibility: hidden;'">
-                  <div class="first-row">
-                    <img src="../assets/pc/modal-close.png" class="close-ads" style="visibility: hidden;">
-                    <div class="btn-ads">
-                      <p :class="adsTab === 1 ? 'mall-ads' : 'game-ads'" @click="activeAdsTab(1)">商城廣告</p>
-                      <p :class="adsTab === 2 ? 'mall-ads' : 'game-ads'" @click="activeAdsTab(2)">遊戲廣告</p>
+                <div :class="showCenter === true ? 'show1css' : 'hide1css'">
+                  <div id="adsId" :class="opensidebar ? 'center-block' : 'center1-block'">
+                    <div class="first-row">
+                      <img src="../assets/pc/modal-close.png" class="close-ads" style="visibility: hidden;">
+                      <div class="btn-ads">
+                        <p :class="adsTab === 1 ? 'mall-ads' : 'game-ads'" @click="activeAdsTab(1)">商城廣告</p>
+                        <p :class="adsTab === 2 ? 'mall-ads' : 'game-ads'" @click="activeAdsTab(2)">遊戲廣告</p>
+                      </div>
+                      <img src="../assets/pc/modal-close.png" class="close-ads" @click="toHide">
                     </div>
-                    <img src="../assets/pc/modal-close.png" class="close-ads" @click="toHide">
-                  </div>
-                  <div v-show="adsTab === 1" class="">
-                    <div class="sec-row">
-                      <el-upload
-                        :on-change="handleChange"
-                        action="#"
-                        list-type="picture-card"
-                        :auto-upload="false"
-                        >
-                          <img v-if="imgUpload === ''" src="../assets/pc/img-img.png" class="img-icon">
-                      </el-upload>
-                    </div>
-                    <div class="third-row">
+                    <div v-show="adsTab === 1" class="">
+                      <div class="sec-row">
+                        <el-upload
+                          :on-change="handleChange"
+                          action="#"
+                          list-type="picture-card"
+                          :auto-upload="false"
+                          >
+                            <img v-if="imgUpload === ''" src="../assets/pc/img-img.png" class="img-icon">
+                        </el-upload>
+                      </div>
+                      <div class="third-row">
 
-                      <div class="block-css">
-                        <p class="name-lable">廣告生效時間</p>
-                        <!-- <el-input v-model="liveTime" placeholder="楓之谷" class="name-css"></el-input> -->
-                        <el-date-picker
-                          v-model="liveTime"
-                          type="datetime"
-                          placeholder="">
-                        </el-date-picker>
-                      </div>
-                      <div class="block-css">
-                        <p class="name-lable">廣告失效時間</p>
-                        <!-- <el-input v-model="expireTime" placeholder="楓幣" class="name-css"></el-input> -->
-                        <el-date-picker
-                          v-model="expireTime"
-                          type="datetime"
-                          placeholder="">
-                        </el-date-picker>
+                        <div class="block-css">
+                          <p class="name-lable">廣告生效時間</p>
+                          <!-- <el-input v-model="liveTime" placeholder="楓之谷" class="name-css"></el-input> -->
+                          <el-date-picker
+                            v-model="liveTime"
+                            type="datetime"
+                            placeholder="">
+                          </el-date-picker>
+                        </div>
+                        <div class="block-css">
+                          <p class="name-lable">廣告失效時間</p>
+                          <!-- <el-input v-model="expireTime" placeholder="楓幣" class="name-css"></el-input> -->
+                          <el-date-picker
+                            v-model="expireTime"
+                            type="datetime"
+                            placeholder="">
+                          </el-date-picker>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div v-show="adsTab === 2" class="">
-                    <div class="sec1-row">
-                      <el-upload
-                        :on-change="handle1Change"
-                        action="#"
-                        list-type="picture-card"
-                        :auto-upload="false"
-                        >
-                          <img v-if="img1Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
-                      </el-upload>
-                    </div>
-                    <div class="third1-row">
+                    <div v-show="adsTab === 2" class="">
+                      <div class="sec1-row">
+                        <el-upload
+                          :on-change="handle1Change"
+                          action="#"
+                          list-type="picture-card"
+                          :auto-upload="false"
+                          >
+                            <img v-if="img1Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
+                        </el-upload>
+                      </div>
+                      <div class="third1-row">
 
-                      <div class="block-css">
-                        <p class="name-lable">廣告生效時間</p>
-                        <!-- <el-input v-model="live1Time" placeholder="楓之谷" class="name-css"></el-input> -->
-                        <el-date-picker
-                          v-model="live1Time"
-                          type="datetime"
-                          placeholder="">
-                        </el-date-picker>
-                      </div>
-                      <div class="block-css">
-                        <p class="name-lable">廣告失效時間</p>
-                        <!-- <el-input v-model="expire1Time" placeholder="楓幣" class="name-css"></el-input> -->
-                        <el-date-picker
-                          v-model="expire1Time"
-                          type="datetime"
-                          placeholder="">
-                        </el-date-picker>
+                        <div class="block-css">
+                          <p class="name-lable">廣告生效時間</p>
+                          <!-- <el-input v-model="live1Time" placeholder="楓之谷" class="name-css"></el-input> -->
+                          <el-date-picker
+                            v-model="live1Time"
+                            type="datetime"
+                            placeholder="">
+                          </el-date-picker>
+                        </div>
+                        <div class="block-css">
+                          <p class="name-lable">廣告失效時間</p>
+                          <!-- <el-input v-model="expire1Time" placeholder="楓幣" class="name-css"></el-input> -->
+                          <el-date-picker
+                            v-model="expire1Time"
+                            type="datetime"
+                            placeholder="">
+                          </el-date-picker>
+                        </div>
                       </div>
                     </div>
+                    <div class="ads-btn" @click="showAdvertise(1)">sss-完成</div>
                   </div>
-                  <div class="ads-btn" @click="showAdvertise(1)">完成</div>
                 </div>
               </div>
               <div v-else-if="!deleteItem" class="row-content">
@@ -233,46 +239,48 @@
                   <p class="equal-text">
                     橫幅廣告管理
                   </p>
-                  <div class="manager-css">
-                    <div class="advertise-btn1" @click="toShow">
-                      <img src="../assets/pc/plus.png" class="plus-img">
-                      <p class="manager-btn">新增</p>
+                  <div class="pad-css">
+                    <div class="manager-css">
+                      <div class="advertise-btn1" @click="toShow">
+                        <img src="../assets/pc/plus.png" class="plus-img">
+                        <p class="manager-btn">新增</p>
+                      </div>
+                      <div class="advertise-btn" @click="toDeleteBtn">
+                        <img src="../assets/pc/trash.png" class="trash-img">
+                        <p class="manager-btn">移除</p>
+                      </div>
                     </div>
-                    <div class="advertise-btn" @click="toDeleteBtn">
-                      <img src="../assets/pc/trash.png" class="trash-img">
-                      <p class="manager-btn">移除</p>
-                    </div>
-                  </div>
-                  <div class="banner-block2">
-                    <p class="advert-count">商城廣告(2/10)</p>
-                    <div>
-                      <div class="each-row">
-                        <div class="each-block">
-                          <p class="status-condition1">online</p>
-                          <img src="../assets/pc/fake-banner1.png" class="fake-img">
-                          <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
-                        </div>
-                        <div class="each-block">
-                          <p class="status-condition2">已排程</p>
-                          <img src="../assets/pc/fake-banner1.png" class="fake-img">
-                          <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                    <div class="banner-block2">
+                      <p class="advert-count">商城廣告(2/10)</p>
+                      <div>
+                        <div class="each-row">
+                          <div class="each-block">
+                            <p class="status-condition1">online</p>
+                            <img src="../assets/pc/fake-banner1.png" class="fake-img">
+                            <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                          </div>
+                          <div class="each-block">
+                            <p class="status-condition2">已排程</p>
+                            <img src="../assets/pc/fake-banner1.png" class="fake-img">
+                            <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="banner-block1">
-                    <p class="advert2-count">遊戲廣告(2/10)</p>
-                    <div>
-                      <div class="each-row">
-                        <div class="each-block">
-                          <p class="status-condition1">online</p>
-                          <img src="../assets/pc/fake-banner2.png" class="fake1-img">
-                          <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
-                        </div>
-                        <div class="each-block">
-                          <p class="status-condition1">online</p>
-                          <img src="../assets/pc/fake-banner2.png" class="fake1-img">
-                          <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                    <div class="banner-block1">
+                      <p class="advert2-count">遊戲廣告(2/10)</p>
+                      <div>
+                        <div class="each-row">
+                          <div class="each-block">
+                            <p class="status-condition1">online</p>
+                            <img src="../assets/pc/fake-banner2.png" class="fake1-img">
+                            <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                          </div>
+                          <div class="each-block">
+                            <p class="status-condition1">online</p>
+                            <img src="../assets/pc/fake-banner2.png" class="fake1-img">
+                            <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -284,50 +292,52 @@
                   <p class="equal-text">
                     橫幅廣告管理
                   </p>
-                  <div class="manager-css">
-                    <div class="advertise-btn1" @click="toShow">
-                      <img src="../assets/pc/plus.png" class="plus-img">
-                      <p class="manager-btn">新增</p>
+                  <div class="pad-css">
+                    <div class="manager-css">
+                      <div class="advertise-btn1" @click="toShow">
+                        <img src="../assets/pc/plus.png" class="plus-img">
+                        <p class="manager-btn">新增</p>
+                      </div>
+                      <div class="advertise-btn" :class="deleteItem ? 'activeDelete' : ''" @click="toDeleteBtn">
+                        <img src="../assets/pc/trash.png" class="trash-img">
+                        <p class="manager-btn">移除</p>
+                      </div>
                     </div>
-                    <div class="advertise-btn" :class="deleteItem ? 'activeDelete' : ''" @click="toDeleteBtn">
-                      <img src="../assets/pc/trash.png" class="trash-img">
-                      <p class="manager-btn">移除</p>
-                    </div>
-                  </div>
-                  <div class="banner-block2">
-                    <p class="advert-count">商城廣告(2/10)</p>
-                    <div>
-                      <div class="each-row">
-                        <div class="each-block">
-                          <p class="status-condition1">online</p>
-                          <img src="../assets/pc/fake-banner1.png" class="fake-img">
-                          <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
-                          <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
-                        </div>
-                        <div class="each-block">
-                          <p class="status-condition2">已排程</p>
-                          <img src="../assets/pc/fake-banner1.png" class="fake-img">
-                          <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
-                          <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                    <div class="banner-block2">
+                      <p class="advert-count">商城廣告(2/10)</p>
+                      <div>
+                        <div class="each-row">
+                          <div class="each-block">
+                            <p class="status-condition1">online</p>
+                            <img src="../assets/pc/fake-banner1.png" class="fake-img">
+                            <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
+                            <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                          </div>
+                          <div class="each-block">
+                            <p class="status-condition2">已排程</p>
+                            <img src="../assets/pc/fake-banner1.png" class="fake-img">
+                            <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
+                            <p class="date-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="banner-block1">
-                    <p class="advert2-count">遊戲廣告(2/10)</p>
-                    <div>
-                      <div class="each-row">
-                        <div class="each-block">
-                          <p class="status-condition1">online</p>
-                          <img src="../assets/pc/fake-banner2.png" class="fake1-img">
-                          <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
-                          <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
-                        </div>
-                        <div class="each-block">
-                          <p class="status-condition1">online</p>
-                          <img src="../assets/pc/fake-banner2.png" class="fake1-img">
-                          <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
-                          <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                    <div class="banner-block1">
+                      <p class="advert2-count">遊戲廣告(2/10)</p>
+                      <div>
+                        <div class="each-row">
+                          <div class="each-block">
+                            <p class="status-condition1">online</p>
+                            <img src="../assets/pc/fake-banner2.png" class="fake1-img">
+                            <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
+                            <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                          </div>
+                          <div class="each-block">
+                            <p class="status-condition1">online</p>
+                            <img src="../assets/pc/fake-banner2.png" class="fake1-img">
+                            <img src="../assets/pc/remove-img.png" class="remove-img" @click="toDelete()">
+                            <p class="date1-time">2023 / 02 /01 18:00~2023 / 03 /01 00:00</p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -724,77 +734,79 @@
               <p class="equal-text">
                 會員資料查詢
               </p>
-              <div class="manager-css">
-                <el-input v-model="searchInput" placeholder="請輸入會員帳號" class="search-css"></el-input>
-                <div @click="afterSearch">
-                  <p class="btn-css">查詢</p>
-                </div>
-              </div>
-
-              <div v-if="showSearch" class="" >
-                <p class="basic-info1">基本資料</p>
-                <div class="each-black-block">
-                  <div class="head-div">
-                    <p class="head-css">帳號</p>
-                    <p class="head-css">會員姓名</p>
-                    <p class="head-css">性別</p>
-                    <p class="head-css">生日</p>
-                    <p class="head-css">手機</p>
-                    <p class="long-headcss">EMAIL</p>
-                    <p class="long-headcss">註冊時間</p>
-                  </div>
-                  <div class="td-div">
-                    <p class="td-css">uukk5566</p>
-                    <p class="td-css">麥克</p>
-                    <p class="td-css">男生</p>
-                    <p class="td-css">1987-06-24</p>
-                    <p class="td-css">09-12345678</p>
-                    <p class="long-tdcss">example@gmail.com</p>
-                    <p class="long-tdcss">2024-01-26 18:59:59</p>
-                  </div>
-                  <div class="head-div">
-                    <p class="head1-css">地址</p>
-                    <p class="head2-css">連動遊戲數量</p>
-                    <p class="head2-css">總計持有PK幣</p>
-                    <p class="head2-css">狀態</p>
-                  </div>
-                  <div class="td-div">
-                    <p class="td1-css">新北市五股區中正路一段187號</p>
-                    <p class="td2-css">3</p>
-                    <p class="td2-css">66,600</p>
-                    <p class="td2-css">正常</p>
+              <div class="pad-css">
+                <div class="manager-css">
+                  <el-input v-model="searchInput" placeholder="請輸入會員帳號" class="search-css"></el-input>
+                  <div @click="afterSearch">
+                    <p class="btn-css">查詢</p>
                   </div>
                 </div>
 
-                <p class="basic-info2">已連動的遊戲</p>
-                <div class="each-black-block">
-                  <div class="head-div">
-                    <p class="head-css">遊戲名稱</p>
-                    <p class="head-css">持有遊戲幣</p>
-                    <p class="head-css">等值PK幣</p>
-                    <p class="headl-css">連動時間</p>
-                    <p class="head-css">狀態</p>
+                <div v-if="showSearch" class="" >
+                  <p class="basic-info1">基本資料</p>
+                  <div class="each-black-block">
+                    <div class="head-div">
+                      <p class="head-css">帳號</p>
+                      <p class="head-css">會員姓名</p>
+                      <p class="head-css">性別</p>
+                      <p class="head-css">生日</p>
+                      <p class="head-css">手機</p>
+                      <p class="long-headcss">EMAIL</p>
+                      <p class="long-headcss">註冊時間</p>
+                    </div>
+                    <div class="td-div">
+                      <p class="td-css">uukk5566</p>
+                      <p class="td-css">麥克</p>
+                      <p class="td-css">男生</p>
+                      <p class="td-css">1987-06-24</p>
+                      <p class="td-css">09-12345678</p>
+                      <p class="long-tdcss">example@gmail.com</p>
+                      <p class="long-tdcss">2024-01-26 18:59:59</p>
+                    </div>
+                    <div class="head-div">
+                      <p class="head1-css">地址</p>
+                      <p class="head2-css">連動遊戲數量</p>
+                      <p class="head2-css">總計持有PK幣</p>
+                      <p class="head2-css">狀態</p>
+                    </div>
+                    <div class="td-div">
+                      <p class="td1-css">新北市五股區中正路一段187號</p>
+                      <p class="td2-css">3</p>
+                      <p class="td2-css">66,600</p>
+                      <p class="td2-css">正常</p>
+                    </div>
                   </div>
-                  <div class="td-div">
-                    <p class="td-css">遊戲A</p>
-                    <p class="td-css">500,000</p>
-                    <p class="td-css">250</p>
-                    <p class="tdl-css">2024.02.02,13:25</p>
-                    <p class="td-css">連動中</p>
-                  </div>
-                  <div class="td-div">
-                    <p class="td-css">遊戲B</p>
-                    <p class="td-css">250,000</p>
-                    <p class="td-css">190</p>
-                    <p class="tdl-css">2024.02.02,13:25</p>
-                    <p class="td-css">連動中</p>
-                  </div>
-                  <div class="td-div">
-                    <p class="td-css">遊戲C</p>
-                    <p class="td-css">1,000</p>
-                    <p class="td-css">2</p>
-                    <p class="tdl-css">2024.02.02,13:25</p>
-                    <p class="tdcolor-css">取消連動 2024.02.02,13:25</p>
+
+                  <p class="basic-info2">已連動的遊戲</p>
+                  <div class="each-black-block">
+                    <div class="head-div">
+                      <p class="head-css">遊戲名稱</p>
+                      <p class="head-css">持有遊戲幣</p>
+                      <p class="head-css">等值PK幣</p>
+                      <p class="headl-css">連動時間</p>
+                      <p class="head-css">狀態</p>
+                    </div>
+                    <div class="td-div">
+                      <p class="td-css">遊戲A</p>
+                      <p class="td-css">500,000</p>
+                      <p class="td-css">250</p>
+                      <p class="tdl-css">2024.02.02,13:25</p>
+                      <p class="td-css">連動中</p>
+                    </div>
+                    <div class="td-div">
+                      <p class="td-css">遊戲B</p>
+                      <p class="td-css">250,000</p>
+                      <p class="td-css">190</p>
+                      <p class="tdl-css">2024.02.02,13:25</p>
+                      <p class="td-css">連動中</p>
+                    </div>
+                    <div class="td-div">
+                      <p class="td-css">遊戲C</p>
+                      <p class="td-css">1,000</p>
+                      <p class="td-css">2</p>
+                      <p class="tdl-css">2024.02.02,13:25</p>
+                      <p class="tdcolor-css">取消連動 2024.02.02,13:25</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2177,6 +2189,11 @@ export default {
     width: 186px;
     height: 30px;
     line-height: 30px;
+    @media screen and (max-width: 768px) {
+      width: 341px;
+      height: 48px;
+      line-height: 48px;
+    }
   }
   .el-input__inner {
     height: 30px;
@@ -2336,6 +2353,9 @@ export default {
     font-weight: 400;
     font-size: 1rem;
     color: #FFF;
+    @media screen and (max-width: 768px) {
+      width: 341px;
+    }
   }
   .el-table_2_column_10 {
     text-align: center;
@@ -2429,6 +2449,16 @@ export default {
     padding-top: 1rem;
     width: 152px;
   }
+  .el-date-editor.el-input {
+    // width: 186px;
+    // height: 30px;
+    // line-height: 30px;
+    @media screen and (max-width: 768px) {
+      width: 341px;
+      height: 48px;
+      line-height: 48px;
+    }
+  }
   .el-checkbox {
     font-weight: 400;
     font-size: 12px !important;
@@ -2457,6 +2487,9 @@ export default {
     background: #34344C;
     border-radius: 6px;
     border: 1px solid #34344c;
+    @media screen and (max-width: 768px) {
+      width: 341px;
+    }
   }
   .el-input__prefix {
     display: none;
@@ -2483,6 +2516,11 @@ export default {
   .el-upload--picture-card {
     border: 1px dashed transparent;
     background: transparent;
+    @media screen and (max-width: 768px) {
+      width: 135px;
+      height: 135px;
+      line-height: 135px;
+    }
   }
   .el-textarea__inner {
     background: #34344C;
@@ -2606,7 +2644,16 @@ export default {
         @media screen and (max-width: 768px) {
           text-align: center;
           margin-bottom: 90px;
+          margin-bottom: 65px; // advertise
           font-size: 20px;
+          z-index: 10px;
+          position: fixed;
+          width: 100%;
+        }
+      }
+      .pad-css {
+        @media screen and (max-width: 768px) {
+          margin-top: 127px;
         }
       }
       .coupon-text {
@@ -2752,6 +2799,10 @@ export default {
             .img-icon {
               width: 64px;
               height: 64px;
+              @media screen and (max-width: 768px) {
+                width: 57px;
+                height: 57px;
+              }
             }
           }
           .photo-flex {
@@ -2961,12 +3012,24 @@ export default {
       .banner-block1 {
         margin-left: 63px;
         margin-top: 1rem;
+        @media screen and (max-width: 768px) {
+          margin-left: 43px;
+          overflow-x: scroll;
+        }
       }
       .banner-block2, .pad-left {
         margin-left: 63px;
+        @media screen and (max-width: 768px) {
+          margin-left: 43px;
+          overflow-x: scroll;
+        }
       }
       .each-row {
         display: flex;
+        @media screen and (max-width: 768px) {
+          width: 100%;
+          max-width: 100%;
+        }
         .each-block {
           margin-right: 10px;
           position: relative;
@@ -3022,6 +3085,26 @@ export default {
       }
       .left-block {
         margin-bottom: 2rem;
+        @media screen and (max-width: 768px) {
+          width: 100%;
+        }
+      }
+      .show1css {
+        visibility: visible;
+        @media screen and (max-width: 768px) {
+          position: absolute;
+          width: 100%;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 11;
+        }
+      }
+      .hide1css {
+        visibility: hidden;
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
       }
       .center-block, .center1-block {
         background: #191A21;
@@ -3055,9 +3138,18 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
+          @media screen and (max-width: 768px) {
+            width: 341px;
+            height: 135px;
+            margin: 30px auto 0;
+          }
           .img-icon {
             width: 64px;
             height: 64px;
+            @media screen and (max-width: 768px) {
+              width: 57px;
+              height: 57px;
+            }
           }
         }
         .sec1-row {
@@ -3069,18 +3161,35 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
+          @media screen and (max-width: 768px) {
+            width: 341px;
+            height: 135px;
+            margin: 30px auto 0;
+          }
           .img-icon {
             width: 64px;
             height: 64px;
+            @media screen and (max-width: 768px) {
+              width: 57px;
+              height: 57px;
+            }
           }
         }
         .third-row {
           width: 393px;
           margin: 90px auto 150px;
+          @media screen and (max-width: 768px) {
+            width: 341px;
+            margin: 20px auto 50px;
+          }
         }
         .third1-row {
           width: 393px;
           margin: 60px auto 40px;
+          @media screen and (max-width: 768px) {
+            width: 341px;
+            margin: 20px auto 50px;
+          }
         }
         .ads-btn {
           width: 200px;
@@ -3125,6 +3234,14 @@ export default {
       }
       .center1-block {
         left: calc(50% - 55px);
+        @media screen and (max-width: 768px) {
+          width: 100%;
+          left: 50%;
+          position: unset;
+          transform: unset;
+          margin-left: 0;
+          padding: 1rem 1rem 1.5rem;
+        }
       }
       .row-css {
         display: flex;
@@ -3227,12 +3344,18 @@ export default {
       }
       .block-css {
         margin-bottom: 1.1rem;
+        @media screen and (max-width: 768px) {
+          margin-bottom: 7px;
+        }
         .name-lable, .name1-lable {
           font-weight: 400;
           font-size: 16px;
           color: #808080;
           margin-bottom: 10px;
           margin-left: 7px;
+          @media screen and (max-width: 768px) {
+            margin-bottom: 5px;
+          }
         }
         .name1-lable {
           margin-left: 0;
@@ -3412,6 +3535,9 @@ export default {
         margin-left: 63px;
         display: flex;
         align-items: center;
+        @media screen and (max-width: 768px) {
+          margin-left: 43px;
+        }
         .search-css, .search-css1 {
           font-weight: 400;
           font-size: 16px;
@@ -3509,6 +3635,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 10; // advertise
         .manager-btn {
           font-weight: 400;
           font-size: 16px;
@@ -3527,6 +3654,10 @@ export default {
       }
       .advertise-btn1 {
         margin-right: 18px;
+      }
+      .plus-img {
+        width: 12px;
+        height: 12px;
       }
       .activeDelete {
         background: #0270B1;
@@ -3551,10 +3682,6 @@ export default {
           cursor: pointer;
   
           color: #FFF
-        }
-        .plus-img {
-          width: 12px;
-          height: 12px;
         }
       }
       .img-setting {
