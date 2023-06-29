@@ -230,7 +230,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="ads-btn" @click="showAdvertise(1)">sss-完成</div>
+                    <div class="ads-btn" @click="showAdvertise(1)">完成</div>
                   </div>
                 </div>
               </div>
@@ -1042,81 +1042,162 @@
               <p class="test-text">
                 對帳資料
               </p>
-              <div class="date-picker-css">
-                <el-date-picker
-                  v-model="value1"
-                  type="date"
-                  placeholder="開始時間">
-                </el-date-picker>
-                <p class="symbol-css">~</p>
-                <el-date-picker
-                  v-model="value2"
-                  type="date"
-                  placeholder="結束時間">
-                </el-date-picker>
-                <div>
-                  <p class="btn-css">查詢</p>
+              <div class="padacc-css">
+                <div class="date-picker-css">
+                  <el-date-picker
+                    v-model="value1"
+                    type="date"
+                    placeholder="開始時間">
+                  </el-date-picker>
+                  <p class="symbol-css">~</p>
+                  <el-date-picker
+                    v-model="value2"
+                    type="date"
+                    placeholder="結束時間">
+                  </el-date-picker>
+                  <div>
+                    <p class="btn-css">查詢</p>
+                  </div>
                 </div>
-              </div>
-              <div v-if="showData">
-                <el-table
-                  :data="showData"
-                  style="width: 94%">
-                  <el-table-column
-                    prop="exchangeCreationTime"
-                    label="兌換建立時間"
-                    width="180">
-                  </el-table-column>
-                  <el-table-column
-                    prop="exchangeNumber"
-                    label="兌換編號"
-                    width="180">
-                  </el-table-column>
-                  <el-table-column
-                    prop="exchangeSubtotal"
-                    label="兌換小計(PK)">
-                  </el-table-column>
-                  <el-table-column
-                    prop="typeofCoupon"
-                    label="優惠券種類">
-                  </el-table-column>
-                  <el-table-column
-                    prop="discountPoint"
-                    label="優惠點數(PK)">
-                  </el-table-column>
-                  <el-table-column
-                    prop="gameName"
-                    label="扣除遊戲名稱">
-                  </el-table-column>
-                  <el-table-column
-                    prop="gameCurrency"
-                    label="扣除遊戲幣">
-                  </el-table-column>
-                  <el-table-column
-                    prop="totalConversion"
-                    label="兌換合計(PK)">
-                  </el-table-column>
-                </el-table>
-              </div>
-              <div id="selectId" class="pagi-block">
-                <p class="pagi-text1">顯示{{total_page}}頁 每頁顯示</p>
-                <el-select v-model="page_size" placeholder="Select">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-                <p class="pagi-text2">項記錄</p>
-                <el-pagination
-                  background
-                  :page-size="page_size"
-                  :pager-count="11"
-                  layout="prev, pager, next"
-                  :total="tableData.length"
-                  @current-change="handleCurrentChange">
-                </el-pagination>
+                <div class="date-pickerm-css">
+                  <el-date-picker
+                    v-model="value1"
+                    type="date"
+                    placeholder="開始時間">
+                  </el-date-picker>
+                  <div class="m-date">
+                    <el-date-picker
+                      v-model="value2"
+                      type="date"
+                      placeholder="結束時間">
+                    </el-date-picker>
+                    <div>
+                      <p class="btn-css">查詢</p>
+                    </div>
+                  </div>
+                </div>
+                <div v-if="showData" class="for-pc">
+                  <el-table
+                    :data="showData"
+                    style="width: 94%">
+                    <el-table-column
+                      prop="exchangeCreationTime"
+                      label="兌換建立時間"
+                      width="180">
+                    </el-table-column>
+                    <el-table-column
+                      prop="exchangeNumber"
+                      label="兌換編號"
+                      width="180">
+                    </el-table-column>
+                    <el-table-column
+                      prop="exchangeSubtotal"
+                      label="兌換小計(PK)"
+                      width="100">
+                    </el-table-column>
+                    <el-table-column
+                      prop="typeofCoupon"
+                      label="優惠券種類"
+                      width="100">
+                    </el-table-column>
+                    <el-table-column
+                      prop="discountPoint"
+                      label="優惠點數(PK)"
+                      width="100">
+                    </el-table-column>
+                    <el-table-column
+                      prop="gameName"
+                      label="扣除遊戲名稱"
+                      width="100">
+                    </el-table-column>
+                    <el-table-column
+                      prop="gameCurrency"
+                      label="扣除遊戲幣"
+                      width="120">
+                    </el-table-column>
+                    <el-table-column
+                      prop="totalConversion"
+                      label="兌換合計(PK)"
+                      width="120">
+                    </el-table-column>
+                  </el-table>
+                </div>
+                <div v-if="showmData" class="foracc-mobile">
+                  <el-table
+                    :data="showmData"
+                    style="width: 94%">
+                    <el-table-column
+                      prop="exchangeCreationTime"
+                      label="兌換建立時間"
+                      width="180">
+                    </el-table-column>
+                    <el-table-column
+                      prop="exchangeNumber"
+                      label="兌換編號"
+                      width="180">
+                    </el-table-column>
+                    <el-table-column
+                      prop="exchangeSubtotal"
+                      label="兌換小計(PK)"
+                      width="100">
+                    </el-table-column>
+                    <el-table-column
+                      prop="typeofCoupon"
+                      label="優惠券種類"
+                      width="100">
+                    </el-table-column>
+                    <el-table-column
+                      prop="discountPoint"
+                      label="優惠點數(PK)"
+                      width="100">
+                    </el-table-column>
+                    <el-table-column
+                      prop="gameName"
+                      label="扣除遊戲名稱"
+                      width="100">
+                    </el-table-column>
+                    <el-table-column
+                      prop="gameCurrency"
+                      label="扣除遊戲幣"
+                      width="120">
+                    </el-table-column>
+                    <el-table-column
+                      prop="totalConversion"
+                      label="兌換合計(PK)"
+                      width="120">
+                    </el-table-column>
+                  </el-table>
+                </div>
+                <div id="selectId" class="pagi-block for-pc">
+                  <p class="pagi-text1">顯示{{total_page}}頁 每頁顯示</p>
+                  <el-select v-model="page_size" placeholder="Select">
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                  <p class="pagi-text2">項記錄</p>
+                  <el-pagination
+                    background
+                    :page-size="page_size"
+                    :pager-count="11"
+                    layout="prev, pager, next"
+                    :total="tableData.length"
+                    @current-change="handleCurrentChange">
+                  </el-pagination>
+                </div>
+                <div id="selectId" class="pagim-block">
+                  <el-pagination
+                    background
+                    :page-size="pagem_size"
+                    :pager-count="11"
+                    layout="prev, pager, next"
+                    :total="tableData.length"
+                    @current-change="handleCurrentmChange">
+                  </el-pagination>
+                </div>
               </div>
             </div>
           </div>
@@ -1163,6 +1244,7 @@ export default {
       value2: '',
       value3: '',
       value4: '',
+      pagem_size: 10,
       page_size: 20,
       coupon_size: 20,
       convert_size: 20,
@@ -1177,6 +1259,7 @@ export default {
       currentRefundPage: 1,
       pagiCalculate: 0,
       showData: null,
+      showmData: null,
       showRefundData: null,
       showCouponData: null,
       showConvertHistoryData: null,
@@ -1804,7 +1887,9 @@ export default {
         {name: '零食飲料', value: 'val5'}, 
         {name: '玩具公仔', value: 'val6'},    
       ],
-      cateArrname: ['所有商品', '新品上市', '限時優惠', '日用雜貨', '零食飲料', '玩具公仔']
+      cateArrname: ['所有商品', '新品上市', '限時優惠', '日用雜貨', '零食飲料', '玩具公仔'],
+      mobile: false,
+      windowWidth: null
     }
   },
   computed: {
@@ -1835,8 +1920,29 @@ export default {
     if(this.$route.query && this.$route.query.item) {
       this.activeMenu = this.$route.query.item
     }
+    this.resizeFunc();
+  },
+  destroyed() {
+    this.resizeFunc();
   },
   methods: {
+    resizeFunc() {
+      if (typeof window !== "undefined") {
+        window.addEventListener("resize", this.checkScreen);
+        this.checkScreen();
+      }
+    },
+    checkScreen() {
+      if (window) {
+        this.windowWidth = window.innerWidth;
+        if (this.windowWidth <= 768) {
+          this.opensidebar = false
+          this.mobile = true;
+        } else {
+          this.mobile = false;
+        }
+      }
+    },
     activeTab(val) {
       if(val === 'currencyManager') {
         this.eachcondition = 'normal';
@@ -1851,6 +1957,7 @@ export default {
         this.showReund()
       } else if(val === 'accounting') {
         this.showItem()
+        this.showmItem()
       }
     },
     activemTab(val) {
@@ -1867,6 +1974,7 @@ export default {
         this.showReund()
       } else if(val === 'accounting') {
         this.showItem()
+        this.showmItem()
       }
       this.opensidebar = !this.opensidebar;
     },
@@ -1951,10 +2059,17 @@ export default {
     },
     sidebarFunc(val) {
       this.opensidebar = val;
+      if(this.windowWidth <= 768) {
+        this.activeMenu = ''
+      }
     },
     handleCurrentChange(val) {
       this.currentPage = val
       this.showItem()
+    },
+    handleCurrentmChange(val) {
+      this.currentPage = val
+      this.showmItem()
     },
     handleRefundChange(val) {
       this.currentRefundPage = val
@@ -1987,6 +2102,14 @@ export default {
       const result = this.clonelist.splice(temp, this.page_size)
        
       this.showData = result
+    },
+    showmItem() {
+      this.total_page = Math.ceil(this.tableData.length/this.pagem_size);
+      this.showmData = []
+      const temp = (this.currentPage - 1) * this.pagem_size;
+      this.clonelist = [...this.tableData]
+      const result = this.clonelist.splice(temp, this.pagem_size)
+      this.showmData = result
     },
     showReund() {
       this.refund_tot_page = Math.ceil(this.refundData.length/this.refund_size);
@@ -2198,6 +2321,9 @@ export default {
   .el-input__inner {
     height: 30px;
     line-height: 30px;
+    @media screen and (max-width: 768px) {
+      width: 150px;
+    }
   }
   .el-input__prefix {
     display: none;
@@ -2333,6 +2459,32 @@ export default {
   .el-table th.el-table__cell>.cell, .el-table td.el-table__cell div {
     padding-top: 3px;
     padding-bottom: 3px;
+  }
+}
+#accountingId {
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+  .el-date-editor.el-input {
+    @media screen and (max-width: 768px) {
+      width: 150px;
+      height: 30px;
+      line-height: 30px;
+    }
+  }
+  .el-table {
+    background: #191A21;
+    border-radius: 12px;
+    padding: 3rem 1rem 2rem 1rem;
+    margin: 29px auto 34px;
+    @media screen and (max-width: 768px) {
+      padding: 5px 1rem 2rem 1rem;
+    }
+  }
+  .el-table th.el-table__cell {
+    @media screen and (max-width: 768px) {
+      height: 60px;
+    }
   }
 }
 #categoryProductId {
@@ -2639,6 +2791,12 @@ export default {
         width: 100%;
         height: calc(100vh - 64px);
       }
+      .test-text {
+        @media screen and (max-width: 768px) {
+          text-align: center;
+          font-size: 20px;
+        }
+      }
       .equal-text {
         margin-bottom: 120px;
         @media screen and (max-width: 768px) {
@@ -2654,6 +2812,11 @@ export default {
       .pad-css {
         @media screen and (max-width: 768px) {
           margin-top: 127px;
+        }
+      }
+      .padacc-css {
+        @media screen and (max-width: 768px) {
+          margin-top: 69px;
         }
       }
       .coupon-text {
@@ -3256,18 +3419,7 @@ export default {
         .left-content {
           width: 65%;
           @media screen and (max-width: 768px) {
-            width: 98%;
-          }
-          .for-pc {
-            @media screen and (max-width: 768px) {
-              display: none;
-            }
-          }
-          .for-mobile {
-            display: none;
-            @media screen and (max-width: 768px) {
-              display: block;
-            }
+            width: 100%;
           }
         }
         .right-content {
@@ -3432,7 +3584,7 @@ export default {
           }
         }
       }
-      .date-picker-css, .date-picker1-css, .date-picker2-css {
+      .date-picker-css, .date-pickerm-css, .date-picker1-css, .date-picker2-css {
         margin-left: 63px;
         display: flex;
         align-items: center;
@@ -3445,11 +3597,35 @@ export default {
           padding: 0 1rem;
         }
       }
+      .date-picker-css {
+        @media screen and (max-width: 768px) {
+          margin-left: 0;
+          display: none;
+        }
+      }
+      .date-pickerm-css {
+        display: none;
+        @media screen and (max-width: 768px) {
+          margin-left: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+        }
+      }
       .date-picker1-css {
         margin-top: 30px;
       }
       .date-picker2-css {
         margin-left: 0px;
+      }
+      .m-date {
+        @media screen and (max-width: 768px) {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          margin-top: 19px;
+          padding-left: 90px;
+        }
       }
       .btnNtable, .catetable-block {
         width: 94%;
@@ -3512,7 +3688,7 @@ export default {
           margin-bottom: 24px;
         }
       }
-      .pagi-block {
+      .pagi-block, .pagim-block {
         display: flex;
         align-items: center;
         // padding-left: 40px;
@@ -3529,6 +3705,15 @@ export default {
         }
         .pagi-text2 {
           margin-left: 5px;
+        }
+      }
+      .pagim-block {
+        display: none;
+        @media screen and (max-width: 768px) {
+          display: flex;
+          justify-content: center;
+          margin-left: 0;
+          margin-bottom: 0;
         }
       }
       .manager-css {
@@ -3626,6 +3811,9 @@ export default {
         cursor: pointer;
 
         color: #00A0FF;
+        @media screen and (max-width: 768px) {
+          width: 72px;
+        }
       }
       .advertise-btn, .advertise-btn1 {
         width: 93px;
@@ -3721,6 +3909,23 @@ export default {
         padding-left: 0;
       }
     }
+  }
+}
+.for-pc {
+  @media screen and (max-width: 768px) {
+    display: none !important;
+  }
+}
+.for-mobile {
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: block;
+  }
+}
+.foracc-mobile {
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: flex;
   }
 }
 .right-close, .right1-close {
