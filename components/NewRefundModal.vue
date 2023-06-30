@@ -161,6 +161,9 @@ export default {
     color: #E9E9E9;
     text-align: center;
     margin-bottom: 48px;
+    @media screen and (max-width: 768px) {
+      padding-top: 30px;
+    }
   }
   .each-row2 {
     display: flex;
@@ -170,6 +173,9 @@ export default {
     bottom: 0;
     position: absolute;
     width: 100%;
+    @media screen and (max-width: 768px) {
+      justify-content: space-evenly;
+    }
   }
   .each1-row {
     display: flex;
@@ -177,6 +183,9 @@ export default {
     justify-content: center;
     width: 90%;
     margin: auto auto 48px;
+    @media screen and (max-width: 768px) {
+      width: 70%;
+    }
   }
   .each2-row {
     width: 90%;
@@ -209,6 +218,9 @@ export default {
     margin-bottom: 0;
     cursor: pointer;
     background: linear-gradient(90deg, #E461EF 0%, #DC2727 100%);
+    @media screen and (max-width: 768px) {
+      width: 148px;
+    }
   }
   .viaRefund1 {
     background: linear-gradient(90deg, #7161EF 0%, #3C27DC 100%);
@@ -220,6 +232,9 @@ export default {
   color: #808080;
   margin-bottom: 0;
   width: 30%;
+  @media screen and (max-width: 768px) {
+    width: 45%;
+  }
 }
 .free-shipping2-coupon {
   color: #E9E9E9;

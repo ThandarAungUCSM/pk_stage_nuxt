@@ -3,7 +3,7 @@
     <transition name="modal">
       <div v-if="show" class="modal-mask">
         <div class="modal-wrapper">
-          <div class="modal-container" :style="((sendData.state === '結束') || (sendData.state === '已拒絕')) ? 'width: 627px' : ''">
+          <div class="modal-container" :class="((sendData.state === '結束') || (sendData.state === '已拒絕')) ? 'equalcss' : 'not-equal'">
             <div class="modal-body">
               <slot name="body">
                 <div class="parent-block">
@@ -284,12 +284,29 @@ export default {
     font-weight: 400;
     font-size: 16px;
     color: #E9E9E0;
+    @media screen and (max-width: 768px) {
+      width: 281px;
+      margin: auto;
+    }
   }
 }
 
 </style>
 <style lang="scss" scoped>
+.equalcss {
+  width: 627px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+}
+.not-equal {
+}
 .parent-block {
+  @media screen and (max-width: 768px) {
+    height: 100%;
+    overflow-y: scroll;
+    padding: 35px 53px 0;
+  }
   .redemption-no {
     font-weight: 700;
     font-size: 16px;
@@ -305,13 +322,23 @@ export default {
   .each-row2 {
     justify-content: space-between;
     margin-top: 78px;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      margin-bottom: 50px;
+    }
   }
   .each-row3 {
     justify-content: center;
     margin-bottom: 0;
+    @media screen and (max-width: 768px) {
+      margin-bottom: 50px;
+    }
   }
   .each-row1 {
     margin-bottom: 8px;
+    @media screen and (max-width: 768px) {
+      margin-top: 2rem;
+    }
   }
   .each1-row {
     display: flex;
@@ -332,9 +359,16 @@ export default {
     justify-content: center;
     margin-bottom: 0;
     cursor: pointer;
+    @media screen and (max-width: 768px) {
+      width: 160px;
+      margin-top: 2rem;
+    }
   }
   .viaRefund1 {
     border: 1px solid #06A2FF;
+    @media screen and (max-width: 768px) {
+      margin-bottom: 50px;
+    }
   }
 }
 .coupon-type, .coupon1-type, .free-shipping-coupon, .free-shipping1-coupon, .free-shipping2-coupon, .free-shipping3-coupon, .free-shipping4-coupon, .free-shipping5-coupon {
@@ -343,6 +377,9 @@ export default {
   color: #808080;
   margin-bottom: 0;
   width: 30%;
+  @media screen and (max-width: 768px) {
+    width: 45%;
+  }
 }
 .coupon1-type {
   margin-bottom: 5px;
@@ -357,6 +394,9 @@ export default {
 .free-shipping2-coupon {
   color: #E9E9E9;
   width: 68%;
+  @media screen and (max-width: 768px) {
+    width: 55%;
+  }
 }
 .free-shipping3-coupon {
   color: #06A2FF;

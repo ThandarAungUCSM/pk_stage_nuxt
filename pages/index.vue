@@ -909,19 +909,22 @@
           </div>
           <convertModal v-if="showConvertModal" :show="showConvertModal" :send-data="sendData" @close="showConvertModal = false" @convertModalData="convertModalData" />
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'refundHistory'" id="refundHistoryId">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'refundHistory'" id="refundHistoryId" class="refund-css">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
               <p class="test-text">
                 退貨審核管理
               </p>
-              <div class="manager-css">
+              <div class="manager-css show-pc">
                 <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
                 <div @click="afterSearch">
                   <p class="btn-css">查詢</p>
                 </div>
               </div>
-              <div id="childConHisId" class="date-picker1-css">
+              <div class="managerefund-css show-mobile">
+                <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
+              </div>
+              <div id="childConHisId" class="date-picker1-css show-pc">
                 <el-date-picker
                   v-model="value3"
                   type="date"
@@ -934,15 +937,32 @@
                   placeholder="結束時間">
                 </el-date-picker>
               </div>
+              <div id="childConHisId" class="date-picker1-css show-1mobile">
+                <el-date-picker
+                  v-model="value3"
+                  type="date"
+                  placeholder="開始時間">
+                </el-date-picker>
+                <div class="m-refund-row">
+                  <el-date-picker
+                    v-model="value4"
+                    type="date"
+                    placeholder="結束時間">
+                  </el-date-picker>
+                  <div @click="afterSearch">
+                    <p class="btn-css">查詢</p>
+                  </div>
+                </div>
+              </div>
               <div class="btnNtable">
-                <div class="btn-block">
+                <div class="btn1-block">
                   <p class="active-btn all-css">全部</p>
                   <p class="noactvie-btn all-css">等待審核</p>
                   <p class="noactvie-btn all-css">結束</p>
                   <p class="noactvie-btn all-css">已拒絕</p>
                   <p class="noactvie-btn all-css">等待取件</p>
                 </div>
-                <div v-if="showRefundData">
+                <div v-if="showRefundData" class="for-pc">
                   <el-table
                     :data="showRefundData"
                     style="width: 100%">
@@ -1011,8 +1031,77 @@
                     </el-table-column>
                   </el-table>
                 </div>
+                <div v-if="showmRefundData" class="foracc-mobile">
+                  <el-table
+                    :data="showmRefundData"
+                    style="width: 100%">
+                    <el-table-column
+                      prop="redemptionNo"
+                      label="兌換編號"
+                      width="180">
+                    </el-table-column>
+                    <el-table-column
+                      prop="returnAppTime"
+                      label="退貨申請時間"
+                      width="180">
+                    </el-table-column>
+                    <el-table-column
+                      prop="memberAccout"
+                      label="會員帳號"
+                      width="180">
+                    </el-table-column>
+                    <el-table-column
+                      prop="returnItem"
+                      label="退貨品項"
+                      width="170">
+                    </el-table-column>
+                    <el-table-column
+                      prop="returnQty"
+                      label="退貨數量"
+                      width="90">
+                    </el-table-column>
+                    <el-table-column
+                      prop="receiveGoods"
+                      label="是否收貨"
+                      width="100">
+                    </el-table-column>
+                    <el-table-column
+                      prop="requestRefund"
+                      label="申請退款"
+                      width="120">
+                    </el-table-column>
+                    <el-table-column
+                      prop="trackingNo"
+                      label="運送單號"
+                      width="150">
+                    </el-table-column>
+                    <el-table-column
+                      prop="state"
+                      label="狀態"
+                      width="120">
+                      <template slot-scope="props">
+                        <div @click="refundDataModal(props.row)">
+                          <span v-if="props.row.state === '等待審核'" class="orange-css">{{props.row.state}}</span>
+                          <span v-else-if="props.row.state === '等待取件'" class="yell1ow-css">{{props.row.state}}</span>
+                          <span v-else-if="props.row.state === '結束'" class="white-css">{{props.row.state}}</span>
+                          <span v-else-if="props.row.state === '已拒絕'" class="pink-css">{{props.row.state}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="detailInformation"
+                      label="詳細資料"
+                      width="120">
+                      <template slot-scope="props">
+                        <div @click="refundDataModal(props.row)">
+                          <span class="blue-css">開啟</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
               </div>
-              <div id="selectId" class="pagi-block">
+              <div id="selectId" class="pagi-block for-pc">
                 <p class="pagi-text1">顯示{{refund_tot_page}}頁 每頁顯示</p>
                 <el-select v-model="refund_size" placeholder="Select">
                   <el-option
@@ -1030,6 +1119,16 @@
                   layout="prev, pager, next"
                   :total="refundData.length"
                   @current-change="handleRefundChange">
+                </el-pagination>
+              </div>
+              <div id="selectId" class="pagim-block">
+                <el-pagination
+                  background
+                  :page-size="refundm_size"
+                  :pager-count="11"
+                  layout="prev, pager, next"
+                  :total="refundData.length"
+                  @current-change="handlemRefundChange">
                 </el-pagination>
               </div>
               <newRefundModal v-if="showNewRefundModal" :show="showNewRefundModal" :send-data="tograndChild" @close="showNewRefundModal = false" />
@@ -1245,6 +1344,7 @@ export default {
       value3: '',
       value4: '',
       pagem_size: 10,
+      refundm_size: 10,
       page_size: 20,
       coupon_size: 20,
       convert_size: 20,
@@ -1261,6 +1361,7 @@ export default {
       showData: null,
       showmData: null,
       showRefundData: null,
+      showmRefundData: null,
       showCouponData: null,
       showConvertHistoryData: null,
       options: [{
@@ -1955,6 +2056,7 @@ export default {
         this.showCouponItem()
       } else if(val === 'refundHistory') {
         this.showReund()
+        this.showmReund()
       } else if(val === 'accounting') {
         this.showItem()
         this.showmItem()
@@ -1972,6 +2074,7 @@ export default {
         this.showCouponItem()
       } else if(val === 'refundHistory') {
         this.showReund()
+        this.showmReund()
       } else if(val === 'accounting') {
         this.showItem()
         this.showmItem()
@@ -2075,6 +2178,10 @@ export default {
       this.currentRefundPage = val
       this.showReund()
     },
+    handlemRefundChange(val) {
+      this.currentRefundPage = val
+      this.showmReund()
+    },
     handleCouponCurrentChange(val) {
       this.currentCouponPage = val
       this.showCouponItem()
@@ -2120,6 +2227,16 @@ export default {
       const result = this.clonelist.splice(temp, this.refund_size)
        
       this.showRefundData = result
+    }, 
+    showmReund() {
+      this.refund_tot_page = Math.ceil(this.refundData.length/this.refundm_size);
+      this.showmRefundData = []
+
+      const temp = (this.currentRefundPage - 1) * this.refundm_size;
+      this.clonelist = [...this.refundData]
+      const result = this.clonelist.splice(temp, this.refundm_size)
+       
+      this.showmRefundData = result
     }, 
     showCouponItem() {
       this.coupon_tot_page = Math.ceil(this.couponData.length/this.coupon_size);
@@ -2436,6 +2553,14 @@ export default {
     border-radius: 12px;
     padding: 1rem 1rem 2rem 5px;
     margin: 0 auto 34px;
+    @media screen and (max-width: 768px) {
+      padding: 0 1rem 2rem 0;
+    }
+  }
+  .el-table th.el-table__cell>.cell, .el-table td.el-table__cell>.cell {
+    @media screen and (max-width: 768px) {
+      padding-left: 0;
+    }
   }
   .el-input__inner {
     width: 340px;
@@ -2446,6 +2571,9 @@ export default {
     font-weight: 400;
     font-size: 16px;
     color: #CECECE;
+    @media screen and (max-width: 768px) {
+      width: 230px;
+    }
   }
   .el-table th.el-table_1_column_5>.cell, .el-table td.el-table_1_column_5>.cell, .el-table th.el-table_1_column_6>.cell, .el-table td.el-table_1_column_6>.cell, .el-table th.el-table_1_column_7>.cell, .el-table td.el-table_1_column_7>.cell {
     text-align: right;
@@ -2459,6 +2587,13 @@ export default {
   .el-table th.el-table__cell>.cell, .el-table td.el-table__cell div {
     padding-top: 3px;
     padding-bottom: 3px;
+  }
+  .el-date-editor.el-input {
+    @media screen and (max-width: 768px) {
+      width: 137px;
+      height: 30px;
+      line-height: 30px;
+    }
   }
 }
 #accountingId {
@@ -2546,6 +2681,9 @@ export default {
     background: #34344C;
     border-radius: 10px;
     border: 1px solid #34344C;
+    @media screen and (max-width: 768px) {
+      width: 137px;
+    }
   }
 }
 #currencyManagerId {
@@ -2754,6 +2892,11 @@ export default {
     .m1-currency {
       @media screen and (max-width: 768px) {
         display: none;
+      }
+    }
+    .refund-css {
+      @media screen and (max-width: 768px) {
+        width: 100%;
       }
     }
     .whole-content {
@@ -3614,6 +3757,15 @@ export default {
       }
       .date-picker1-css {
         margin-top: 30px;
+        @media screen and (max-width: 768px) {
+          margin-top: 1rem; // refund history
+        }
+        .m-refund-row {
+          @media screen and (max-width: 768px) {
+            margin-top: 19px;
+            display: flex;
+          }
+        }
       }
       .date-picker2-css {
         margin-left: 0px;
@@ -3633,10 +3785,13 @@ export default {
         border-radius: 12px;
         padding: 1rem 1rem 2rem 2rem;
         margin: 29px auto 34px;
-        .btn-block, .btncate-block {
+        .btn-block, .btn1-block, .btncate-block {
           display: flex;
           align-items: center;
-          
+          @media screen and (max-width: 768px) {
+            width: 100%;
+            overflow-x: scroll;
+          }
           .all-css {
             font-weight: 400;
             font-size: 1rem;
@@ -3649,6 +3804,9 @@ export default {
             justify-content: center;
             margin-right: 22px;
             cursor: pointer;
+            @media screen and (max-width: 768px) {
+              min-width: 100px;
+            }
           }
           .active-btn {
             background: #7161EF;
@@ -3664,6 +3822,20 @@ export default {
             border: 1px solid #7161EF;
             border-radius: 12px;
           }
+        }
+      }
+      .btnNtable {
+        @media screen and (max-width: 768px) {
+          width: 100%;
+          padding-bottom: 0;
+        }
+        .btn1-block {
+          @media screen and (max-width: 768px) {
+            width: 100%;
+            overflow-x: scroll;
+            padding-bottom: 1rem;
+          }
+
         }
       }
       .commodity-text {
@@ -3716,7 +3888,7 @@ export default {
           margin-bottom: 0;
         }
       }
-      .manager-css {
+      .manager-css, .managerefund-css {
         margin-left: 63px;
         display: flex;
         align-items: center;
@@ -3732,6 +3904,16 @@ export default {
         }
         .search-css1 {
           width: 349px;
+          @media screen and (max-width: 768px) {
+            width: 230px;
+          }
+        }
+      }
+      .managerefund-css {
+        @media screen and (max-width: 768px) {
+          margin-left: 0; 
+          width: 100%; 
+          padding-left: 63px; 
         }
       }
       .manager1-css {
@@ -3920,6 +4102,26 @@ export default {
   display: none;
   @media screen and (max-width: 768px) {
     display: block;
+  }
+}
+.show-pc {
+  @media screen and (max-width: 768px) {
+    display: none !important;
+  }
+}
+.show-mobile {
+  display: none !important;
+  @media screen and (max-width: 768px) {
+    display: flex !important;
+  }
+}
+.show-1mobile {
+  display: none !important;
+  @media screen and (max-width: 768px) {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
   }
 }
 .foracc-mobile {
