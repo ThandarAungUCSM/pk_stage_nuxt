@@ -112,11 +112,10 @@ export default {
     border-radius: 12px;
     position: relative;
     @media screen and (max-width: 768px) {
-      width: 100%;
-      border-radius: 0;
-      padding-left: 0;
-      padding-right: 0;
-      padding-top: 0;
+      width: 95%;
+      border-radius: 12px;
+      padding: 30px 0;
+      margin: auto;
     }
   }
   
@@ -161,6 +160,9 @@ export default {
 </style>
 <style lang="scss" scoped>
 .parent-block {
+  @media screen and (max-width: 768px) {
+    padding: 0 1.5rem;
+  }
   .each-row {
     display: flex;
     align-items: center;
@@ -168,11 +170,17 @@ export default {
   }
   .note-div {
     margin-top: 3rem;
+    @media screen and (max-width: 768px) {
+      margin-top: 55px;
+    }
     .note-css {
       font-weight: 400;
       font-size: 20px;
       color: #F35A90;
       margin-bottom: 0;
+      @media screen and (max-width: 768px) {
+        font-size: 18px;
+      }
     }
   }
 }
@@ -182,11 +190,18 @@ export default {
   color: #808080;
   margin-bottom: 0;
   width: 30%;
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+    width: 40%;
+  }
 }
 .free-shipping-coupon {
   color: #FFF;
   padding-left: 5px;
   width: 70%;
+  @media screen and (max-width: 768px) {
+    width: 60%;
+  }
 }
 .pink-css {
   color: #F35A90;
@@ -206,6 +221,9 @@ export default {
   bottom: 0;
   z-index: 999;
   width: 100%;
+  @media screen and (max-width: 768px) {
+    justify-content: space-evenly;
+  }
   .m-bottom, .m-pink-bottom {
     background: linear-gradient(90deg, #7161EF 0%, #3C27DC 100%);
     border-radius: 12px;
@@ -218,6 +236,9 @@ export default {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    @media screen and (max-width: 768px) {
+      width: 148px;
+    }
   }
   .m-pink-bottom {
     background: linear-gradient(90deg, #C261EF 0%, #DC2727 100%);

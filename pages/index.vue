@@ -641,19 +641,19 @@
           </div>
           <!-- <categoryModal v-if="plusCondition" :show="plusCondition" @close="plusCondition = false" /> -->
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'couponManager'" id="couponManagerId">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'couponManager'" id="couponManagerId" class="coupon-block">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
               <p class="coupon-text">
                 優惠券管理 
               </p>
-              <div class="manager-css">
+              <div class="man-coupon-css">
                 <div class="btn-div" @click="showModal = true">
                   <img src="../assets/pc/plus.png" class="plus-img">
                   <p class="manager-btn">新增優惠券</p>
                 </div>
               </div>
-              <div v-if="showCouponData">
+              <div v-if="showCouponData" class="for-pc">
                 <el-table
                   :data="showCouponData"
                   style="width: 94%">
@@ -703,7 +703,57 @@
                   </el-table-column>
                 </el-table>
               </div>
-              <div id="selectId" class="pagi-block">
+              <div v-if="showmCouponData" class="foracc-mobile">
+                <el-table
+                  :data="showmCouponData"
+                  style="width: 94%">
+                  <el-table-column
+                    prop="couponCreationTime"
+                    label="優惠券建立日期"
+                    width="170">
+                  </el-table-column>
+                  <el-table-column
+                    prop="offerType"
+                    label="優惠類型"
+                    width="100">
+                  </el-table-column>
+                  <el-table-column
+                    prop="lowConsumption"
+                    label="低消(pk)"
+                    width="100">
+                  </el-table-column>
+                  <el-table-column
+                    prop="startPeriod"
+                    label="開始期限"
+                    width="170">
+                  </el-table-column>
+                  <el-table-column
+                    prop="deadline"
+                    label="截止期限"
+                    width="170">
+                  </el-table-column>
+                  <el-table-column
+                    prop="offerContent"
+                    label="優惠內容">
+                  </el-table-column>
+                  <el-table-column
+                    prop="state"
+                    label="狀態">
+                    <template slot-scope="props">
+                      <span v-if="props.row.state == '即將上線'" class="yellow-css">{{ props.row.state }}</span>
+                      <span v-if="props.row.state == '失效'" class="pink-css">{{ props.row.state }}</span>
+                      <span v-if="props.row.state == '上線中'" class="green-css">{{ props.row.state }}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    label="停用">
+                    <template slot-scope="props">
+                      <div @click="settingModal(props.row)"><img src="../assets/pc/setting.png" class="setting-img"></div>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+              <div id="selectId" class="pagi-block for-pc">
                 <p class="pagi-text1">顯示{{coupon_tot_page}}頁 每頁顯示</p>
                 <el-select v-model="coupon_size" placeholder="Select">
                   <el-option
@@ -721,6 +771,16 @@
                   layout="prev, pager, next"
                   :total="couponData.length"
                   @current-change="handleCouponCurrentChange">
+                </el-pagination>
+              </div>
+              <div id="selectId" class="pagim-block">
+                <el-pagination
+                  background
+                  :page-size="couponm_size"
+                  :pager-count="11"
+                  layout="prev, pager, next"
+                  :total="couponData.length"
+                  @current-change="handleCouponmCurrentChange">
                 </el-pagination>
               </div>
             </div>
@@ -1486,6 +1546,7 @@ export default {
       pagem_size: 10,
       refundm_size: 10,
       convertm_size: 10,
+      couponm_size: 10,
       page_size: 20,
       coupon_size: 20,
       convert_size: 20,
@@ -1504,6 +1565,7 @@ export default {
       showRefundData: null,
       showmRefundData: null,
       showCouponData: null,
+      showmCouponData: null,
       showConvertHistoryData: null,
       showmConvertHistoryData: null,
       options: [{
@@ -2197,6 +2259,7 @@ export default {
         this.showmConvertHistoryItem()
       } else if(val === 'couponManager') {
         this.showCouponItem()
+        this.showmCouponItem()
       } else if(val === 'refundHistory') {
         this.showReund()
         this.showmReund()
@@ -2216,6 +2279,7 @@ export default {
         this.showmConvertHistoryItem()
       } else if(val === 'couponManager') {
         this.showCouponItem()
+        this.showmCouponItem()
       } else if(val === 'refundHistory') {
         this.showReund()
         this.showmReund()
@@ -2330,6 +2394,10 @@ export default {
       this.currentCouponPage = val
       this.showCouponItem()
     },
+    handleCouponmCurrentChange(val) {
+      this.currentCouponPage = val
+      this.showmCouponItem()
+    },
     handleConvertCurrentChange(val) {
       this.currentConvertPage = val
       this.showConvertHistoryItem()
@@ -2394,6 +2462,15 @@ export default {
       const result = this.clonelist.splice(temp, this.coupon_size)
        
       this.showCouponData = result
+    },
+    showmCouponItem() {
+      this.coupon_tot_page = Math.ceil(this.couponData.length/this.couponm_size);
+      this.showmCouponData = []
+      const temp = (this.currentCouponPage - 1) * this.couponm_size;
+      this.clonelist = [...this.couponData]
+      const result = this.clonelist.splice(temp, this.couponm_size)
+       
+      this.showmCouponData = result
     },
     showConvertHistoryItem() {
       this.convert_tot_page = Math.ceil(this.convertData.length/this.convert_size);
@@ -2680,6 +2757,26 @@ export default {
     }
   }
 }
+#couponManagerId {
+  .el-table {
+    @media screen and (max-width: 768px) {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+  .el-date-editor.el-input {
+    @media screen and (max-width: 768px) {
+      width: 196px;
+      width: 100%;
+    }
+  }
+  .el-input__inner {
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+  }
+}
+
 #convertHistoryId {
   .el-input__inner {
     width: 349px;
@@ -3066,6 +3163,11 @@ export default {
         width: 100%;
       }
     }
+    .coupon-block {
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
+    }
     .whole-content {
       width: 100%;
       position: absolute;
@@ -3131,6 +3233,10 @@ export default {
       }
       .coupon-text {
         margin-bottom: 100px;
+        @media screen and (max-width: 768px) {
+          text-align: center;
+          margin-bottom: 47px;
+        }
       }
       .convertHistory-text {
         margin-bottom: 60px;
@@ -4134,7 +4240,7 @@ export default {
           margin-bottom: 0;
         }
       }
-      .manager-css, .managerefund-css, .manag-div-css {
+      .manager-css, .managerefund-css, .manag-div-css, .man-coupon-css {
         margin-left: 63px;
         display: flex;
         align-items: center;
@@ -4164,6 +4270,12 @@ export default {
           @media screen and (max-width: 768px) {
             margin-bottom: 24px;
           }
+        }
+      }
+      .man-coupon-css {
+        @media screen and (max-width: 768px) {
+          margin-left: 0;
+          justify-content: center;
         }
       }
       .for-m-convertHist {

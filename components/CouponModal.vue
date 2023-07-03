@@ -15,7 +15,7 @@
                     <p class="free-shipping-coupon">免運券</p>
                   </div>
                 </div>
-                <div class="input-row">
+                <div class="inputpc-row">
                   <div class="coupon-block">
                     <p class="coupon-type">生效時間</p>
                     <!-- <input v-model="effectiveTime" type="text" class="coupon-code" onfocus="this.placeholder=''" placeholder="" /> -->
@@ -36,7 +36,25 @@
                     </el-date-picker>
                   </div>
                 </div>
-                <div class="input-row">
+                <div class="inputm-row">
+                  <div class="coupon-block">
+                    <p class="coupon-type">生效時間</p>
+                    <el-date-picker
+                      v-model="effectiveTime"
+                      type="datetime"
+                      placeholder="">
+                    </el-date-picker>
+                  </div>
+                  <div class="coupon-block">
+                    <p class="coupon-type">失效時間</p>
+                    <el-date-picker
+                      v-model="expiredTime"
+                      type="datetime"
+                      placeholder="">
+                    </el-date-picker>
+                  </div>
+                </div>
+                <div class="input1-row">
                   <div class="coupon-block">
                     <p class="coupon-type">最低消費</p>
                     <input v-model="minimumConsumption" type="text" class="mini-code" onfocus="this.placeholder=''" placeholder="0" />
@@ -136,6 +154,10 @@ export default {
     background: #191A21;
     border-radius: 12px;
     position: relative;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      margin: auto;
+    }
   }
   
   .modal-body {
@@ -143,6 +165,9 @@ export default {
     height: 100%;
     width: 80%;
     margin: auto;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
   }
   
   .modal-default-button {
@@ -185,16 +210,24 @@ export default {
   }
 }
 .parent-block {
+  @media screen and (max-width: 768px) {
+    width: 60%;
+    margin: auto;
+  }
   .each-left {
     margin-bottom: 2rem;
   }
 }
-.input-row {
+.inputpc-row, .inputm-row, .input1-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
   .coupon-block {
+    @media screen and (max-width: 768px) {
+      margin-bottom: 1rem;
+      width: 100%;
+    }
     .coupon-code, .expired-time, .mini-code {
       font-weight: 400;
       font-size: 14px;
@@ -212,6 +245,9 @@ export default {
     }
     .mini-code {
       text-align: right;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
     .coupon-code:focus, .expired-time:focus, .mini-code:focus {
       outline: none;
@@ -230,7 +266,28 @@ export default {
     margin-bottom: 0;
   }
 }
-
+.inputpc-row {
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+.inputm-row {
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 60%;
+    margin: auto;
+  }
+}
+.input1-row {
+  @media screen and (max-width: 768px) {
+    width: 60%;
+    margin: 2rem auto auto;
+  }
+}
 .bottom-div {
   display: flex;
   align-items: center;
