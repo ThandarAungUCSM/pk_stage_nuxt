@@ -728,15 +728,15 @@
           <couponModal v-if="showModal" :show="showModal" @close="showModal = false" @selectData="selectData" />
           <settingModal v-if="showSettingModal" :show="showSettingModal" :send-data="eachSetting" @close="showSettingModal = false" @settingData="settingData" />
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'membershipManager'" id="managerId">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'membershipManager'" id="managerId" class="managid-css">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
-              <p class="equal-text">
+              <p class="test-text">
                 會員資料查詢
               </p>
-              <div class="pad-css">
-                <div class="manager-css">
-                  <el-input v-model="searchInput" placeholder="請輸入會員帳號" class="search-css"></el-input>
+              <div class="padacc-css">
+                <div class="manag-div-css">
+                  <el-input v-model="searchInput" placeholder="請輸入會員帳號" class="search-manag-css"></el-input>
                   <div @click="afterSearch">
                     <p class="btn-css">查詢</p>
                   </div>
@@ -744,7 +744,7 @@
 
                 <div v-if="showSearch" class="" >
                   <p class="basic-info1">基本資料</p>
-                  <div class="each-black-block">
+                  <div class="each-black-block manag-pc">
                     <div class="head-div">
                       <p class="head-css">帳號</p>
                       <p class="head-css">會員姓名</p>
@@ -776,9 +776,45 @@
                       <p class="td2-css">正常</p>
                     </div>
                   </div>
+                  <div class="each-black-block manag-m">
+                    <div class="m-scroll1">
+                      <div class="head-div">
+                        <p class="head-css">帳號</p>
+                        <p class="head-css">會員姓名</p>
+                        <p class="head-css">性別</p>
+                        <p class="head-css">生日</p>
+                        <p class="head-css">手機</p>
+                        <p class="long-headcss">EMAIL</p>
+                        <p class="long-headcss">註冊時間</p>
+                      </div>
+                      <div class="td-div">
+                        <p class="td-css">uukk5566</p>
+                        <p class="td-css">麥克</p>
+                        <p class="td-css">男生</p>
+                        <p class="td-css">1987-06-24</p>
+                        <p class="td-css">09-12345678</p>
+                        <p class="long-tdcss">example@gmail.com</p>
+                        <p class="long-tdcss">2024-01-26 18:59:59</p>
+                      </div>
+                    </div>
+                    <div class="m-scroll2">
+                      <div class="head-div">
+                        <p class="head1-css">地址</p>
+                        <p class="head2-css">連動遊戲數量</p>
+                        <p class="head2-css">總計持有PK幣</p>
+                        <p class="head2-css">狀態</p>
+                      </div>
+                      <div class="td-div">
+                        <p class="td1-css">新北市五股區中正路一段187號</p>
+                        <p class="td2-css">3</p>
+                        <p class="td2-css">66,600</p>
+                        <p class="td2-css">正常</p>
+                      </div>
+                    </div>
+                  </div>
 
                   <p class="basic-info2">已連動的遊戲</p>
-                  <div class="each-black-block">
+                  <div class="each-black-block manag-pc">
                     <div class="head-div">
                       <p class="head-css">遊戲名稱</p>
                       <p class="head-css">持有遊戲幣</p>
@@ -808,84 +844,178 @@
                       <p class="tdcolor-css">取消連動 2024.02.02,13:25</p>
                     </div>
                   </div>
+                  <div class="each-black-block manag-m">
+                    <div class="m-scroll1">
+                      <div class="head-div">
+                        <p class="head-css">遊戲名稱</p>
+                        <p class="head-css">持有遊戲幣</p>
+                        <p class="head-css">等值PK幣</p>
+                        <p class="headl-css">連動時間</p>
+                        <p class="head-css">狀態</p>
+                      </div>
+                      <div class="td-div">
+                        <p class="td-css">遊戲A</p>
+                        <p class="td-css">500,000</p>
+                        <p class="td-css">250</p>
+                        <p class="tdl-css">2024.02.02,13:25</p>
+                        <p class="td-css">連動中</p>
+                      </div>
+                      <div class="td-div">
+                        <p class="td-css">遊戲B</p>
+                        <p class="td-css">250,000</p>
+                        <p class="td-css">190</p>
+                        <p class="tdl-css">2024.02.02,13:25</p>
+                        <p class="td-css">連動中</p>
+                      </div>
+                      <div class="td-div">
+                        <p class="td-css">遊戲C</p>
+                        <p class="td-css">1,000</p>
+                        <p class="td-css">2</p>
+                        <p class="tdl-css">2024.02.02,13:25</p>
+                        <p class="tdcolor-css">取消連動 2024.02.02,13:25</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'convertHistory'" id="convertHistoryId">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'convertHistory'" id="convertHistoryId" class="convertHistId-css">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
               <p class="convertHistory-text">
                 會員兌換記錄
               </p>
-              <div class="manager-css">
-                <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
-                <div @click="afterSearch">
-                  <p class="btn-css">查詢</p>
+              <div class="padacc-css">
+                <div class="manager-css for-m-convertHist">
+                  <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-convert-css"></el-input>
+                  <div @click="afterSearch">
+                    <p class="btn-css">查詢</p>
+                  </div>
+                </div>
+                <div v-if="showConvertHistoryData" class="conv-history-table for-pc">
+                  <el-table
+                    :data="showConvertHistoryData"
+                    style="width: 94%">
+                    <el-table-column
+                      prop="memberAccount"
+                      label="會員帳號"
+                      width="160">
+                    </el-table-column>
+                    <el-table-column
+                      prop="redemptionNumber"
+                      label="兌換編號"
+                      width="160">
+                    </el-table-column>
+                    <el-table-column
+                      prop="exchangeCreation"
+                      label="兌換建立時間"
+                      width="160">
+                    </el-table-column>
+                    <el-table-column
+                      prop="redemptionContent"
+                      label="兌換內容"
+                      width="160">
+                    </el-table-column>
+                    <el-table-column
+                      prop="noofProduct"
+                      label="商品數量"
+                      width="85">
+                      <template slot-scope="props">
+                        <p class="no-css">{{ props.row.noofProduct }}</p>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="exchangeTotal"
+                      label="兌換合計"
+                      width="110">
+                      <template slot-scope="props">
+                        <p class="no-css">{{ props.row.exchangeTotal }}</p>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="state"
+                      label="狀態"
+                      width="90">
+                      <template slot-scope="props">
+                        <span v-if="props.row.state == '已完成'" class="white-css">{{ props.row.state }}</span>
+                        <span v-else-if="props.row.state == '處理中'" class="green-css">{{ props.row.state }}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="view"
+                      label="檢視">
+                      <template slot-scope="props">
+                        <div @click="historyDataModal(props.row)">
+                          <span class="blue-css">查看</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
+                <div v-if="showmConvertHistoryData" class="conv-history-table foracc-mobile">
+                  <el-table
+                    :data="showmConvertHistoryData"
+                    style="width: 94%">
+                    <el-table-column
+                      prop="memberAccount"
+                      label="會員帳號"
+                      width="160">
+                    </el-table-column>
+                    <el-table-column
+                      prop="redemptionNumber"
+                      label="兌換編號"
+                      width="160">
+                    </el-table-column>
+                    <el-table-column
+                      prop="exchangeCreation"
+                      label="兌換建立時間"
+                      width="160">
+                    </el-table-column>
+                    <el-table-column
+                      prop="redemptionContent"
+                      label="兌換內容"
+                      width="160">
+                    </el-table-column>
+                    <el-table-column
+                      prop="noofProduct"
+                      label="商品數量"
+                      width="85">
+                      <template slot-scope="props">
+                        <p class="no-css">{{ props.row.noofProduct }}</p>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="exchangeTotal"
+                      label="兌換合計"
+                      width="110">
+                      <template slot-scope="props">
+                        <p class="no-css">{{ props.row.exchangeTotal }}</p>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="state"
+                      label="狀態"
+                      width="90">
+                      <template slot-scope="props">
+                        <span v-if="props.row.state == '已完成'" class="white-css">{{ props.row.state }}</span>
+                        <span v-else-if="props.row.state == '處理中'" class="green-css">{{ props.row.state }}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="view"
+                      label="檢視">
+                      <template slot-scope="props">
+                        <div @click="historyDataModal(props.row)">
+                          <span class="blue-css">查看</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                  </el-table>
                 </div>
               </div>
-              <div v-if="showConvertHistoryData">
-                <el-table
-                  :data="showConvertHistoryData"
-                  style="width: 94%">
-                  <el-table-column
-                    prop="memberAccount"
-                    label="會員帳號"
-                    width="160">
-                  </el-table-column>
-                  <el-table-column
-                    prop="redemptionNumber"
-                    label="兌換編號"
-                    width="160">
-                  </el-table-column>
-                  <el-table-column
-                    prop="exchangeCreation"
-                    label="兌換建立時間"
-                    width="160">
-                  </el-table-column>
-                  <el-table-column
-                    prop="redemptionContent"
-                    label="兌換內容"
-                    width="160">
-                  </el-table-column>
-                  <el-table-column
-                    prop="noofProduct"
-                    label="商品數量"
-                    width="85">
-                    <template slot-scope="props">
-                      <p class="no-css">{{ props.row.noofProduct }}</p>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    prop="exchangeTotal"
-                    label="兌換合計"
-                    width="110">
-                    <template slot-scope="props">
-                      <p class="no-css">{{ props.row.exchangeTotal }}</p>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    prop="state"
-                    label="狀態"
-                    width="90">
-                    <template slot-scope="props">
-                      <span v-if="props.row.state == '已完成'" class="white-css">{{ props.row.state }}</span>
-                      <span v-else-if="props.row.state == '處理中'" class="green-css">{{ props.row.state }}</span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column
-                    prop="view"
-                    label="檢視">
-                    <template slot-scope="props">
-                      <div @click="historyDataModal(props.row)">
-                        <span class="blue-css">查看</span>
-                      </div>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </div>
-              <div id="selectId" class="pagi-block">
+              <div id="selectId" class="pagi-block for-pc">
                 <p class="pagi-text1">顯示{{convert_tot_page}}頁 每頁顯示</p>
                 <el-select v-model="convert_size" placeholder="Select">
                   <el-option
@@ -903,6 +1033,16 @@
                   layout="prev, pager, next"
                   :total="convertData.length"
                   @current-change="handleConvertCurrentChange">
+                </el-pagination>
+              </div>
+              <div id="selectId" class="pagim-block">
+                <el-pagination
+                  background
+                  :page-size="convertm_size"
+                  :pager-count="11"
+                  layout="prev, pager, next"
+                  :total="convertData.length"
+                  @current-change="handleConvertmCurrentChange">
                 </el-pagination>
               </div>
             </div>
@@ -1345,6 +1485,7 @@ export default {
       value4: '',
       pagem_size: 10,
       refundm_size: 10,
+      convertm_size: 10,
       page_size: 20,
       coupon_size: 20,
       convert_size: 20,
@@ -1364,6 +1505,7 @@ export default {
       showmRefundData: null,
       showCouponData: null,
       showConvertHistoryData: null,
+      showmConvertHistoryData: null,
       options: [{
         value: '5',
         label: '5'
@@ -2052,6 +2194,7 @@ export default {
       this.activeMenu = val
       if(val === 'convertHistory') {
         this.showConvertHistoryItem()
+        this.showmConvertHistoryItem()
       } else if(val === 'couponManager') {
         this.showCouponItem()
       } else if(val === 'refundHistory') {
@@ -2070,6 +2213,7 @@ export default {
       this.activeMenu = val
       if(val === 'convertHistory') {
         this.showConvertHistoryItem()
+        this.showmConvertHistoryItem()
       } else if(val === 'couponManager') {
         this.showCouponItem()
       } else if(val === 'refundHistory') {
@@ -2190,6 +2334,10 @@ export default {
       this.currentConvertPage = val
       this.showConvertHistoryItem()
     },
+    handleConvertmCurrentChange(val) {
+      this.currentConvertPage = val
+      this.showmConvertHistoryItem()
+    },
     showItem() {
       this.total_page = Math.ceil(this.tableData.length/this.page_size);
       this.showData = []
@@ -2255,6 +2403,15 @@ export default {
       const result = this.clonelist.splice(temp, this.convert_size)
        
       this.showConvertHistoryData = result
+    },
+    showmConvertHistoryItem() {
+      this.convert_tot_page = Math.ceil(this.convertData.length/this.convertm_size);
+      this.showmConvertHistoryData = []
+      const temp = (this.currentConvertPage - 1) * this.convertm_size;
+      this.clonelist = [...this.convertData]
+      const result = this.clonelist.splice(temp, this.convertm_size)
+       
+      this.showmConvertHistoryData = result
     },
     afterSearch() {
       this.showSearch = true
@@ -2533,6 +2690,9 @@ export default {
     font-weight: 400;
     font-size: 16px;
     color: #CECECE;
+    @media screen and (max-width: 768px) {
+      width: 230px;
+    }
   }
   .el-table th.el-table_1_column_5>.cell, .el-table th.el-table_1_column_6>.cell {
     text-align: right;
@@ -2544,6 +2704,13 @@ export default {
     color: #E4E4E4;
     @media screen and (max-width: 768px) {
       font-size: 14px;
+    }
+  }
+  .el-table {
+    @media screen and (max-width: 768px) {
+      padding-top: 1.1rem;
+      margin-left: 10px;
+      margin-right: 10px;
     }
   }
 }
@@ -2894,7 +3061,7 @@ export default {
         display: none;
       }
     }
-    .refund-css {
+    .refund-css, .managid-css, .convertHistId-css {
       @media screen and (max-width: 768px) {
         width: 100%;
       }
@@ -2947,7 +3114,7 @@ export default {
           margin-bottom: 90px;
           margin-bottom: 65px; // advertise
           font-size: 20px;
-          z-index: 10px;
+          z-index: 10;
           position: fixed;
           width: 100%;
         }
@@ -2967,6 +3134,11 @@ export default {
       }
       .convertHistory-text {
         margin-bottom: 60px;
+        @media screen and (max-width: 768px) {
+          margin-bottom: 0;
+          text-align: center;
+          font-size: 20px;
+        }
       }
       .banner-block {
 
@@ -3668,8 +3840,17 @@ export default {
         margin-top: 60px;
         margin-left: 75px;
       }
+      .basic-info1 {
+        @media screen and (max-width: 768px) {
+          margin-top: 5px;
+          margin-left: 73px;
+        }
+      }
       .basic-info2 {
         margin-top: 1rem;
+        @media screen and (max-width: 768px) {
+          margin-left: 73px;
+        }
       }
       .each-black-block {
         width: 100%;
@@ -3678,6 +3859,11 @@ export default {
         border-radius: 6px;
         margin-left: 63px;
         padding: 1rem 45px;
+        @media screen and (max-width: 768px) {
+          width: 95%;
+          margin: auto;
+        }
+        
         .head-div {
           display: flex;
           // justify-content: space-between;
@@ -3687,17 +3873,39 @@ export default {
             color: #808080;
             width: 13%;
           }
+          .head-css {
+            @media screen and (max-width: 768px) {
+              width: 110px;
+              min-width: 110px;
+            }
+          }
           .long-headcss {
             width: 17.5%;
+            @media screen and (max-width: 768px) {
+              width: 170px;
+              min-width: 170px;
+            }
           }
           .head1-css {
             width: 26%;
+            @media screen and (max-width: 768px) {
+              width: 220px;
+              min-width: 220px;
+            }
           }
           .head2-css {
             width: 13%;
+            @media screen and (max-width: 768px) {
+              width: 110px;
+              min-width: 110px;
+            }
           }
           .headl-css {
             width: 15%;
+            @media screen and (max-width: 768px) {
+              width: 170px;
+              min-width: 170px;
+            }
           }
         }
         .td-div {
@@ -3712,19 +3920,57 @@ export default {
           }
           .long-tdcss {
             width: 17.5%;
+            @media screen and (max-width: 768px) {
+              width: 170px;
+              min-width: 170px;
+            }
           }
           .td1-css {
             width: 26%;
+            @media screen and (max-width: 768px) {
+              width: 220px;
+              min-width: 220px;
+            }
           }
           .td2-css {
             width: 13%;
+            @media screen and (max-width: 768px) {
+              width: 110px;
+              min-width: 110px;
+            }
           }
           .tdl-css  {
             width: 15%;
+            @media screen and (max-width: 768px) {
+              width: 170px;
+              min-width: 170px;
+            }
           }
           .tdcolor-css {
             color: #F35A90;
           }
+          .td-css {
+            @media screen and (max-width: 768px) {
+              width: 110px;
+              min-width: 110px;
+            }
+          }
+        }
+      }
+      .m-scroll1, .m-scroll2 {
+        @media screen and (max-width: 768px) {
+          overflow-x: scroll;
+        }
+      }
+      .manag-pc {
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
+      }
+      .manag-m {
+        display: none;
+        @media screen and (max-width: 768px) {
+          display: block;
         }
       }
       .date-picker-css, .date-pickerm-css, .date-picker1-css, .date-picker2-css {
@@ -3888,14 +4134,14 @@ export default {
           margin-bottom: 0;
         }
       }
-      .manager-css, .managerefund-css {
+      .manager-css, .managerefund-css, .manag-div-css {
         margin-left: 63px;
         display: flex;
         align-items: center;
         @media screen and (max-width: 768px) {
           margin-left: 43px;
         }
-        .search-css, .search-css1 {
+        .search-css, .search-css1, .search-manag-css, .search-convert-css {
           font-weight: 400;
           font-size: 16px;
           color: #CECECE;
@@ -3907,6 +4153,40 @@ export default {
           @media screen and (max-width: 768px) {
             width: 230px;
           }
+        }
+        .search-convert-css {
+          @media screen and (max-width: 768px) {
+            width: 230px;
+            margin-bottom: 19px;
+          }
+        }
+        .search-manag-css {
+          @media screen and (max-width: 768px) {
+            margin-bottom: 24px;
+          }
+        }
+      }
+      .for-m-convertHist {
+        @media screen and (max-width: 768px) {
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: flex-end;
+          margin-left: 0;
+          padding-right: 33px;
+        }
+      }
+      .manag-div-css {
+        @media screen and (max-width: 768px) {
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: flex-end;
+          margin-left: 0;
+          padding-right: 43px;
+        }
+      }
+      .conv-history-table {
+        @media screen and (max-width: 768px) {
+          margin-top: 23px;
         }
       }
       .managerefund-css {

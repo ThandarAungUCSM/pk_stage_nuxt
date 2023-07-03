@@ -118,11 +118,11 @@ export default {
     border-radius: 12px;
     position: relative;
     @media screen and (max-width: 768px) {
-      width: 100%;
-      border-radius: 0;
-      padding-left: 0;
-      padding-right: 0;
-      padding-top: 0;
+      width: 95%;
+      border-radius: 12px;
+      padding: 0 0 4rem 0;
+      height: unset;
+      margin: auto;
     }
   }
   
@@ -167,6 +167,9 @@ export default {
 </style>
 <style lang="scss" scoped>
 .parent-block {
+  @media screen and (max-width: 768px) {
+    padding: 1rem 2rem;
+  }
   .redemption-no {
     font-weight: 700;
     font-size: 16px;
@@ -177,10 +180,16 @@ export default {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
+    @media screen and (max-width: 768px) {
+      margin-bottom: 12px;
+    }
   }
   .each-row1 {
     display: flex;
     margin-bottom: 1rem;
+    @media screen and (max-width: 768px) {
+      margin-bottom: 12px;
+    }
   }
 }
 .coupon-type, .free-shipping-coupon, .free-shipping-coupon1 {
@@ -189,6 +198,9 @@ export default {
   color: #808080;
   margin-bottom: 0;
   width: 30%;
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+  }
 }
 .free-shipping-coupon {
   color: #FFF;
@@ -200,6 +212,9 @@ export default {
   padding-left: 5px;
   width: 100%;
   margin-bottom: 1rem;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 12px;
+  }
 }
 .bottom-div {
   display: flex;
@@ -210,6 +225,10 @@ export default {
   bottom: 0;
   z-index: 999;
   width: 100%;
+  @media screen and (max-width: 768px) {
+    margin-top: 2rem;
+    bottom: -2.5rem;
+  }
   .m-bottom {
     background: linear-gradient(90deg, #7161EF 0%, #3C27DC 100%);
     border-radius: 12px;
