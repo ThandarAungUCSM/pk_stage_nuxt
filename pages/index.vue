@@ -347,7 +347,7 @@
             </div>
           </div>
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'categoryProduct'" id="categoryProductId">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'categoryProduct'" id="categoryProductId" class="cate-block">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
               <p class="test-text">
@@ -532,7 +532,7 @@
                     <div v-if="cateData">
                       <el-table
                         :data="cateData"
-                        style="width: 92%">
+                        class="pc-mobile">
                         <el-table-column
                           prop="serialNo"
                           label="編號"
@@ -591,7 +591,7 @@
                       <img src="../assets/pc/modal-close.png" class="closecate-img" @click="closeCate">
                     </div>
                     <div>
-                      <div class="input-cate">
+                      <div id="mobilePopupId" class="input-cate" >
                         <p class="cate-name">新分類名稱</p>
                         <el-input v-model="cateName" placeholder="" class="search-css"></el-input>
                       </div>
@@ -1507,6 +1507,20 @@
           </div> -->
         </div>
       </div>
+      <div v-if="!newScreen && plusCondition" class="catem-right-block">
+        <div class="inner-cate-block" >
+          <div class="right-close">
+            <img src="../assets/pc/modal-close.png" class="closecate-img" @click="closeCate">
+          </div>
+          <div>
+            <div id="mobilePopupId" class="input-cate" >
+              <p class="cate-name">新分類名稱</p>
+              <el-input v-model="cateName" placeholder="" class="search-css"></el-input>
+            </div>
+            <p class="cate-btn" @click="closeCate">完成</p>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- <div v-if="!newScreen && plusCondition" class="cate-right-block">
       <div class="right-close">
@@ -2342,6 +2356,7 @@ export default {
       this.newScreen = !this.newScreen;
     },
     plusCate() {
+      this.showCateRight = false
       this.plusCondition = !this.plusCondition;
     },
     handleChange(file, fileList) {
@@ -2757,6 +2772,18 @@ export default {
     }
   }
 }
+#mobilePopupId {
+  .el-input__inner {
+    width: 100% !important;
+    @media screen and (max-width: 768px) {
+      width: 225px !important;
+      background: #34344C;
+      height: 48px;
+      line-height: 48px;
+      border: 1px solid #34344C;
+    }
+  }
+}
 #couponManagerId {
   .el-table {
     @media screen and (max-width: 768px) {
@@ -3142,6 +3169,61 @@ export default {
 .content-css {
   background: #132235 !important;
   min-height: 100vh;
+  @media screen and (max-width: 768px) {
+    position: relative;
+  }
+  .catem-right-block {
+    display: none;
+    @media screen and (max-width: 768px) {
+      display: flex;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 10, 10, 0.69);
+      margin-left: 0;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%); 
+      align-items: center;
+      justify-content: center;
+      z-index: 11;
+    }
+    .inner-cate-block {
+      @media screen and (max-width: 768px) {
+        background: #191A21;
+        border-radius: 12px;
+        width: 500px;
+        height: 315px;
+        padding: 1rem;
+        width: 311px;
+      }
+    }
+    .input-cate {
+      width: 80%;
+      margin: 56px auto 65px;
+      .cate-name {
+        font-weight: 400;
+        font-size: 16px;
+        color: #808080;
+      }
+    }
+    .cate-btn {
+      background: linear-gradient(90deg, #7161EF 0%, #3C27DC 100%);
+      border-radius: 12px;
+      width: 200px;
+      height: 40px;
+      line-height: 40px;
+      margin-bottom: 0;
+      margin: auto;
+      text-align: center;
+      font-weight: 400;
+      font-size: 1rem;
+      color: #FFF;
+      @media screen and (max-width: 768px) {
+        width: 120px;
+      }
+    }
+  }
   .content-block {
     display: flex;
     position: relative;
@@ -3163,7 +3245,7 @@ export default {
         width: 100%;
       }
     }
-    .coupon-block {
+    .coupon-block, .cate-block {
       @media screen and (max-width: 768px) {
         width: 100%;
       }
@@ -3256,6 +3338,10 @@ export default {
         .each-row {
           display: flex;
           align-items: flex-start;
+          @media screen and (max-width: 768px) {
+            align-items: center;
+            position: relative;
+          }
         }
         .left-addprod {
           background: rgba(25, 26, 33, 0.9);
@@ -3456,6 +3542,12 @@ export default {
           }
         }
       }
+      .content-category {
+        @media screen and (max-width: 768px) {
+          padding: 0;
+          margin-top: 70px;
+        }
+      }
       .content1-category {
         max-width: 1322px;
         padding-top: 0;
@@ -3613,6 +3705,10 @@ export default {
         @media screen and (max-width: 768px) {
           width: 100%;
           max-width: 100%;
+
+          justify-content: center; // category & product manager
+          flex-direction: column;
+          align-items: center;
         }
         .each-block {
           margin-right: 10px;
@@ -4198,6 +4294,16 @@ export default {
       }
       .btncate-block {
         margin-bottom: 45px;
+        @media screen and (max-width: 768px) {
+          padding-bottom: 16px;
+          margin-bottom: 29px;
+        }
+      }
+      .pc-mobile {
+        width: 92%;
+        @media screen and (max-width: 768px) {
+          width: 100%;
+        }
       }
       .catetable-block {
         width: 877px;
@@ -4205,6 +4311,11 @@ export default {
         margin: 0;
         margin-left: 33px;
         padding: 1rem;
+        @media screen and (max-width: 768px) {
+          margin-left: 0;
+          width: 90%;
+          margin-top: 39px;
+        }
         .row-right {
           display: flex;
           align-items: center;
@@ -4546,8 +4657,11 @@ export default {
   // left: 50%;
   // top: 50%;
   // transform: translate(-50%, -50%); 
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
   .input-cate {
-    width: 80%;
+    width: 75%;
     margin: 56px auto 65px;
     .cate-name {
       font-weight: 400;
@@ -4567,6 +4681,9 @@ export default {
     font-weight: 400;
     font-size: 1rem;
     color: #FFF;
+    @media screen and (max-width: 768px) {
+      width: 120px;
+    }
   }
 }
 </style>
