@@ -124,71 +124,99 @@
     </div>
     <div v-else class="sidebar-close" >
       <img src="../assets/pc/sidebar-menu.png" class="menu-img" @click="sidebarFunc">
-      <div class="img-column">
-        <div v-if="isActive !== '' && isActive === 'currencyManager'" class="activeMenu">
-          <img src="../assets/pc/close-dollar.png" class="sideOpacity-img">
-          <div class="border-css"></div>
-        </div>
-        <div v-else class="noactive">
-          <img src="../assets/pc/close-dollar.png" class="sideclose-img" @click="gotoPage('currencyManager')">
-        </div>
+      <div v-if="activedata === 'admin'">
+        <div class="img-column">
+          <div v-if="isActive !== '' && isActive === 'currencyManager'" class="activeMenu">
+            <img src="../assets/pc/close-dollar.png" class="sideOpacity-img">
+            <div class="border-css"></div>
+          </div>
+          <div v-else class="noactive">
+            <img src="../assets/pc/close-dollar.png" class="sideclose-img" @click="gotoPage('currencyManager')">
+          </div>
 
-        <div v-if="isActive !== '' && isActive === 'bannerAdvertise'" class="activeMenu">
-          <img src="../assets/pc/close-manager.png" class="sideOpacity-img">
-          <div class="border-css"></div>
-        </div>
-        <div v-else class="noactive">
-          <img src="../assets/pc/close-manager.png" class="sideclose-img" @click="gotoPage('bannerAdvertise')">
-        </div>
+          <div v-if="isActive !== '' && isActive === 'bannerAdvertise'" class="activeMenu">
+            <img src="../assets/pc/close-manager.png" class="sideOpacity-img">
+            <div class="border-css"></div>
+          </div>
+          <div v-else class="noactive">
+            <img src="../assets/pc/close-manager.png" class="sideclose-img" @click="gotoPage('bannerAdvertise')">
+          </div>
 
-        <div v-if="isActive !== '' && isActive === 'categoryProduct'" class="activeMenu">
-          <img src="../assets/pc/close-cart.png" class="sideOpacity-img">
-          <div class="border-css"></div>
-        </div>
-        <div v-else class="noactive">
-          <img src="../assets/pc/close-cart.png" class="sideclose-img" @click="gotoPage('categoryProduct')">
-        </div>
+          <div v-if="isActive !== '' && isActive === 'categoryProduct'" class="activeMenu">
+            <img src="../assets/pc/close-cart.png" class="sideOpacity-img">
+            <div class="border-css"></div>
+          </div>
+          <div v-else class="noactive">
+            <img src="../assets/pc/close-cart.png" class="sideclose-img" @click="gotoPage('categoryProduct')">
+          </div>
 
-        <div v-if="isActive !== '' && isActive === 'couponManager'" class="activeMenu">
-          <img src="../assets/pc/close-coupon.png" class="sideOpacity-img">
-          <div class="border-css"></div>
-        </div>
-        <div v-else class="noactive">
-          <img src="../assets/pc/close-coupon.png" class="sideclose-img" @click="gotoPage('couponManager')">
-        </div>
+          <div v-if="isActive !== '' && isActive === 'couponManager'" class="activeMenu">
+            <img src="../assets/pc/close-coupon.png" class="sideOpacity-img">
+            <div class="border-css"></div>
+          </div>
+          <div v-else class="noactive">
+            <img src="../assets/pc/close-coupon.png" class="sideclose-img" @click="gotoPage('couponManager')">
+          </div>
 
-        <div v-if="isActive !== '' && isActive === 'membershipManager'" class="activeMenu">
-          <img src="../assets/pc/close-info.png" class="sideOpacity-img">
-          <div class="border-css"></div>
-        </div>
-        <div v-else class="noactive">
-          <img src="../assets/pc/close-info.png" class="sideclose-img" @click="gotoPage('membershipManager')">
-        </div>
+          <div v-if="isActive !== '' && isActive === 'membershipManager'" class="activeMenu">
+            <img src="../assets/pc/close-info.png" class="sideOpacity-img">
+            <div class="border-css"></div>
+          </div>
+          <div v-else class="noactive">
+            <img src="../assets/pc/close-info.png" class="sideclose-img" @click="gotoPage('membershipManager')">
+          </div>
 
-        <div v-if="isActive !== '' && isActive === 'convertHistory'" class="activeMenu">
-          <img src="../assets/pc/close-receipt.png" class="sideOpacity-img">
-          <div class="border-css"></div>
-        </div>
-        <div v-else class="noactive">
-          <img src="../assets/pc/close-receipt.png" class="sideclose-img" @click="gotoPage('convertHistory')">
-        </div>
+          <div v-if="isActive !== '' && isActive === 'convertHistory'" class="activeMenu">
+            <img src="../assets/pc/close-receipt.png" class="sideOpacity-img">
+            <div class="border-css"></div>
+          </div>
+          <div v-else class="noactive">
+            <img src="../assets/pc/close-receipt.png" class="sideclose-img" @click="gotoPage('convertHistory')">
+          </div>
 
-        <div v-if="isActive !== '' && isActive === 'refundHistory'" class="activeMenu">
-          <img src="../assets/pc/close-vector.png" class="sideOpacity-img">
-          <div class="border-css"></div>
-        </div>
-        <div v-else class="noactive">
-          <img src="../assets/pc/close-vector.png" class="sideclose-img" @click="gotoPage('refundHistory')">
-        </div>
+          <div v-if="isActive !== '' && isActive === 'refundHistory'" class="activeMenu">
+            <img src="../assets/pc/close-vector.png" class="sideOpacity-img">
+            <div class="border-css"></div>
+          </div>
+          <div v-else class="noactive">
+            <img src="../assets/pc/close-vector.png" class="sideclose-img" @click="gotoPage('refundHistory')">
+          </div>
 
-        <div v-if="isActive !== '' && isActive === 'accounting'" class="activeMenu">
-          <img src="../assets/pc/close-document.png" class="sideOpacity-img">
-          <div class="border-css"></div>
+          <div v-if="isActive !== '' && isActive === 'accounting'" class="activeMenu">
+            <img src="../assets/pc/close-document.png" class="sideOpacity-img">
+            <div class="border-css"></div>
+          </div>
+          <div v-else class="noactive">
+            <img src="../assets/pc/close-document.png" class="sideclose-img" @click="gotoPage('accounting')">
+          </div>
         </div>
-        <div v-else class="noactive">
-          <img src="../assets/pc/close-document.png" class="sideclose-img" @click="gotoPage('accounting')">
+      </div>
+      <div v-else-if="activedata === 'storeOwner'">
+        <div class="img-column">
+          <div v-if="isActive !== '' && isActive === 'categoryProduct'" class="activeMenu">
+            <img src="../assets/pc/close-cart.png" class="sideOpacity-img">
+            <div class="border-css"></div>
+          </div>
+          <div v-else class="noactive">
+            <img src="../assets/pc/close-cart.png" class="sideclose-img" @click="gotoPage('categoryProduct')">
+          </div>
+
+          <div v-if="isActive !== '' && isActive === 'orderManager'" class="activeMenu">
+            <img src="../assets/pc/delisystem.png" class="sideOpacity-img">
+            <div class="border-css"></div>
+          </div>
+          <div v-else class="noactive">
+            <img src="../assets/pc/delisystem.png" class="sideclose-deli" @click="gotoPage('orderManager')">
+          </div>
+
+          <div v-if="isActive !== '' && isActive === 'refundHistory'" class="activeMenu">
+            <img src="../assets/pc/close-vector.png" class="sideOpacity-img">
+            <div class="border-css"></div>
+          </div>
+          <div v-else class="noactive">
+            <img src="../assets/pc/close-vector.png" class="sideclose-img" @click="gotoPage('refundHistory')">
+          </div>
         </div>
-        
       </div>
     </div>
   </div>
@@ -393,6 +421,10 @@ export default {
     }
     .sideclose-img, .sideOpacity-img {
       width: 24px;
+      height: 24px;
+    }
+    .sideclose-deli {
+      width: 30px;
       height: 24px;
     }
     .sideOpacity-img {
