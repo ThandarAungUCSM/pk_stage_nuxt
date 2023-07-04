@@ -388,30 +388,52 @@
                 </div>
                 <div id="addprodId" class="right-addprod">
                   <div>
-                    <p class="advantSetting">
-                      商品進階設定  
-                      <span v-if="updateProduct.state === '販售中'" class="advantSetting white-css">{{updateProduct.state}}</span>
-                      <span v-else-if="updateProduct.state === '預售'" class="advantSetting yellow-css">{{updateProduct.state}}</span>
-                      <span v-else-if="(updateProduct.state === '已下架') || (updateProduct.state === '售罄')" class="advantSetting pink-css">{{updateProduct.state}}</span>
-                    </p>
-                    <p class="photoPreview">商品照片預覽</p>
-                    <div class="sec2-row">
-                      <el-upload
-                        :on-change="handle2Change"
-                        action="#"
-                        list-type="picture-card"
-                        :auto-upload="false" 
-                        >
-                          <img v-if="img2Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
-                      </el-upload>
+                    <div class="rowone" :style="(updateProduct.state === '預售') ? 'margin-bottom: 31px;' : ''">
+                      <p class="advantSetting">
+                        商品進階設定  
+                        <span v-if="updateProduct.state === '販售中'" class="advantSetting white-css">{{updateProduct.state}}</span>
+                        <span v-else-if="updateProduct.state === '預售'" class="advantSetting yellow-css">{{updateProduct.state}}</span>
+                        <span v-else-if="(updateProduct.state === '已下架') || (updateProduct.state === '售罄')" class="advantSetting pink-css">{{updateProduct.state}}</span>
+                      </p>
+                      <p v-if="(updateProduct && (updateProduct.state) && updateProduct.state !== '已下架')" class="remove-css">下架此商品</p>
+                      <p v-else-if="updateProduct.state === '已下架'" class="remove-css">刪除</p>
                     </div>
-                    <div v-if="(Object.keys(updateProduct).length > 0) && (updateProduct.state === '已下架')" class="photo-flex">
-                      <p class="addprod-photo1-txt">刪除</p>
+                    <div v-if="(updateProduct.state !== '預售')" class="onerow">
+                      <p class="hidetext">hi</p>
+                      <div class="one2row">
+                        <p class="photoPreview">了解更多照片(0/5)</p>
+                        <p :class="updateProduct && (updateProduct.state) ? 'viewall' : 'view1all'" >查看全部</p>
+                      </div>
                     </div>
-                    <div v-else class="photo-flex">
-                      <p class="addprod-photo-txt">新增商品照片</p>
-                      <p class="addprod-photo-txt">新增了解更多照片</p>
-                      <p v-if="Object.keys(updateProduct).length > 0" class="addprod-photo1-txt">下架此商品</p>
+                    <!-- <p class="photoPreview">商品照片預覽</p> -->
+                    <div class="imgupload-row">
+                      <div class="img-row">
+                        <div class="sec2-row">
+                          <el-upload
+                            :on-change="handle3Change"
+                            action="#"
+                            list-type="picture-card"
+                            :auto-upload="false" 
+                            >
+                              <img v-if="img3Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
+                              <p class="text-photo">新增商品照片</p>
+                          </el-upload>
+                        </div>
+                        <div class="sec2-row">
+                          <el-upload
+                            :on-change="handle2Change"
+                            action="#"
+                            list-type="picture-card"
+                            :auto-upload="false" 
+                            >
+                              <img v-if="img2Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
+                              <p class="text-photo">新增了解更多照片</p>
+                          </el-upload>
+                        </div>
+                      </div>
+                      <div v-if="(updateProduct && (updateProduct.state) && (updateProduct.state !== '預售'))">
+                        <img src="../assets/pc/showimg.png" class="show-img">
+                      </div>
                     </div>
                     <div class="input-block">
                       <div class="prod-left">
@@ -435,18 +457,6 @@
                   </div>
                   <div class="child-right-block">
                     <div>
-                      <div>
-                        <p class="prod-name">商品分類：</p>
-                        <div class="check-block">
-                          <el-checkbox-group v-model="checkList">
-                            <el-checkbox label="新品上市"></el-checkbox>
-                            <el-checkbox label="限時特賣"></el-checkbox>
-                            <el-checkbox label="玩具公仔"></el-checkbox>
-                            <el-checkbox label="零食飲料"></el-checkbox>
-                            <el-checkbox label="日用雜貨"></el-checkbox>
-                          </el-checkbox-group>
-                        </div>
-                      </div>
                       <div id="time1Id" class="timecss">
                         <p class="prod-name">預售時間</p>
                         <div v-if="Object.keys(updateProduct).length === 0" id="childConHisId" class="date-picker2-css">
@@ -466,24 +476,24 @@
                         </div>
                       </div>
                       <div id="time2Id" class="timecss">
-                        <p class="prod-name">商品兌換價：</p>
+                        <p class="prod-name" style="display: none;">商品兌換價：</p>
                         <el-input v-model="excPrice" placeholder="0" class=""></el-input>
                       </div>
                     </div>
                     <div>
                       <div v-if="Object.keys(updateProduct).length === 0" id="time4Id" class="time1css">
-                        <p class="prod-name">架上可購商品數量：</p>
+                        <p class="prod-name" style="display: none;">架上可購商品數量：</p>
                         <el-input v-model="noofItem" placeholder="999" class=""></el-input>
                       </div>
                       <div v-else-if="updateProduct.state === '售罄'" id="time3Id" class="time1css">
-                        <p class="prod-name">架上可購商品數量：</p>
+                        <p class="prod-name" style="display: none;">架上可購商品數量：</p>
                         <el-input v-model="noofItem" placeholder="999" class=""></el-input>
                       </div>
                       <div v-else-if="(updateProduct.state === '販售中') || (updateProduct.state === '已下架') || (updateProduct.state === '預售')" id="time4Id" class="time1css">
-                        <p class="prod-name">架上可購商品數量：</p>
+                        <p class="prod-name" style="display: none;">架上可購商品數量：</p>
                         <el-input v-model="noofItem" placeholder="999" class=""></el-input>
                       </div>
-                      <div>
+                      <div style="display: none; ">
                         <p v-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '販售中') || (updateProduct.state === '預售'))" class="prod1-btn" @click="productSetting">儲存</p>
                         <p v-else-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '售罄') || (updateProduct.state === '已下架'))" class="prod1-btn" @click="productSetting">完成</p>
                         <p v-else class="prod-btn">上架</p>
@@ -2135,6 +2145,7 @@ export default {
       imgUpload: '',
       img1Upload: '',
       img2Upload: '',
+      img3Upload: '',
       cateData: [{
         serialNo: '1',
         productName: '山丘藍台灣藍莓 5盒裝 單盒淨重 100公克 ×5 盒',
@@ -2373,6 +2384,12 @@ export default {
     },
     handle2Change(file, fileList) {
       this.img2Upload = fileList.url
+
+      const element = document.querySelector('.el-upload--picture-card');
+      element.className += 'imgdataHide'; 
+    },
+    handle3Change(file, fileList) {
+      this.img3Upload = fileList.url
 
       const element = document.querySelector('.el-upload--picture-card');
       element.className += 'imgdataHide'; 
@@ -3156,6 +3173,129 @@ export default {
   .el-upload-list--picture-card .el-upload-list__item {
     margin: 0;
   }
+  .el-checkbox-group {
+    padding-top: 1rem;
+    width: 152px;
+    height: 243px;
+  }
+  .el-checkbox {
+    font-weight: 400;
+    font-size: 12px !important;
+    color: #808080;
+    margin-left: 14px;
+  }
+  .el-checkbox__inner {
+    background-color: #34344C;
+    border: 1px solid #808080;
+  }
+  .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background-color: #FFF;
+    border: 1px solid #FFF;
+  }
+  .el-checkbox__input.is-checked+.el-checkbox__label {
+    color: #FFF;
+  }
+  .el-input__inner {
+    font-weight: 400;
+    font-size: 16px;
+    color: #E4E4E4;
+
+    width: 347px;
+    width: 300px;
+    height: 48px;
+    background: #34344C;
+    border-radius: 6px;
+    border: 1px solid #34344c;
+  }
+  .el-input__prefix {
+    display: none;
+    left: 0;
+  }
+  .el-input--prefix .el-input__inner {
+    padding-left: 27px;
+    background: #34344C;
+    border-radius: 10px;
+    border: 1px solid #34344C;
+    font-weight: 400;
+    font-size: 16px;
+    color: #CECECE;
+  }
+  .el-icon-arrow-left:before, .el-icon-arrow-right:before {
+    font-size: 32px;
+    color: #FFF;
+  }
+  .el-upload-list--picture-card .el-upload-list__item {
+    height: 100%;
+    margin-bottom: 0;
+    width: 180px;
+  }
+  .el-upload--picture-card {
+    border: 1px dashed transparent;
+    background: transparent;
+  }
+  .el-textarea__inner {
+    background: #34344C;
+    border-radius: 6px;
+    border: 1px solid #34344c;
+    height: 200px;
+    font-weight: 400;
+    font-size: 16px;
+    color: #FFF;
+  }
+  #nameTextareaId {
+    .el-textarea__inner {
+      width: 347px;
+      height: 72px;
+    }
+  }
+  #nameTextarea1Id {
+    .el-textarea__inner {
+      width: 347px;
+    }
+  }
+  #secTextareaId {
+    .el-textarea__inner {
+      height: 326px;
+    }
+  }
+  #time1Id {
+    .el-input__inner {
+      width: 152px;
+      height: 32px;
+      font-size: 12px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
+  #time2Id, #time4Id {
+    .el-input__inner {
+      width: 152px;
+      height: 32px;
+      font-weight: 400;
+      font-size: 16px;
+      text-align: right;
+    }
+  }
+  #time3Id {
+    .el-input__inner {
+      width: 152px;
+      height: 32px;
+      color: #FF0000;
+    }
+  }
+  .el-upload-list--picture-card .el-upload-list__item-thumbnail {
+    width: auto;
+    height: auto;
+  }
+  .el-upload-list--picture-card .el-upload-list__item {
+    margin: 0;
+  }
+  .el-upload--picture-card {
+    width: 124px;
+    height: 124px;
+    line-height: 124px;
+    position: relative;
+  }
 }
 .imgdataHide, .el-upload-list--picture-card .el-upload-list__item-actions {
   display: none;
@@ -3406,18 +3546,13 @@ export default {
           .child-right-block {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            .check-block {
-              background: #34344C;
-              border-radius: 6px;
-              width: 152px;
-            }
+            justify-content: flex-end;
             .timecss {
-              margin-top: 11px;
+              margin-top: 33px;
             }
             .time1css {
-              margin-top: 11px;
-              margin-bottom: 34px;
+              margin-top: 162px;
+              margin-bottom: 50px;
             }
           }
           .prod-btn, .prod1-btn {
@@ -3441,63 +3576,100 @@ export default {
             font-size: 12px;
             color: #FFF;
           }
+          .rowone {
+            display: flex;
+          }
+          .onerow {
+            display: flex;
+            justify-content: space-between;
+            .hidetext {
+              width: 347px;
+              margin-bottom: 10px;
+              visibility: hidden;
+            }
+          }
+          .one2row {
+            display: flex;
+            justify-content: space-between;
+            width: 370px;
+            .photoPreview {
+              color: #FFF;
+              font-size: 12px;
+              margin-bottom: 0;
+              line-height: 34px;
+              font-weight: 700;
+              text-align: center;
+            }
+            .viewall {
+              color: #00A0FF;
+              font-size: 12px;
+              margin-bottom: 0;
+              line-height: 34px;
+            }
+            .view1all {
+              color: #34344C;
+              font-size: 12px;
+              margin-bottom: 0;
+              line-height: 34px;
+            }
+          }
+          .remove-css {
+            font-weight: 400;
+            font-size: 12px;
+            color: #FFF;
+            border: 1px solid #F35A90;
+            width: 124px;
+            height: 24px;
+            line-height: 24px;
+            margin-bottom: 0;
+            margin-left: 1rem;
+            text-align: center;
+          }
           .advantSetting {
             font-weight: 700;
             font-size: 12px;
             color: #FFF;
-            margin-bottom: 5px;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            margin-left: 16px;
           }
-          .photoPreview {
-            font-weight: 400;
-            font-size: 12px;
-            color: #808080;
-            margin-bottom: 10px;
+          .imgupload-row {
+            display: flex;
+            .img-row {
+              display: flex;
+              width: 347px;
+            }
+            .show-img {
+              width: 370px;
+              height: 194px;
+            }
           }
           .sec2-row {
-            width: 150px;
-            width: 180px;
-            height: 150px;
-            height: 180px;
+            width: 124px;
+            height: 124px;
             background: #191A21;
             border: 1px solid #263B71;
-            margin: 0 auto 13px;
+            margin: 0 17px 13px;
             margin-left: 0;
             display: flex;
             align-items: center;
             justify-content: flex-start;
             justify-content: center;
             .img-icon {
-              width: 64px;
-              height: 64px;
+              width: 40px;
+              height: 40px;
               @media screen and (max-width: 768px) {
-                width: 57px;
-                height: 57px;
               }
             }
-          }
-          .photo-flex {
-            display: flex;
-            align-items: flex-end;
-            .addprod-photo-txt, .addprod-photo1-txt {
+            .text-photo {
               font-weight: 400;
               font-size: 14px;
               color: #FFF;
-              border: 1px solid #00A0FF;
-              width: 150px;
-              width: 180px;
-              height: 30px;
-              line-height: 30px;
-              text-align: center;
-              margin-right: 27px;
               margin-bottom: 0;
-            }
-            .addprod-photo1-txt {
-              font-size: 12px;
-              color: #FFF;
-              border: 1px solid #F35A90;
-              width: 120px;
-              height: 24px;
-              line-height: 24px;
+              position: absolute;
+              bottom: -47px;
+              width: 100%;
             }
           }
           .input-block {
@@ -3506,7 +3678,7 @@ export default {
               margin-right: 20px;
             }
             .prod-div1, .prod-div2 {
-              margin-top: 37px;
+              margin-top: 88px;
               
               .prod-css {
                 background: #34344C;
@@ -3519,14 +3691,14 @@ export default {
                 background: #34344C;
                 border-radius: 6px;
                 width: 347px;
-                width: 300px;
+                // width: 300px;
                 height: 200px;
               }
               .prod1-description {
                 background: #34344C;
                 border-radius: 6px;
                 width: 347px;
-                width: 300px;
+                // width: 300px;
                 height: 326px;
               }
             }
@@ -3538,7 +3710,7 @@ export default {
             font-weight: 400;
             font-size: 12px;
             color: #808080;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
           }
         }
       }
