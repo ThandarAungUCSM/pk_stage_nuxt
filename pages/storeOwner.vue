@@ -44,132 +44,134 @@
                   <!-- abc -->
                 </div>
                 <div id="addprodId" class="right-addprod">
-                  <div>
-                    <div class="one1row">
-                      <p class="advant1Setting">
-                        商品進階設定  
-                        <span v-if="updateProduct.state === '販售中'" class="advantSetting white-css">{{updateProduct.state}}</span>
-                        <span v-else-if="updateProduct.state === '預售'" class="advantSetting yellow-css">{{updateProduct.state}}</span>
-                        <span v-else-if="(updateProduct.state === '已下架') || (updateProduct.state === '售罄')" class="advantSetting pink-css">{{updateProduct.state}}</span>
-                      </p>
-                      <p v-if="(updateProduct.state === '販售中') || (updateProduct.state === '預售') || (updateProduct.state === '售罄')" class="newSettingTxt">下架此商品</p>
-                      <p v-else-if="(updateProduct.state === '已下架')" class="newSettingTxt">刪除</p>
-                    </div>
-                    <div class="onerow">
-                      <p class="hidetext">hi</p>
-                      <div class="one2row">
-                        <p class="photoPreview">了解更多照片(0/5)</p>
-                        <p class="viewall">查看全部</p>
-                      </div>
-                    </div>
-                    <div class="imgupload-row">
-                      <div class="img-row">
-                        <div class="sec2-row">
-                          <el-upload
-                            :on-change="handle5Change"
-                            action="#"
-                            list-type="picture-card"
-                            :auto-upload="false" 
-                            >
-                              <img v-if="img5Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
-                              <p class="text-photo">新增商品照片</p>
-                          </el-upload>
-                        </div>
-                        <div class="sec2-row">
-                          <el-upload
-                            :on-change="handle2Change"
-                            action="#"
-                            list-type="picture-card"
-                            :auto-upload="false" 
-                            >
-                              <img v-if="img2Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
-                              <p class="text-photo">新增了解更多照片</p>
-                          </el-upload>
-                        </div>
-                      </div>
-                      <div>
-                        <img src="../assets/pc/showimg.png" class="show-img">
-                      </div>
-                    </div>
-                    <div class="input-block">
-                      <div class="prod-left">
-                        <div id="nameTextareaId" class="prod-div1">
-                          <p class="prod-name">商品名稱：</p>
-                          <el-input v-model="prodName" type="textarea" :rows="2" placeholder="" class="prod-css"></el-input>
-                        </div>
-                        <div id="nameTextarea1Id" class="prod-div2">
-                          <p class="prod-name">商品簡介：</p>
-                          <el-input v-model="prodDescription" type="textarea" :rows="9" placeholder="" class="prod-description"></el-input>
-                        </div>
-                      </div>
-                      <div id="secTextareaId" class="prod-div1">
-                        <p class="prod-name">商品描述：</p>
-                        <el-input v-model="prod1Description" type="textarea" :rows="11" placeholder="" class="prod1-description"></el-input>
-                      </div>
-                    </div>
+                  <div class="one1row">
+                    <p class="advant1Setting">
+                      商品進階設定  
+                      <span v-if="updateProduct.state === '販售中'" class="advantSetting white-css">{{updateProduct.state}}</span>
+                      <span v-else-if="updateProduct.state === '預售'" class="advantSetting yellow-css">{{updateProduct.state}}</span>
+                      <span v-else-if="(updateProduct.state === '已下架') || (updateProduct.state === '售罄')" class="advantSetting pink-css">{{updateProduct.state}}</span>
+                    </p>
+                    <p v-if="(updateProduct.state === '販售中') || (updateProduct.state === '預售') || (updateProduct.state === '售罄')" class="newSettingTxt">下架此商品</p>
+                    <p v-else-if="(updateProduct.state === '已下架')" class="newSettingTxt">刪除</p>
                   </div>
-                  <div class="coin-div">
-                    <img src="../assets/pc/price-coin.png" class="pricecoin-img">
-                  </div>
-                  <div class="child-right-block">
+                  <div class="one-row">
                     <div>
-                      <div>
-                        <p class="prod-name">商品分類：</p>
-                        <div class="check-block">
-                          <el-checkbox-group v-model="checkList">
-                            <el-checkbox label="新品上市"></el-checkbox>
-                            <el-checkbox label="限時特賣"></el-checkbox>
-                            <el-checkbox label="玩具公仔"></el-checkbox>
-                            <el-checkbox label="零食飲料"></el-checkbox>
-                            <el-checkbox label="日用雜貨"></el-checkbox>
-                          </el-checkbox-group>
+                      <div class="onerow">
+                        <p class="hidetext">hi</p>
+                        <div class="one2row">
+                          <p class="photoPreview">了解更多照片(0/5)</p>
+                          <p :class="updateProduct && updateProduct.state ? 'viewall' : 'view1all'">查看全部</p>
                         </div>
                       </div>
-                      <div id="time1Id" class="timecss">
-                        <p class="prod-name">預售時間</p>
-                        <div v-if="Object.keys(updateProduct).length === 0" id="childConHisId" class="date-picker2-css">
-                          <el-date-picker
-                            v-model="presellTime"
-                            type="datetime"
-                            placeholder="無">
-                          </el-date-picker>
+                      <div class="imgupload-row">
+                        <div class="img-row">
+                          <div class="sec2-row">
+                            <el-upload
+                              :on-change="handle5Change"
+                              action="#"
+                              list-type="picture-card"
+                              :auto-upload="false" 
+                              >
+                                <img v-if="img5Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
+                                <p class="text-photo">新增商品照片</p>
+                            </el-upload>
+                          </div>
+                          <div class="sec2-row">
+                            <el-upload
+                              :on-change="handle2Change"
+                              action="#"
+                              list-type="picture-card"
+                              :auto-upload="false" 
+                              >
+                                <img v-if="img2Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
+                                <p class="text-photo">新增了解更多照片</p>
+                            </el-upload>
+                          </div>
                         </div>
-                        <el-input v-else-if="(updateProduct.state === '販售中') || (updateProduct.state === '已下架') || (updateProduct.state === '售罄')" v-model="presellTime" placeholder="無" class="prod-presell"></el-input>
-                        <div v-else-if="updateProduct.state === '預售'" id="childConHisId" class="date-picker2-css">
-                          <el-date-picker
-                            v-model="presellTime"
-                            type="datetime"
-                            placeholder="">
-                          </el-date-picker>
+                        <div v-if="updateProduct && updateProduct.state">
+                          <img src="../assets/pc/showimg.png" class="show-img">
                         </div>
                       </div>
-                      <div id="time2Id" class="timecss">
-                        <p class="prod-name">商品兌換價：</p>
-                        <el-input v-model="excPrice" placeholder="0" class=""></el-input>
+                      <div class="input-block">
+                        <div class="prod-left">
+                          <div id="nameTextareaId" class="prod-div1">
+                            <p class="prod-name">商品名稱：</p>
+                            <el-input v-model="prodName" type="textarea" :rows="2" placeholder="" class="prod-css"></el-input>
+                          </div>
+                          <div id="nameTextarea1Id" class="prod-div2">
+                            <p class="prod-name">商品簡介：</p>
+                            <el-input v-model="prodDescription" type="textarea" :rows="9" placeholder="" class="prod-description"></el-input>
+                          </div>
+                        </div>
+                        <div id="secTextareaId" class="prod-div1">
+                          <p class="prod-name">商品描述：</p>
+                          <el-input v-model="prod1Description" type="textarea" :rows="11" placeholder="" class="prod1-description"></el-input>
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <div v-if="Object.keys(updateProduct).length === 0" id="time4Id" class="time1css">
-                        <p class="prod-name">架上可購商品數量：</p>
-                        <el-input v-model="noofItem" placeholder="999" class=""></el-input>
-                      </div>
-                      <div v-else-if="updateProduct.state === '售罄'" id="time3Id" class="time1css">
-                        <p class="prod-name">架上可購商品數量：</p>
-                        <el-input v-model="noofItem" placeholder="999" class=""></el-input>
-                      </div>
-                      <div v-else-if="(updateProduct.state === '販售中') || (updateProduct.state === '已下架') || (updateProduct.state === '預售')" id="time4Id" class="time1css">
-                        <p class="prod-name">架上可購商品數量：</p>
-                        <el-input v-model="noofItem" placeholder="999" class=""></el-input>
+                    <div class="coin-div">
+                      <img src="../assets/pc/price-coin.png" class="pricecoin-img">
+                    </div>
+                    <div class="child-right-block">
+                      <div>
+                        <div>
+                          <p class="prod1-name">商品分類：</p>
+                          <div class="check-block">
+                            <el-checkbox-group v-model="checkList">
+                              <el-checkbox label="新品上市"></el-checkbox>
+                              <el-checkbox label="限時特賣"></el-checkbox>
+                              <el-checkbox label="玩具公仔"></el-checkbox>
+                              <el-checkbox label="零食飲料"></el-checkbox>
+                              <el-checkbox label="日用雜貨"></el-checkbox>
+                            </el-checkbox-group>
+                          </div>
+                        </div>
+                        <div id="time1Id" class="timecss">
+                          <p class="prod-name">預售時間</p>
+                          <div v-if="Object.keys(updateProduct).length === 0" id="childConHisId" class="date-picker2-css">
+                            <el-date-picker
+                              v-model="presellTime"
+                              type="datetime"
+                              placeholder="無">
+                            </el-date-picker>
+                          </div>
+                          <el-input v-else-if="(updateProduct.state === '販售中') || (updateProduct.state === '已下架') || (updateProduct.state === '售罄')" v-model="presellTime" placeholder="無" class="prod-presell"></el-input>
+                          <div v-else-if="updateProduct.state === '預售'" id="childConHisId" class="date-picker2-css">
+                            <el-date-picker
+                              v-model="presellTime"
+                              type="datetime"
+                              placeholder="">
+                            </el-date-picker>
+                          </div>
+                        </div>
+                        <div id="time2Id" class="timecss">
+                          <p class="prod-name">商品兌換價：</p>
+                          <el-input v-model="excPrice" placeholder="0" class=""></el-input>
+                        </div>
                       </div>
                       <div>
-                        <p v-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '販售中') || (updateProduct.state === '預售'))" class="prod1-btn" @click="productSetting">儲存</p>
-                        <p v-else-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '售罄') || (updateProduct.state === '已下架'))" class="prod1-btn" @click="productSetting">完成</p>
-                        <p v-else class="prod-btn">上架</p>
+                        <div v-if="Object.keys(updateProduct).length === 0" id="time4Id" class="time1css">
+                          <p class="prod-name">架上可購商品數量：</p>
+                          <el-input v-model="noofItem" placeholder="999" class=""></el-input>
+                        </div>
+                        <div v-else-if="updateProduct.state === '售罄'" id="time3Id" class="time1css">
+                          <p class="prod-name">架上可購商品數量：</p>
+                          <el-input v-model="noofItem" placeholder="999" class=""></el-input>
+                        </div>
+                        <div v-else-if="(updateProduct.state === '販售中') || (updateProduct.state === '已下架') || (updateProduct.state === '預售')" id="time4Id" class="time1css">
+                          <p class="prod-name">架上可購商品數量：</p>
+                          <el-input v-model="noofItem" placeholder="999" class=""></el-input>
+                        </div>
+                        <div>
+                          <p v-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '販售中') || (updateProduct.state === '預售'))" class="prod1-btn" @click="productSetting">儲存</p>
+                          <p v-else-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '售罄') || (updateProduct.state === '已下架'))" class="prod1-btn" @click="productSetting">完成</p>
+                          <p v-else class="prod-btn">上架</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div v-if="Object.keys(updateProduct).length === 0" class="right1-close">
-                    <img src="../assets/pc/modal-close.png" class="closecate-img aaa" @click="productSetting">
+                    <div v-if="Object.keys(updateProduct).length === 0" class="right1-close">
+                      <img src="../assets/pc/modal-close.png" class="closecate-img aaa" @click="productSetting">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -253,7 +255,7 @@
                           label="進階設定"
                           width="100">
                           <template slot-scope="props">
-                            <div @click="refundDataModal(props.row)">
+                            <div @click="toUpdateFunc(props.row)">
                               <img src="../assets/pc/setting.png" class="setting-img">
                             </div>
                           </template>
@@ -1394,7 +1396,7 @@ export default {
       newScreen: false,
       plusCondition: false,
       addnewProduct: false,
-      checkList: ['日用雜貨'],
+      checkList: [],
       updateProduct: {},
       cateShow: [
         {name: '所有商品', value: 'all-good'},
@@ -2132,10 +2134,12 @@ export default {
           padding: 1rem 1rem 2rem 2rem;
           position: relative;
           margin-left: 10px;
-          display: flex;
           width: 1050px;
           max-width: 1110px;
           height: 763px;
+          .one-row {
+            display: flex;
+          }
           .coin-div {
             display: flex;
             align-items: center;
@@ -2189,21 +2193,34 @@ export default {
             margin: auto auto 9px;
           }
           .advantSetting {
-            margin-left: 7px;
+            margin-left: 10px;
           }
-          .advantSetting, .advant1Setting, .newSettingTxt {
+          .advantSetting {
             font-weight: 700;
             font-size: 12px;
             color: #FFF;
             margin-bottom: 0;
             width: calc(124px + 17px);
           }
+          .advant1Setting {
+            font-weight: 700;
+            font-size: 12px;
+            color: #FFF;
+            margin-bottom: 0;
+            height: 24px;
+            line-height: 24px;
+          }
           .newSettingTxt {
+            font-weight: 700;
+            font-size: 12px;
+            color: #FFF;
+            margin-bottom: 0;
             width: 124px;
             border: 1px solid #F35A90;
             text-align: center;
             height: 24px;
-            line-height: 20px;
+            line-height: 24px;
+            margin-left: 12px;
           }
           .one1row {
             display: flex;
@@ -2214,7 +2231,8 @@ export default {
             justify-content: space-between;
             .hidetext {
               width: 347px;
-              margin-bottom: 10px;
+              margin-bottom: 0;
+              visibility: hidden;
             }
           }
           .one2row {
@@ -2229,11 +2247,15 @@ export default {
               font-weight: 700;
               text-align: center;
             }
-            .viewall {
+            .viewall, .view1all {
               color: #00A0FF;
               font-size: 12px;
               margin-bottom: 0;
               line-height: 34px;
+              font-weight: 700;
+            }
+            .view1all {
+              color: #34344C;
             }
           }
           .imgupload-row {
@@ -2311,6 +2333,14 @@ export default {
             font-size: 12px;
             color: #808080;
             margin-bottom: 5px;
+          }
+          .prod1-name {
+            font-weight: 400;
+            font-size: 12px;
+            color: #808080;
+            margin-bottom: 0;
+            height: 34px;
+            line-height: 34px;
           }
         }
       }
