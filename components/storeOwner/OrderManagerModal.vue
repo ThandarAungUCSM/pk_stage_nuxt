@@ -79,7 +79,7 @@
                       </div>
                       <div v-if="sendData.state === '已取消'">
                         <div class="each-row">
-                          <p class="rightcoupon pink-css">收件人</p>
+                          <p class="rightcoupon pink-css">取消時間</p>
                           <p class="free-shipping2-coupon">2024-02-02 14:59:26</p>
                         </div>
                       </div>
