@@ -285,6 +285,7 @@ export default {
 .when-component {
   @media screen and (max-width: 768px) {
     background: transparent;
+    z-index: 11;
   }
 }
 .sidebar-open {

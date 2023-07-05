@@ -4687,7 +4687,6 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 10; // advertise
         .manager-btn {
           font-weight: 400;
           font-size: 16px;
@@ -4702,6 +4701,11 @@ export default {
         .trash-img {
           width: 18px;
           height: 18px;
+        }
+      }
+      .advertise-btn {
+        @media screen and (max-width: 768px) {
+          z-index: 11; // advertise
         }
       }
       .advertise-btn1 {
