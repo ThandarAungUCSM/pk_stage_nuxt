@@ -97,11 +97,11 @@
                       </div>
                       <div class="block-css">
                         <p class="name-lable">遊戲名稱</p>
-                        <el-input v-model="editName" placeholder="楓之谷" class="name-css"></el-input>
+                        <el-input v-model="editName" placeholder="楓之谷" onfocus="this.placeholder=''" class="name-css"></el-input>
                       </div>
                       <div class="block-css">
                         <p class="name-lable">幣別</p>
-                        <el-input v-model="editCurrency" placeholder="楓幣" class="name-css"></el-input>
+                        <el-input v-model="editCurrency" placeholder="楓幣" onfocus="this.placeholder=''" class="name-css"></el-input>
                       </div>
                       <div class="block-css">
                         <p class="name1-lable">採用</p>

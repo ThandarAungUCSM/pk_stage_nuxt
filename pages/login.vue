@@ -39,6 +39,7 @@ export default {
   methods: {
     ...mapActions("user", ["updateLogin"]),
     loginProcess() {
+      // loginData: {name: 'firefly', password: '123456'},
       if(this.userName === this.userdata.name && this.userPwd === this.userdata.password) {
         // alert('Success !!')
         this.updateLogin(true);
