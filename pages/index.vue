@@ -11,124 +11,131 @@
         <div v-if="activeMenu !== '' && activeMenu === 'currencyManager'" :class="opensidebar ? 'm1-currency' : 'm-currency'" id="currencyManagerId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
-              <p class="equal-text">
-                遊戲幣值比率
-              </p>
-              <div class="pad-css">
-                <div class="row-css">
-                  <div v-if="currencyData" class="left-content">
-                    <el-table
-                      class="for-pc"
-                      :data="currencyData"
-                      style="width: 85%"
-                      :row-class-name="tableRowClassName">
-                      <el-table-column
-                        prop="gameName"
-                        label="遊戲名稱"
-                        width="190">
-                      </el-table-column>
-                      <el-table-column
-                        prop="currency"
-                        label="幣別"
-                        width="190">
-                        <template slot-scope="props">
-                          <span class="">PK/{{ props.row.currency }}</span>
-                        </template>
-                      </el-table-column>
-                      <el-table-column
-                        prop="use"
-                        label="採用"
-                        width="190">
-                        <template slot-scope="props">
-                          <span v-if="props.row.state && props.row.state === 'pause'" class="">{{ props.row.use }}(停用)</span>
-                          <span v-else class="">{{ props.row.use }}</span>
-                        </template>
-                      </el-table-column>
-                      <el-table-column
-                        prop="edit"
-                        label="編輯"
-                        width="132">
-                        <template slot-scope="props">
-                          <div @click="editBlock(props.row, props.$index)"><img src="../assets/pc/btn-edit.png" class="edit-img"></div>
-                        </template>
-                      </el-table-column>
-                    </el-table>
-                    <el-table
-                      class="for-mobile"
-                      :data="currencyData"
-                      style="width: 97%"
-                      :row-class-name="tableRowClassName">
-                      <el-table-column
-                        prop="gameName"
-                        label="遊戲名稱"
-                        width="72">
-                      </el-table-column>
-                      <el-table-column
-                        prop="currency"
-                        label="幣別"
-                        width="93">
-                        <template slot-scope="props">
-                          <span class="">PK/{{ props.row.currency }}</span>
-                        </template>
-                      </el-table-column>
-                      <el-table-column
-                        prop="use"
-                        label="採用"
-                        width="135">
-                        <template slot-scope="props">
-                          <span v-if="props.row.state && props.row.state === 'pause'" class="">{{ props.row.use }}(停用)</span>
-                          <span v-else class="">{{ props.row.use }}</span>
-                        </template>
-                      </el-table-column>
-                      <el-table-column
-                        prop="edit"
-                        label="編輯"
-                        width="47">
-                        <template slot-scope="props">
-                          <div @click="editBlock(props.row, props.$index)"><img src="../assets/pc/btn-edit.png" class="edit-img"></div>
-                        </template>
-                      </el-table-column>
-                    </el-table>
-                  </div>
-                  <div id="rightId" class="right-content" :class="(eachcondition && (eachcondition === 'disabled' || eachcondition === 'active')) ? 'showcss' : 'hidecss'">
-                    <div class="right-div">
-                      <div class="right-close">
-                        <img src="../assets/pc/modal-close.png" class="close-img" @click="closeBlock">
+              <div class="row-content">
+                <div class="left-block">
+
+                  <p class="equal-text">
+                    遊戲幣值比率
+                  </p>
+                  <div class="pad-css">
+                    <div class="row-css">
+                      <div v-if="currencyData" class="left-content">
+                        <el-table
+                          class="for-pc"
+                          :data="currencyData"
+                          style="width: 85%"
+                          :row-class-name="tableRowClassName">
+                          <el-table-column
+                            prop="gameName"
+                            label="遊戲名稱"
+                            width="190">
+                          </el-table-column>
+                          <el-table-column
+                            prop="currency"
+                            label="幣別"
+                            width="190">
+                            <template slot-scope="props">
+                              <span class="">PK/{{ props.row.currency }}</span>
+                            </template>
+                          </el-table-column>
+                          <el-table-column
+                            prop="use"
+                            label="採用"
+                            width="190">
+                            <template slot-scope="props">
+                              <span v-if="props.row.state && props.row.state === 'pause'" class="">{{ props.row.use }}(停用)</span>
+                              <span v-else class="">{{ props.row.use }}</span>
+                            </template>
+                          </el-table-column>
+                          <el-table-column
+                            prop="edit"
+                            label="編輯"
+                            width="132">
+                            <template slot-scope="props">
+                              <div @click="editBlock(props.row, props.$index)"><img src="../assets/pc/btn-edit.png" class="edit-img"></div>
+                            </template>
+                          </el-table-column>
+                        </el-table>
+                        <el-table
+                          class="for-mobile"
+                          :data="currencyData"
+                          style="width: 97%"
+                          :row-class-name="tableRowClassName">
+                          <el-table-column
+                            prop="gameName"
+                            label="遊戲名稱"
+                            width="72">
+                          </el-table-column>
+                          <el-table-column
+                            prop="currency"
+                            label="幣別"
+                            width="93">
+                            <template slot-scope="props">
+                              <span class="">PK/{{ props.row.currency }}</span>
+                            </template>
+                          </el-table-column>
+                          <el-table-column
+                            prop="use"
+                            label="採用"
+                            width="135">
+                            <template slot-scope="props">
+                              <span v-if="props.row.state && props.row.state === 'pause'" class="">{{ props.row.use }}(停用)</span>
+                              <span v-else class="">{{ props.row.use }}</span>
+                            </template>
+                          </el-table-column>
+                          <el-table-column
+                            prop="edit"
+                            label="編輯"
+                            width="47">
+                            <template slot-scope="props">
+                              <div @click="editBlock(props.row, props.$index)"><img src="../assets/pc/btn-edit.png" class="edit-img"></div>
+                            </template>
+                          </el-table-column>
+                        </el-table>
                       </div>
-                      <div class="block-css">
-                        <p class="name-lable">遊戲名稱</p>
-                        <el-input v-model="editName" placeholder="楓之谷" onfocus="this.placeholder=''" class="name-css"></el-input>
-                      </div>
-                      <div class="block-css">
-                        <p class="name-lable">幣別</p>
-                        <el-input v-model="editCurrency" placeholder="楓幣" onfocus="this.placeholder=''" class="name-css"></el-input>
-                      </div>
-                      <div class="block-css">
-                        <p class="name1-lable">採用</p>
-                        <div v-if="!priceEdit" class="manager1-css">
-                          <p v-if="editData.state && editData.state === 'pause'" class="price-css">{{editData.use}}(停用)</p>
-                          <p v-else class="price-css">{{editData.use}}</p>
-                          <div v-if="!(editData.state)" @click="updateFunc">
-                            <p class="price-btn">修改</p>
+                      <div id="rightId" class="right-content" :class="(eachcondition && (eachcondition === 'disabled' || eachcondition === 'active')) ? 'showcss' : 'hidecss'">
+                        <div class="right-div">
+                          <div class="right-close">
+                            <img src="../assets/pc/modal-close.png" class="close-img" @click="closeBlock">
+                          </div>
+                          <div class="block-css">
+                            <p class="name-lable">遊戲名稱</p>
+                            <el-input v-model="editName" placeholder="楓之谷" onfocus="this.placeholder=''" class="name-css"></el-input>
+                          </div>
+                          <div class="block-css">
+                            <p class="name-lable">幣別</p>
+                            <el-input v-model="editCurrency" placeholder="楓幣" onfocus="this.placeholder=''" class="name-css"></el-input>
+                          </div>
+                          <div class="block-css">
+                            <p class="name1-lable">採用</p>
+                            <div v-if="!priceEdit" class="manager1-css">
+                              <p v-if="editData.state && editData.state === 'pause'" class="price-css">{{editData.use}}(停用)</p>
+                              <p v-else class="price-css">{{editData.use}}</p>
+                              <div v-if="!(editData.state)" @click="updateFunc">
+                                <p class="price-btn">修改</p>
+                              </div>
+                            </div>
+                            <div v-else class="manager2-css">
+                              <el-input v-model="editPrice" pattern="[0-9]{4} [0-9]{3} [0-9]{3}" oninput="this.value = this.value.replace(/^0/, ''); this.value = this.value.replace(/[^0-9.]/g, ''); " placeholder="" onfocus="this.placeholder=''" class="name1-css"></el-input>
+                              <div class="price-btn" @click="exitEditMode(1)">完成</div>
+                            </div>
+                          </div>
+                          <div class="red-block">
+                            <p v-if="eachcondition === 'active'" class="disabled-btn">停用</p>
+                            <p v-else-if="eachcondition === 'disabled'"  class="disabled-btn">解除停用</p>
+                            <p class="removed-btn">從官網移除</p>
+                          </div>
+                          <div class="btn-block">
+                            <p class="store-btn" @click="closeBlock">儲存</p>
                           </div>
                         </div>
-                        <div v-else class="manager2-css">
-                          <el-input v-model="editPrice" pattern="[0-9]{4} [0-9]{3} [0-9]{3}" oninput="this.value = this.value.replace(/^0/, ''); this.value = this.value.replace(/[^0-9.]/g, ''); " placeholder="" onfocus="this.placeholder=''" class="name1-css"></el-input>
-                          <div class="price-btn" @click="exitEditMode(1)">完成</div>
-                        </div>
-                      </div>
-                      <div class="red-block">
-                        <p v-if="eachcondition === 'active'" class="disabled-btn">停用</p>
-                        <p v-else-if="eachcondition === 'disabled'"  class="disabled-btn">解除停用</p>
-                        <p class="removed-btn">從官網移除</p>
-                      </div>
-                      <div class="btn-block">
-                        <p class="store-btn" @click="closeBlock">儲存</p>
                       </div>
                     </div>
                   </div>
+
                 </div>
               </div>
+
             </div>
           </div>
         </div>
