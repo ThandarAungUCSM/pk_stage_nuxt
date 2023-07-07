@@ -409,7 +409,7 @@
                       <p class="hidetext">hi</p>
                       <div class="one2row">
                         <p class="photoPreview">了解更多照片(0/5)</p>
-                        <p :class="updateProduct && (updateProduct.state) ? 'viewall' : 'view1all'" >查看全部</p>
+                        <p :class="updateProduct && updateProduct.state ? 'viewall' : 'view1all'">查看全部</p>
                       </div>
                     </div>
                     <!-- <p class="photoPreview">商品照片預覽</p> -->
@@ -444,7 +444,7 @@
                     </div>
                     <div class="input-block">
                       <div class="prod-left">
-                        <div id="nameTextareaId" class="prod-div1">
+                        <div id="nameTextareaId" :class="(updateProduct && (updateProduct.state) && (updateProduct.state !== '預售')) ? 'prod-div3' : 'prod-div1'">
                           <p class="prod-name">商品名稱：</p>
                           <el-input v-model="prodName" type="textarea" :rows="2" placeholder="" class="prod-css"></el-input>
                         </div>
@@ -453,7 +453,7 @@
                           <el-input v-model="prodDescription" type="textarea" :rows="9" placeholder="" class="prod-description"></el-input>
                         </div>
                       </div>
-                      <div id="secTextareaId" class="prod-div1">
+                      <div id="secTextareaId" :class="(updateProduct && (updateProduct.state) && (updateProduct.state !== '預售')) ? 'prod-div3' : 'prod-div1'">
                         <p class="prod-name">商品描述：</p>
                         <el-input v-model="prod1Description" type="textarea" :rows="11" placeholder="" class="prod1-description"></el-input>
                       </div>
@@ -464,8 +464,20 @@
                   </div>
                   <div class="child-right-block">
                     <div>
+                      <div>
+                        <p class="prod1-name">商品分類：</p>
+                        <div class="check-block">
+                          <el-checkbox-group v-model="checkList">
+                            <el-checkbox label="新品上市"></el-checkbox>
+                            <el-checkbox label="限時特賣"></el-checkbox>
+                            <el-checkbox label="玩具公仔"></el-checkbox>
+                            <el-checkbox label="零食飲料"></el-checkbox>
+                            <el-checkbox label="日用雜貨"></el-checkbox>
+                          </el-checkbox-group>
+                        </div>
+                      </div>
                       <div id="time1Id" class="timecss">
-                        <p class="prod-name">預售時間</p>
+                        <p class="prod-nname">預售時間</p>
                         <div v-if="Object.keys(updateProduct).length === 0" id="childConHisId" class="date-picker2-css">
                           <el-date-picker
                             v-model="presellTime"
@@ -483,24 +495,24 @@
                         </div>
                       </div>
                       <div id="time2Id" class="timecss">
-                        <p class="prod-name" style="display: none;">商品兌換價：</p>
+                        <p class="prod-nname">商品兌換價：</p>
                         <el-input v-model="excPrice" placeholder="0" class=""></el-input>
                       </div>
                     </div>
                     <div>
                       <div v-if="Object.keys(updateProduct).length === 0" id="time4Id" class="time1css">
-                        <p class="prod-name" style="display: none;">架上可購商品數量：</p>
+                        <p class="prod-name">架上可購商品數量：</p>
                         <el-input v-model="noofItem" placeholder="999" class=""></el-input>
                       </div>
                       <div v-else-if="updateProduct.state === '售罄'" id="time3Id" class="time1css">
-                        <p class="prod-name" style="display: none;">架上可購商品數量：</p>
+                        <p class="prod-name">架上可購商品數量：</p>
                         <el-input v-model="noofItem" placeholder="999" class=""></el-input>
                       </div>
                       <div v-else-if="(updateProduct.state === '販售中') || (updateProduct.state === '已下架') || (updateProduct.state === '預售')" id="time4Id" class="time1css">
-                        <p class="prod-name" style="display: none;">架上可購商品數量：</p>
+                        <p class="prod-name">架上可購商品數量：</p>
                         <el-input v-model="noofItem" placeholder="999" class=""></el-input>
                       </div>
-                      <div style="display: none; ">
+                      <div>
                         <p v-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '販售中') || (updateProduct.state === '預售'))" class="prod1-btn" @click="productSetting">儲存</p>
                         <p v-else-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '售罄') || (updateProduct.state === '已下架'))" class="prod1-btn" @click="productSetting">完成</p>
                         <p v-else class="prod-btn">上架</p>
@@ -3274,13 +3286,24 @@ export default {
       padding-right: 10px;
     }
   }
-  #time2Id, #time4Id {
+  #time2Id {
+    .el-input__inner {
+      width: 152px;
+      height: 50px;
+      font-weight: 400;
+      font-size: 16px;
+      text-align: right;
+      padding: 0 7px;
+    }
+  }
+  #time4Id {
     .el-input__inner {
       width: 152px;
       height: 32px;
       font-weight: 400;
       font-size: 16px;
       text-align: right;
+      padding: 0 7px;
     }
   }
   #time3Id {
@@ -3288,6 +3311,8 @@ export default {
       width: 152px;
       height: 32px;
       color: #FF0000;
+      text-align: right;
+      padding: 0 7px;
     }
   }
   .el-upload-list--picture-card .el-upload-list__item-thumbnail {
@@ -3554,12 +3579,23 @@ export default {
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
+            .prod1-name {
+              color: #808080;
+              font-size: 12px;
+              font-weight: 400;
+              margin-bottom: 13px;
+            }
             .timecss {
-              margin-top: 33px;
+              margin-top: 19px;
             }
             .time1css {
-              margin-top: 162px;
-              margin-bottom: 50px;
+              margin-top: 96px;
+              margin-bottom: 27px;
+            }
+            .check-block {
+              background: #34344C;
+              border-radius: 6px;
+              width: 152px;
             }
           }
           .prod-btn, .prod1-btn {
@@ -3573,6 +3609,7 @@ export default {
             font-size: 20px;
             text-align: center;
             cursor: pointer;
+            margin-bottom: 0;
           }
           .prod1-btn {
             background: linear-gradient(90deg, #7161EF 0%, #432FDE 100%);
@@ -3593,6 +3630,7 @@ export default {
               width: 347px;
               margin-bottom: 10px;
               visibility: hidden;
+              margin-bottom: 0;
             }
           }
           .one2row {
@@ -3607,17 +3645,15 @@ export default {
               font-weight: 700;
               text-align: center;
             }
-            .viewall {
+            .viewall, .view1all {
               color: #00A0FF;
               font-size: 12px;
               margin-bottom: 0;
               line-height: 34px;
+              font-weight: 700;
             }
             .view1all {
               color: #34344C;
-              font-size: 12px;
-              margin-bottom: 0;
-              line-height: 34px;
             }
           }
           .remove-css {
@@ -3657,7 +3693,7 @@ export default {
             height: 124px;
             background: #191A21;
             border: 1px solid #263B71;
-            margin: 0 17px 13px;
+            margin: 0 17px 0;
             margin-left: 0;
             display: flex;
             align-items: center;
@@ -3684,8 +3720,8 @@ export default {
             .prod-left {
               margin-right: 20px;
             }
-            .prod-div1, .prod-div2 {
-              margin-top: 88px;
+            .prod-div1, .prod-div2, .prod-div3 {
+              margin-top: 145px;
               
               .prod-css {
                 background: #34344C;
@@ -3712,8 +3748,17 @@ export default {
             .prod-div2 {
               margin-top: 26px;
             }
+            .prod-div3 {
+              margin-top: 88px;
+            }
           }
           .prod-name {
+            font-weight: 400;
+            font-size: 12px;
+            color: #808080;
+            margin-bottom: 5px;
+          }
+          .prod-nname {
             font-weight: 400;
             font-size: 12px;
             color: #808080;
