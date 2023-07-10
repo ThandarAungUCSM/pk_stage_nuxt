@@ -396,7 +396,7 @@
                 <div id="addprodId" class="right-addprod">
                   <div>
                     <div class="rowone" :style="(updateProduct.state === '預售') ? 'margin-bottom: 31px;' : ''">
-                      <p class="advantSetting">
+                      <p class="advant1Setting">
                         商品進階設定  
                         <span v-if="updateProduct.state === '販售中'" class="advantSetting white-css">{{updateProduct.state}}</span>
                         <span v-else-if="updateProduct.state === '預售'" class="advantSetting yellow-css">{{updateProduct.state}}</span>
@@ -414,28 +414,34 @@
                     </div>
                     <!-- <p class="photoPreview">商品照片預覽</p> -->
                     <div class="imgupload-row">
-                      <div class="img-row">
-                        <div class="sec2-row">
-                          <el-upload
-                            :on-change="handle3Change"
-                            action="#"
-                            list-type="picture-card"
-                            :auto-upload="false" 
-                            >
-                              <img v-if="img3Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
-                              <p class="text-photo">新增商品照片</p>
-                          </el-upload>
+                      <div>
+                        <div class="img-row">
+                          <div class="sec2-row">
+                            <el-upload
+                              :on-change="handle3Change"
+                              action="#"
+                              list-type="picture-card"
+                              :auto-upload="false" 
+                              >
+                                <img v-if="img3Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
+                                <p class="text-photo">新增商品照片</p>
+                            </el-upload>
+                          </div>
+                          <div class="sec2-row">
+                            <el-upload
+                              :on-change="handle2Change"
+                              action="#"
+                              list-type="picture-card"
+                              :auto-upload="false" 
+                              >
+                                <img v-if="img2Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
+                                <p class="text-photo">新增了解更多照片</p>
+                            </el-upload>
+                          </div>
                         </div>
-                        <div class="sec2-row">
-                          <el-upload
-                            :on-change="handle2Change"
-                            action="#"
-                            list-type="picture-card"
-                            :auto-upload="false" 
-                            >
-                              <img v-if="img2Upload === ''" src="../assets/pc/img-img.png" class="img-icon">
-                              <p class="text-photo">新增了解更多照片</p>
-                          </el-upload>
+                        <div class="preview-div">
+                          <p class="view-css">預覽(0/8)</p>
+                          <p class="view-css">預覽(0/5)</p>
                         </div>
                       </div>
                       <div v-if="(updateProduct && (updateProduct.state) && (updateProduct.state !== '預售'))">
@@ -453,7 +459,7 @@
                           <el-input v-model="prodDescription" type="textarea" :rows="9" placeholder="" class="prod-description"></el-input>
                         </div>
                       </div>
-                      <div id="secTextareaId" :class="(updateProduct && (updateProduct.state) && (updateProduct.state !== '預售')) ? 'prod-div3' : 'prod-div1'">
+                      <div id="secTextareaId" :class="(updateProduct && (updateProduct.state) && (updateProduct.state !== '預售')) ? 'prod-div5' : 'prod-div4'">
                         <p class="prod-name">商品描述：</p>
                         <el-input v-model="prod1Description" type="textarea" :rows="11" placeholder="" class="prod1-description"></el-input>
                       </div>
@@ -476,7 +482,7 @@
                           </el-checkbox-group>
                         </div>
                       </div>
-                      <div id="time1Id" class="timecss">
+                      <div id="time1Id" class="timecss1">
                         <p class="prod-nname">預售時間</p>
                         <div v-if="Object.keys(updateProduct).length === 0" id="childConHisId" class="date-picker2-css">
                           <el-date-picker
@@ -494,33 +500,38 @@
                           </el-date-picker>
                         </div>
                       </div>
-                      <div id="time2Id" class="timecss">
+                      <div id="time2Id" class="timecss2">
                         <p class="prod-nname">商品兌換價：</p>
-                        <el-input v-model="excPrice" placeholder="0" class=""></el-input>
+                        <el-input v-model="excPrice" placeholder="0" class="pc-show"></el-input>
+                        <div class="m-show">
+                          <img src="../assets/pc/price-coin.png" class="pricecoin1-img">
+                          <el-input v-model="excPrice" placeholder="0" class=""></el-input>
+                        </div>
                       </div>
                     </div>
                     <div>
                       <div v-if="Object.keys(updateProduct).length === 0" id="time4Id" class="time1css">
-                        <p class="prod-name">架上可購商品數量：</p>
+                        <!-- <p class="prod-name">架上可購商品數量：</p> -->
+                        <p class="prod-name">架上可購商品剩餘數量：</p>
                         <el-input v-model="noofItem" placeholder="999" class=""></el-input>
                       </div>
                       <div v-else-if="updateProduct.state === '售罄'" id="time3Id" class="time1css">
-                        <p class="prod-name">架上可購商品數量：</p>
+                        <p class="prod-name">架上可購商品剩餘數量：</p>
                         <el-input v-model="noofItem" placeholder="999" class=""></el-input>
                       </div>
                       <div v-else-if="(updateProduct.state === '販售中') || (updateProduct.state === '已下架') || (updateProduct.state === '預售')" id="time4Id" class="time1css">
-                        <p class="prod-name">架上可購商品數量：</p>
+                        <p class="prod-name">架上可購商品剩餘數量：</p>
                         <el-input v-model="noofItem" placeholder="999" class=""></el-input>
                       </div>
                       <div>
                         <p v-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '販售中') || (updateProduct.state === '預售'))" class="prod1-btn" @click="productSetting">儲存</p>
                         <p v-else-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '售罄') || (updateProduct.state === '已下架'))" class="prod1-btn" @click="productSetting">完成</p>
-                        <p v-else class="prod-btn">上架</p>
+                        <p v-else class="prod-btn" @click="productSetting">儲存</p>
                       </div>
                     </div>
                   </div>
                   <div v-if="Object.keys(updateProduct).length === 0" class="right1-close">
-                    <img src="../assets/pc/modal-close.png" class="closecate-img aaa" @click="productSetting">
+                    <img src="../assets/pc/modal-close.png" class="closecate-img" @click="productSetting">
                   </div>
                 </div>
               </div>
@@ -3074,6 +3085,11 @@ export default {
       width: 341px;
       height: 48px;
       line-height: 48px;
+
+      // 預售時間
+      width: 263px;
+      height: 32px;
+      line-height: 32px;
     }
   }
   .el-checkbox {
@@ -3156,6 +3172,9 @@ export default {
   #secTextareaId {
     .el-textarea__inner {
       height: 326px;
+      @media screen and (max-width: 768px) {
+        height: 180px;
+      }
     }
   }
   #time1Id {
@@ -3165,6 +3184,9 @@ export default {
       font-size: 12px;
       padding-left: 10px;
       padding-right: 10px;
+      @media screen and (max-width: 768px) {
+        width: 263px;
+      }
     }
   }
   #time2Id, #time4Id {
@@ -3196,6 +3218,10 @@ export default {
     padding-top: 1rem;
     width: 152px;
     height: 243px;
+    @media screen and (max-width: 768px) {
+      height: auto;
+      padding-bottom: 1rem;
+    }
   }
   .el-checkbox {
     font-weight: 400;
@@ -3260,11 +3286,20 @@ export default {
     font-weight: 400;
     font-size: 16px;
     color: #FFF;
+    @media screen and (max-width: 768px) {
+      width: 265px;
+      height: 160px;
+    }
   }
   #nameTextareaId {
     .el-textarea__inner {
       width: 347px;
       height: 72px;
+      @media screen and (max-width: 768px) {
+        width: 265px;
+        height: 48px;
+        padding: 0 10px;
+      }
     }
   }
   #nameTextarea1Id {
@@ -3275,6 +3310,9 @@ export default {
   #secTextareaId {
     .el-textarea__inner {
       height: 326px;
+      @media screen and (max-width: 768px) {
+        height: 180px;
+      }
     }
   }
   #time1Id {
@@ -3284,6 +3322,10 @@ export default {
       font-size: 12px;
       padding-left: 10px;
       padding-right: 10px;
+      @media screen and (max-width: 768px) {
+        width: 263px;
+        border-radius: 6px;
+      }
     }
   }
   #time2Id {
@@ -3294,6 +3336,9 @@ export default {
       font-size: 16px;
       text-align: right;
       padding: 0 7px;
+      @media screen and (max-width: 768px) {
+        width: 214px;
+      }
     }
   }
   #time4Id {
@@ -3304,6 +3349,10 @@ export default {
       font-size: 16px;
       text-align: right;
       padding: 0 7px;
+      @media screen and (max-width: 768px) {
+        width: 263px;
+        height: 50px;
+      }
     }
   }
   #time3Id {
@@ -3313,6 +3362,10 @@ export default {
       color: #FF0000;
       text-align: right;
       padding: 0 7px;
+      @media screen and (max-width: 768px) {
+        width: 263px;
+        height: 50px;
+      }
     }
   }
   .el-upload-list--picture-card .el-upload-list__item-thumbnail {
@@ -3526,6 +3579,9 @@ export default {
           height: 100%;
           top: 0;
           padding: 1rem;
+          @media screen and (max-width: 768px) {
+            display: none;
+          }
           .prod-photo {
             font-weight: 700;
             font-size: 12px;
@@ -3564,10 +3620,21 @@ export default {
           display: flex;
           width: 1000px;
           max-width: 1110px;
+          @media screen and (max-width: 768px) {
+            flex-direction: column;
+            margin-left: 0;
+            width: 95%;
+            max-width: 95%;
+            margin: auto;
+            padding: 20px 39px 57px 39px;
+          }
           .coin-div {
             display: flex;
             align-items: center;
             margin-top: 7rem;
+            @media screen and (max-width: 768px) {
+              display: none;
+            }
             .pricecoin-img {
               width: 24px;
               height: 24px;
@@ -3579,18 +3646,50 @@ export default {
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
+            @media screen and (max-width: 768px) {
+              margin-top: 22px;
+            }
             .prod1-name {
               color: #808080;
               font-size: 12px;
               font-weight: 400;
               margin-bottom: 13px;
             }
-            .timecss {
+            .timecss1 {
               margin-top: 19px;
+              @media screen and (max-width: 768px) {
+                margin-top: 22px;
+              }
+            }
+            .timecss2 {
+              margin-top: 19px;
+              @media screen and (max-width: 768px) {
+                margin-top: 12px;
+              }
+              .pc-show {
+                @media screen and (max-width: 768px) {
+                  display: none;
+                }
+              }
+              .m-show {
+                display: none;
+                @media screen and (max-width: 768px) {
+                  display: flex;
+                  align-items: center;
+                }
+              }
+              .pricecoin1-img {
+                width: 24px;
+                height: 24px;
+                margin-right: 21px;
+              }
             }
             .time1css {
               margin-top: 96px;
               margin-bottom: 27px;
+              @media screen and (max-width: 768px) {
+                margin-top: 21px;
+              }
             }
             .check-block {
               background: #34344C;
@@ -3610,10 +3709,11 @@ export default {
             text-align: center;
             cursor: pointer;
             margin-bottom: 0;
-          }
-          .prod1-btn {
             background: linear-gradient(90deg, #7161EF 0%, #432FDE 100%);
             color: #FFF;
+            @media screen and (max-width: 768px) {
+              margin: 47px auto 0;
+            }
           }
           .prod-photo {
             font-weight: 700;
@@ -3622,21 +3722,35 @@ export default {
           }
           .rowone {
             display: flex;
+            @media screen and (max-width: 768px) {
+              // flex-direction: column;
+              margin-bottom: 1rem;
+            }
           }
           .onerow {
             display: flex;
             justify-content: space-between;
+            @media screen and (max-width: 768px) {
+              flex-direction: column;
+            }
             .hidetext {
               width: 347px;
               margin-bottom: 10px;
               visibility: hidden;
               margin-bottom: 0;
+              @media screen and (max-width: 768px) {
+                display: none;
+              }
             }
           }
           .one2row {
             display: flex;
             justify-content: space-between;
             width: 370px;
+            @media screen and (max-width: 768px) {
+              width: 100%;
+              display: none;
+            }
             .photoPreview {
               color: #FFF;
               font-size: 12px;
@@ -3654,6 +3768,9 @@ export default {
             }
             .view1all {
               color: #34344C;
+              @media screen and (max-width: 768px) {
+                display: none;
+              }
             }
           }
           .remove-css {
@@ -3668,7 +3785,7 @@ export default {
             margin-left: 1rem;
             text-align: center;
           }
-          .advantSetting {
+          .advant1Setting, .advantSetting {
             font-weight: 700;
             font-size: 12px;
             color: #FFF;
@@ -3676,16 +3793,52 @@ export default {
             display: flex;
             align-items: center;
             margin-left: 16px;
+            @media screen and (max-width: 768px) {
+              margin-left: 0;
+            }
+          }
+          .advantSetting {
+            @media screen and (max-width: 768px) {
+              margin-left: 1rem;
+            }
           }
           .imgupload-row {
             display: flex;
+            @media screen and (max-width: 768px) {
+              margin-left: 0;
+              flex-direction: column;
+            }
             .img-row {
               display: flex;
               width: 347px;
+              @media screen and (max-width: 768px) {
+                width: 100%;
+              }
             }
             .show-img {
               width: 370px;
               height: 194px;
+              @media screen and (max-width: 768px) {
+                width: 265px;
+                height: auto;
+                margin-top: 1rem;
+              }
+            }
+          }
+          .preview-div {
+            display: none;
+            @media screen and (max-width: 768px) {
+              display: flex;
+            }
+            .view-css {
+              color: #00A0FF;
+              font-size: 14px;
+              font-weight: 400;
+              width: 124px;
+              margin-top: 12px;
+              margin-right: 17px;
+              margin-bottom: 0;
+              text-align: center;
             }
           }
           .sec2-row {
@@ -3717,18 +3870,26 @@ export default {
           }
           .input-block {
             display: flex;
+            @media screen and (max-width: 768px) {
+              flex-direction: column;
+            }
             .prod-left {
               margin-right: 20px;
             }
-            .prod-div1, .prod-div2, .prod-div3 {
+            .prod-div1, .prod-div2, .prod-div3, .prod-div4, .prod-div5 {
               margin-top: 145px;
-              
+              @media screen and (max-width: 768px) {
+                margin-top: 30px; 
+              }
               .prod-css {
                 background: #34344C;
                 border-radius: 6px;
                 width: 347px;
                 width: 300px;
                 // height: 72px; 
+                @media screen and (max-width: 768px) {
+                  width: 265px;
+                }
               }
               .prod-description {
                 background: #34344C;
@@ -3736,6 +3897,10 @@ export default {
                 width: 347px;
                 // width: 300px;
                 height: 200px;
+                @media screen and (max-width: 768px) {
+                  width: 265px;
+                  height: 160px;
+                }
               }
               .prod1-description {
                 background: #34344C;
@@ -3743,13 +3908,34 @@ export default {
                 width: 347px;
                 // width: 300px;
                 height: 326px;
+                @media screen and (max-width: 768px) {
+                  width: 265px;
+                  height: 180px;
+                }
               }
             }
             .prod-div2 {
               margin-top: 26px;
+              @media screen and (max-width: 768px) {
+                margin-top: 19px;
+              }
             }
             .prod-div3 {
               margin-top: 88px;
+              @media screen and (max-width: 768px) {
+                margin-top: 30px; 
+              }
+            }
+            .prod-div4 {
+              @media screen and (max-width: 768px) {
+                margin-top: 19px;
+              }
+            }
+            .prod-div5 {
+              margin-top: 88px;
+              @media screen and (max-width: 768px) {
+                margin-top: 19px; 
+              }
             }
           }
           .prod-name {
@@ -3777,6 +3963,11 @@ export default {
         padding-top: 0;
         padding-left: 33px;
         display: flex;
+        @media screen and (max-width: 768px) {
+          width: 100%;
+          max-width: 100%;
+          padding-left: 0;
+        }
       }
       .img1-right {
         display: flex;
@@ -3896,6 +4087,9 @@ export default {
         padding: 1rem 0;
         min-width: 202px;
         max-width: 202px;
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
       }
       .advert-count, .advert1-count, .advert2-count {
         font-weight: 400;
@@ -4873,6 +5067,9 @@ export default {
   position: absolute;
   top: 15px;
   right: 15px;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 }
 .cate-right-block {
   background: #191A21;
