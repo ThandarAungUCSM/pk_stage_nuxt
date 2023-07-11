@@ -526,7 +526,10 @@
                       <div>
                         <p v-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '販售中') || (updateProduct.state === '預售'))" class="prod1-btn" @click="productSetting">儲存</p>
                         <p v-else-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '售罄') || (updateProduct.state === '已下架'))" class="prod1-btn" @click="productSetting">完成</p>
-                        <p v-else class="prod-btn" @click="productSetting">儲存</p>
+                        <div v-else class="prod-btn">
+                          <p class="pc-show">儲存</p>
+                          <p class="m-show" @click="productSetting">儲存</p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -3666,18 +3669,6 @@ export default {
               @media screen and (max-width: 768px) {
                 margin-top: 12px;
               }
-              .pc-show {
-                @media screen and (max-width: 768px) {
-                  display: none;
-                }
-              }
-              .m-show {
-                display: none;
-                @media screen and (max-width: 768px) {
-                  display: flex;
-                  align-items: center;
-                }
-              }
               .pricecoin1-img {
                 width: 24px;
                 height: 24px;
@@ -3846,17 +3837,18 @@ export default {
             height: 124px;
             background: #191A21;
             border: 1px solid #263B71;
-            margin: 0 17px 0;
+            margin: 0 17px 13px;
             margin-left: 0;
             display: flex;
             align-items: center;
             justify-content: flex-start;
             justify-content: center;
+            @media screen and (max-width: 768px) {
+              margin-bottom: 0;
+            }
             .img-icon {
               width: 40px;
               height: 40px;
-              @media screen and (max-width: 768px) {
-              }
             }
             .text-photo {
               font-weight: 400;
@@ -5016,6 +5008,19 @@ export default {
         padding-left: 0;
       }
     }
+  }
+}
+.pc-show {
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+.m-show {
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 .for-pc {

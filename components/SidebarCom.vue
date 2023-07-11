@@ -99,25 +99,50 @@
         </div>
       </div>
       <div v-else-if="activedata === 'storeOwner'">
-        <div class="pk-admin">
-          <p class="pk-title">PK 管理後台 Store Owner</p>
-        </div>
-        <div class="each-pk">
-          <p class="each-title">商品管理</p>
-          <div class="each-row" @click="gotoPage('categoryProduct')">
-            <img src="../assets/pc/close-cart.png" class="sideopen-img">
-            <span class="dollar-text">上架商品管理</span>
+        <div class="for-pc">
+          <div class="pk-admin">
+            <p class="pk-title">PK 管理後台 Store Owner</p>
+          </div>
+          <div class="each-pk">
+            <p class="each-title">商品管理</p>
+            <div class="each-row" @click="gotoPage('categoryProduct')">
+              <img src="../assets/pc/close-cart.png" class="sideopen-img">
+              <span class="dollar-text">上架商品管理</span>
+            </div>
+          </div>
+          <div class="each-pk">
+            <p class="each-title">兌換管理</p>
+            <div class="each-row" @click="gotoPage('orderManager')">
+              <img src="../assets/pc/delisystem.png" class="deli-img">
+              <span class="dollar-text">訂單&出貨管理</span>
+            </div>
+            <div class="each-row" @click="gotoPage('refundHistory')">
+              <img src="../assets/pc/close-vector.png" class="sideopen-img">
+              <span class="dollar-text">會員退貨申請</span>
+            </div>
           </div>
         </div>
-        <div class="each-pk">
-          <p class="each-title">兌換管理</p>
-          <div class="each-row" @click="gotoPage('orderManager')">
-            <img src="../assets/pc/delisystem.png" class="deli-img">
-            <span class="dollar-text">訂單&出貨管理</span>
+        <div class="for-mobile">
+          <div class="pk-admin">
+            <p class="pk-title">PK 管理後台 Store Owner</p>
           </div>
-          <div class="each-row" @click="gotoPage('refundHistory')">
-            <img src="../assets/pc/close-vector.png" class="sideopen-img">
-            <span class="dollar-text">會員退貨申請</span>
+          <div class="each-pk">
+            <p class="each-title">商品管理</p>
+            <div class="each-row" @click="gotomPage('categoryProduct')">
+              <img src="../assets/pc/close-cart.png" class="sideopen-img">
+              <span class="dollar-text">上架商品管理</span>
+            </div>
+          </div>
+          <div class="each-pk">
+            <p class="each-title">兌換管理</p>
+            <div class="each-row" @click="gotomPage('orderManager')">
+              <img src="../assets/pc/delisystem.png" class="deli-img">
+              <span class="dollar-text">訂單&出貨管理</span>
+            </div>
+            <div class="each-row" @click="gotomPage('refundHistory')">
+              <img src="../assets/pc/close-vector.png" class="sideopen-img">
+              <span class="dollar-text">會員退貨申請</span>
+            </div>
           </div>
         </div>
       </div>

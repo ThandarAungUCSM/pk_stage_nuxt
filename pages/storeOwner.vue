@@ -6,7 +6,7 @@
 
     <div class="content-css">
       <div class="content-block">
-        <SidebarCom :opensidebar="opensidebar" :activedata="activeData" @sidebarFunc="sidebarFunc" @activeTab="activeTab" />
+        <SidebarCom :opensidebar="opensidebar" :activedata="activeData" @sidebarFunc="sidebarFunc" @activeTab="activeTab" @activemTab="activemTab" />
         <storeOwnerOrderManagerModal v-if="showRefundModal" :show="showRefundModal" :send-data="sendData" @close="openRefund" />
         <div v-if="activeMenu !== '' && activeMenu === 'categoryProduct'" id="categoryProductId">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
@@ -88,6 +88,10 @@
                             </el-upload>
                           </div>
                         </div>
+                        <div class="preview-div">
+                          <p class="view-css">預覽(0/8)</p>
+                          <p class="view-css">預覽(0/5)</p>
+                        </div>
                         <div v-if="updateProduct && updateProduct.state">
                           <img src="../assets/pc/showimg.png" class="show-img">
                         </div>
@@ -127,7 +131,7 @@
                           </div>
                         </div>
                         <div id="time1Id" class="timecss">
-                          <p class="prod-name">預售時間</p>
+                          <p class="prod-nname">預售時間</p>
                           <div v-if="Object.keys(updateProduct).length === 0" id="childConHisId" class="date-picker2-css">
                             <el-date-picker
                               v-model="presellTime"
@@ -145,8 +149,12 @@
                           </div>
                         </div>
                         <div id="time2Id" class="timecss">
-                          <p class="prod-name">商品兌換價：</p>
-                          <el-input v-model="excPrice" placeholder="0" class=""></el-input>
+                          <p class="prod-nname">商品兌換價：</p>
+                          <el-input v-model="excPrice" placeholder="0" class="pc-show"></el-input>
+                          <div class="m-show">
+                            <img src="../assets/pc/price-coin.png" class="pricecoin1-img">
+                            <el-input v-model="excPrice" placeholder="0" class=""></el-input>
+                          </div>
                         </div>
                       </div>
                       <div>
@@ -165,7 +173,10 @@
                         <div>
                           <p v-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '販售中') || (updateProduct.state === '預售'))" class="prod1-btn" @click="productSetting">儲存</p>
                           <p v-else-if="(Object.keys(updateProduct).length > 0) && ((updateProduct.state === '售罄') || (updateProduct.state === '已下架'))" class="prod1-btn" @click="productSetting">完成</p>
-                          <p v-else class="prod-btn">上架</p>
+                          <div v-else class="prod-btn">
+                            <p class="pc-show">上架</p>
+                            <p class="m-show" @click="productSetting">上架</p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -683,6 +694,7 @@ export default {
       pagiCalculate: 0,
       showData: null,
       showRefundData: [],
+      showmRefundData: [],
       showOrderData: [],
       showConvertHistoryData: null,
       options: [{
@@ -1406,7 +1418,9 @@ export default {
         {name: '零食飲料', value: 'val5'}, 
         {name: '玩具公仔', value: 'val6'},    
       ],
-      cateArrname: ['所有商品', '新品上市', '限時優惠', '日用雜貨', '零食飲料', '玩具公仔']
+      cateArrname: ['所有商品', '新品上市', '限時優惠', '日用雜貨', '零食飲料', '玩具公仔'],
+      mobile: false,
+      windowWidth: null
     }
   },
   computed: {
@@ -1427,15 +1441,44 @@ export default {
     if(this.$route.query && this.$route.query.item) {
       this.activeMenu = this.$route.query.item
     }
+    this.resizeFunc();
   },
   methods: {
+    resizeFunc() {
+      if (typeof window !== "undefined") {
+        window.addEventListener("resize", this.checkScreen);
+        this.checkScreen();
+      }
+    },
+    checkScreen() {
+      if (window) {
+        this.windowWidth = window.innerWidth;
+        if (this.windowWidth <= 768) {
+          this.opensidebar = false
+          this.mobile = true;
+        } else {
+          this.mobile = false;
+        }
+      }
+    },
     activeTab(val) {
       this.activeMenu = val
       if(val === 'refundHistory') {
         this.showReund()
+        this.showmReund()
       } else if(val === 'orderManager') {
         this.showOrderItem()
       }
+    },
+    activemTab(val) {
+      this.activeMenu = val
+      if(val === 'refundHistory') {
+        this.showReund()
+        this.showmReund()
+      } else if(val === 'orderManager') {
+        this.showOrderItem()
+      }
+      this.opensidebar = !this.opensidebar;
     },
     deleteCate(val) {
       this.$confirm('確定要移除該項目嗎？', 'Warning', {
@@ -1523,10 +1566,17 @@ export default {
     },
     sidebarFunc(val) {
       this.opensidebar = val;
+      if(this.windowWidth <= 768) {
+        this.activeMenu = ''
+      }
     },
     handleRefundChange(val) {
       this.currentRefundPage = val
       this.showReund()
+    },
+    handlemRefundChange(val) {
+      this.currentRefundPage = val
+      this.showmReund()
     },
     handleCouponCurrentChange(val) {
       this.currentCouponPage = val
@@ -1541,6 +1591,16 @@ export default {
       const result = this.clonelist.splice(temp, this.refund_size)
        
       this.showRefundData = result
+    }, 
+    showmReund() {
+      this.refund_tot_page = Math.ceil(this.refundData.length/this.refundm_size);
+      this.showmRefundData = []
+
+      const temp = (this.currentRefundPage - 1) * this.refundm_size;
+      this.clonelist = [...this.refundData]
+      const result = this.clonelist.splice(temp, this.refundm_size)
+       
+      this.showmRefundData = result
     }, 
     showOrderItem(val) {
       this.coupon_tot_page = Math.ceil(this.orderData.length/this.coupon_size);
@@ -1722,6 +1782,11 @@ export default {
     width: 186px;
     height: 30px;
     line-height: 30px;
+    @media screen and (max-width: 768px) {
+      width: 263px;
+      height: 32px;
+      line-height: 32px;
+    }
   }
   .el-input__inner {
     height: 30px;
@@ -1913,6 +1978,10 @@ export default {
     padding-top: 1rem;
     width: 152px;
     height: 243px;
+    @media screen and (max-width: 768px) {
+      height: auto;
+      padding-bottom: 1rem;
+    }
   }
   .el-checkbox {
     font-weight: 400;
@@ -1982,16 +2051,28 @@ export default {
     .el-textarea__inner {
       width: 347px;
       height: 72px;
+      @media screen and (max-width: 768px) {
+        width: 265px;
+        height: 48px;
+        padding: 0 10px;
+      }
     }
   }
   #nameTextarea1Id {
     .el-textarea__inner {
       width: 347px;
+      @media screen and (max-width: 768px) {
+        width: 265px;
+        height: 160px;
+      }
     }
   }
   #secTextareaId {
     .el-textarea__inner {
       height: 326px;
+      @media screen and (max-width: 768px) {
+        height: 180px;
+      }
     }
   }
   #time1Id {
@@ -2001,6 +2082,10 @@ export default {
       font-size: 12px;
       padding-left: 10px;
       padding-right: 10px;
+      @media screen and (max-width: 768px) {
+        width: 263px;
+        border-radius: 6px;
+      }
     }
   }
   #time2Id, #time4Id {
@@ -2012,11 +2097,32 @@ export default {
       text-align: right;
     }
   }
+  #time2Id {
+    .el-input__inner {
+      @media screen and (max-width: 768px) {
+        width: 214px;
+        height: 50px;
+      }
+    }
+  }
   #time3Id {
     .el-input__inner {
       width: 152px;
       height: 32px;
       color: #FF0000;
+      @media screen and (max-width: 768px) {
+        text-align: right;
+        width: 263px;
+        height: 50px;
+      }
+    }
+  }
+  #time4Id {
+    .el-input__inner {
+      @media screen and (max-width: 768px) {
+        width: 263px;
+        height: 50px;
+      }
     }
   }
 }
@@ -2074,6 +2180,13 @@ export default {
         margin-left: 63px;
         margin-bottom: 0;
       }
+      .test-text {
+        @media screen and (max-width: 768px) {
+          margin-left: 0;
+          text-align: center;
+          margin-bottom: 1rem;
+        }
+      }
       .test1-text {
         width: 94%;
         margin: 0px auto 70px;
@@ -2085,6 +2198,11 @@ export default {
         .each-row {
           display: flex;
           align-items: flex-start;
+          @media screen and (max-width: 768px) {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          }
         }
         .left-addprod {
           background: rgba(25, 26, 33, 0.9);
@@ -2137,13 +2255,28 @@ export default {
           width: 1050px;
           max-width: 1110px;
           height: 763px;
+          @media screen and (max-width: 768px) {
+            flex-direction: column;
+            margin-left: 0;
+            width: 95%;
+            max-width: 95%;
+            margin: auto;
+            padding: 20px 39px 57px 39px;
+            height: unset;
+          }
           .one-row {
             display: flex;
+            @media screen and (max-width: 768px) {
+              flex-direction: column;
+            }
           }
           .coin-div {
             display: flex;
             align-items: center;
             margin-top: 7rem;
+            @media screen and (max-width: 768px) {
+              display: none;
+            }
             .pricecoin-img {
               width: 24px;
               height: 24px;
@@ -2162,6 +2295,11 @@ export default {
             }
             .timecss {
               margin-top: 11px;
+              .pricecoin1-img {
+                width: 24px;
+                height: 24px;
+                margin-right: 21px;
+              }
             }
             .time1css {
               margin-top: 11px;
@@ -2180,10 +2318,16 @@ export default {
             text-align: center;
             cursor: pointer;
             margin-bottom: 0;
+            @media screen and (max-width: 768px) {
+              margin: 47px auto 0;
+            }
           }
           .prod1-btn {
             background: linear-gradient(90deg, #7161EF 0%, #432FDE 100%);
             color: #FFF;
+            @media screen and (max-width: 768px) {
+              margin: 47px auto 0;
+            }
           }
           .prod-photo {
             font-weight: 700;
@@ -2225,6 +2369,10 @@ export default {
           .one1row {
             display: flex;
             width: 347px;
+            @media screen and (max-width: 768px) {
+              width: 100%;
+              margin-bottom: 1rem;
+            }
           }
           .onerow {
             display: flex;
@@ -2233,12 +2381,18 @@ export default {
               width: 347px;
               margin-bottom: 0;
               visibility: hidden;
+              @media screen and (max-width: 768px) {
+                display: none;
+              }
             }
           }
           .one2row {
             display: flex;
             justify-content: space-between;
             width: 370px;
+            @media screen and (max-width: 768px) {
+              display: none;
+            }
             .photoPreview {
               color: #FFF;
               font-size: 12px;
@@ -2260,13 +2414,41 @@ export default {
           }
           .imgupload-row {
             display: flex;
+            @media screen and (max-width: 768px) {
+              flex-direction: column;
+              width: 100%;
+            }
             .img-row {
               display: flex;
               width: 347px;
+              @media screen and (max-width: 768px) {
+                width: 100%;
+              }
+            }
+            .preview-div {
+              display: none;
+              @media screen and (max-width: 768px) {
+                display: flex;
+              }
+              .view-css {
+                color: #00A0FF;
+                font-size: 14px;
+                font-weight: 400;
+                width: 124px;
+                margin-top: 12px;
+                margin-right: 17px;
+                margin-bottom: 0;
+                text-align: center;
+              }
             }
             .show-img {
               width: 370px;
               height: 194px;
+              @media screen and (max-width: 768px) {
+                width: 265px;
+                height: auto;
+                margin-top: 1rem;
+              }
             }
           }
           .sec2-row {
@@ -2280,6 +2462,9 @@ export default {
             align-items: center;
             justify-content: flex-start;
             justify-content: center;
+            @media screen and (max-width: 768px) {
+              margin-bottom: 0;
+            }
             .img-icon {
               width: 40px;
               height: 40px;
@@ -2296,6 +2481,9 @@ export default {
           }
           .input-block {
             display: flex;
+            @media screen and (max-width: 768px) {
+              flex-direction: column;
+            }
             .prod-left {
               margin-right: 20px;
             }
@@ -2308,6 +2496,9 @@ export default {
                 width: 347px;
                 width: 347px;
                 // height: 72px; 
+                @media screen and (max-width: 768px) {
+                  width: 265px;
+                }
               }
               .prod-description {
                 background: #34344C;
@@ -2315,6 +2506,10 @@ export default {
                 width: 347px;
                 width: 300px;
                 height: 200px;
+                @media screen and (max-width: 768px) {
+                  width: 265px;
+                  height: 160px;
+                }
               }
               .prod1-description {
                 background: #34344C;
@@ -2322,6 +2517,10 @@ export default {
                 width: 347px;
                 width: 347px;
                 height: 326px;
+                @media screen and (max-width: 768px) {
+                  width: 265px;
+                  height: 180px;
+                }
               }
             }
             .prod-div2 {
@@ -2334,6 +2533,12 @@ export default {
             color: #808080;
             margin-bottom: 5px;
           }
+          .prod-nname {
+            font-weight: 400;
+            font-size: 12px;
+            color: #808080;
+            margin-bottom: 8px;
+          }
           .prod1-name {
             font-weight: 400;
             font-size: 12px;
@@ -2344,11 +2549,21 @@ export default {
           }
         }
       }
+      .content-category {
+        @media screen and (max-width: 768px) {
+          padding-left: 0;
+        }
+      }
       .content1-category {
         max-width: 1322px;
         padding-top: 0;
         padding-left: 33px;
         display: flex;
+        @media screen and (max-width: 768px) {
+          width: 100%;
+          max-width: 100%;
+          padding-left: 0;
+        }
       }
       .img1-right {
         display: flex;
@@ -2464,6 +2679,9 @@ export default {
         padding: 1rem 0;
         min-width: 202px;
         max-width: 202px;
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
       }
       .each-row {
         display: flex;
@@ -2811,7 +3029,10 @@ export default {
         .btn-block, .btncate-block {
           display: flex;
           align-items: center;
-          
+          @media screen and (max-width: 768px) {
+            width: 100%;
+            overflow-x: scroll;
+          }
           .all-css {
             font-weight: 400;
             font-size: 1rem;
@@ -2824,6 +3045,9 @@ export default {
             justify-content: center;
             margin-right: 22px;
             cursor: pointer;
+            @media screen and (max-width: 768px) {
+              min-width: 100px;
+            }
           }
           .active-btn {
             background: #7161EF;
@@ -2849,12 +3073,21 @@ export default {
       }
       .btncate-block {
         margin-bottom: 45px;
+        @media screen and (max-width: 768px) {
+          padding-bottom: 16px;
+          margin-bottom: 29px;
+        }
       }
       .catetable-block {
         width: 877px;
         margin: 0;
         margin-left: 1rem;
         padding: 1rem;
+        @media screen and (max-width: 768px) {
+          margin-left: 0;
+          width: 90%;
+          margin-top: 39px;
+        }
         .row-right {
           display: flex;
           align-items: center;
@@ -3071,6 +3304,9 @@ export default {
     }
     .openfalse {
       padding-left: 109px;
+      @media screen and (max-width: 768px) {
+        padding-left: 0;
+      }
     }
   }
 }
@@ -3086,6 +3322,9 @@ export default {
   position: absolute;
   top: 15px;
   right: 15px;
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 }
 .cate-right-block {
   background: #191A21;
@@ -3119,6 +3358,19 @@ export default {
     font-weight: 400;
     font-size: 1rem;
     color: #FFF;
+  }
+}
+.pc-show {
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+.m-show {
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>
