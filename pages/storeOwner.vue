@@ -476,8 +476,8 @@
                   :page-size="refund_size"
                   :pager-count="11"
                   layout="prev, pager, next"
-                  :total="refundData.length"
-                  @current-change="handleRefundChange">
+                  :total="orderData.length"
+                  @current-change="handleOrderManager">
                 </el-pagination>
               </div>
               <div id="selectId" class="pagim-block">
@@ -486,8 +486,8 @@
                   :page-size="refundm_size"
                   :pager-count="11"
                   layout="prev, pager, next"
-                  :total="refundData.length"
-                  @current-change="handlemRefundChange">
+                  :total="orderData.length"
+                  @current-change="handlemOrderManager">
                 </el-pagination>
               </div>
               <newRefundModal v-if="showNewRefundModal" :show="showNewRefundModal" :send-data="tograndChild" @close="showNewRefundModal = false" />
@@ -859,24 +859,17 @@ export default {
       value4: '',
       coupon_size: 20,
       couponm_size: 10,
-      convert_size: 20,
       refund_size: 20,
       refundm_size: 10,
-      total_page: 0,
       refund_tot_page: 0,
       coupon_tot_page: 0,
-      convert_tot_page: 0,
-      currentPage: 1,
-      currentCouponPage: 1,
-      currentConvertPage: 1,
       currentRefundPage: 1,
+      currentCouponPage: 1,
       pagiCalculate: 0,
-      showData: null,
       showRefundData: [],
       showmRefundData: [],
       showOrderData: [],
       showmOrderData: [],
-      showConvertHistoryData: null,
       options: [{
         value: '5',
         label: '5'
@@ -1648,6 +1641,7 @@ export default {
         this.showmReund()
       } else if(val === 'orderManager') {
         this.showOrderItem()
+        this.showmOrderItem()
       }
     },
     activemTab(val) {
@@ -1657,6 +1651,7 @@ export default {
         this.showmReund()
       } else if(val === 'orderManager') {
         this.showOrderItem()
+        this.showmOrderItem()
       }
       this.opensidebar = !this.opensidebar;
     },
@@ -1758,9 +1753,14 @@ export default {
       this.currentRefundPage = val
       this.showmReund()
     },
-    handleCouponCurrentChange(val) {
+
+    handleOrderManager(val) {
       this.currentCouponPage = val
       this.showOrderItem()
+    },
+    handlemOrderManager(val) {
+      this.currentCouponPage = val
+      this.showmOrderItem()
     },
     showReund(val) {
       this.refund_tot_page = Math.ceil(this.refundData.length/this.refund_size);
