@@ -3,7 +3,7 @@
     <transition name="modal">
       <div v-if="show" class="modal-mask">
         <div class="modal-wrapper">
-          <div class="modal-container" :style="((sendData.state === '結束') || (sendData.state === '已拒絕')) ? 'width: 627px' : ''">
+          <div class="modal-container" :class="((sendData.state === '結束') || (sendData.state === '已拒絕')) ? 'equalcss' : 'not-equal'">
             <div class="modal-body">
               <slot name="body">
                 <div class="parent-block">
@@ -57,7 +57,7 @@
                       </div>
                     </div>
                     <div class="rightcol">
-                      <div>
+                      <div class="m-bottom-css">
                         <div class="each-row">
                           <p class="rightcoupon">收件人</p>
                           <p class="free-shipping2-coupon">王某</p>
@@ -255,7 +255,20 @@ export default {
 
 </style>
 <style lang="scss" scoped>
+.equalcss {
+  width: 627px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+}
+.not-equal {
+}
 .parent-block {
+  @media screen and (max-width: 768px) {
+    height: 100%;
+    overflow-y: scroll;
+    padding: 35px 53px 0;
+  }
   .redemption-no {
     font-weight: 700;
     font-size: 16px;
@@ -266,21 +279,39 @@ export default {
   .eachrow {
     display: flex;
     justify-content: space-between;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
     .leftcol {
       width: 45%;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
     }
     .rightcol {
       width: 52%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
+      .m-bottom-css {
+        @media screen and (max-width: 768px) {
+          margin-bottom: 1rem;
+        }
+      }
     }
   }
   .each5-row {
     display: flex;
     align-items: center;
-    margin-bottom: 8px;
     margin-top: 74px;
+    margin-bottom: 8px;
+    @media screen and (max-width: 768px) {
+      margin-top: 1rem;
+      margin-bottom: 0;
+    }
   }
   .each-row, .each-row2, .each-row3 {
     display: flex;
@@ -291,6 +322,12 @@ export default {
     justify-content: center;
     margin-top: 78px;
     margin-bottom: 0;
+  }
+  .each-row2 {
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      margin-bottom: 50px;
+    }
   }
   .each-row1 {
     margin-bottom: 10px;
@@ -316,22 +353,51 @@ export default {
     margin-left: 16px;
     margin-right: 16px;
   }
+  .viaRefund {
+    @media screen and (max-width: 768px) {
+      width: 160px;
+      margin-left: 0;
+      margin-right: 0;
+      margin-bottom: 50px;
+    }
+  }
   .viaRefund1 {
     background: linear-gradient(90deg, #7161EF 0%, #3C27DC 100%);
+    @media screen and (max-width: 768px) {
+      width: 160px;
+      margin-left: 0;
+      margin-right: 0;
+      margin-bottom: 50px;
+    }
   }
   .viaRefund2 {
     color: #6A6A6A;
     background: linear-gradient(90deg, #DBDBDB 0%, #696969 100%);
+    @media screen and (max-width: 768px) {
+      margin-bottom: 50px;
+    }
   }
   .viaRefund3 {
     background: linear-gradient(90deg, #61EFCD 0%, #77DC27 100%);
   }
   .viaRefund4 {
     font-weight: 400;
+    @media screen and (max-width: 768px) {
+      width: 160px;
+      margin-left: 0;
+      margin-right: 0;
+      margin-bottom: 50px;
+    }
   }
   .viaRefund5 {
     font-weight: 400;
     background: linear-gradient(90deg, #7161EF 0%, #3C27DC 100%);
+    @media screen and (max-width: 768px) {
+      width: 160px;
+      margin-left: 0;
+      margin-right: 0;
+      margin-bottom: 50px;
+    }
   }
 }
 .coupon-type, .rightcoupon, .coupon1-type, .free-shipping-coupon, .free-shipping1-coupon, .free-shipping2-coupon, .free-shipping4-coupon, .free-shipping5-coupon {
@@ -341,11 +407,16 @@ export default {
   margin-bottom: 0;
   width: 40%;
 }
-.rightcoupon {
-  width: 30%;
+.coupon-type, .rightcoupon {
+  @media screen and (max-width: 768px) {
+    width: 45%;
+  }
 }
 .shipnocss {
   width: 58%;
+  @media screen and (max-width: 768px) {
+    width: 55%;
+  }
 }
 .shipnop {
   font-size: 20px;
@@ -359,18 +430,30 @@ export default {
   color: #E9E9E9;
   width: 68%;
   margin-bottom: 10px;
+  @media screen and (max-width: 768px) {
+    width: 55%;
+  }
 }
 .free-shipping1-coupon {
   color: #FFA451;
   width: 68%;
+  @media screen and (max-width: 768px) {
+    width: 55%;
+  }
 }
 .free-shipping2-coupon {
   color: #E9E9E9;
   width: 68%;
+  @media screen and (max-width: 768px) {
+    width: 55%;
+  }
 }
 .free-shipping4-coupon {
   color: #F35A90;
   width: 68%;
+  @media screen and (max-width: 768px) {
+    width: 55%;
+  }
 }
 .pink-css {
   color: #F35A90 !important;
@@ -378,6 +461,9 @@ export default {
 .free-shipping5-coupon {
   color: #35E818;
   width: 68%;
+  @media screen and (max-width: 768px) {
+    width: 55%;
+  }
 }
 .row-div1 {
   display: flex;

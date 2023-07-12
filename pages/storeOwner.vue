@@ -323,19 +323,22 @@
           </div>
           <!-- <categoryModal v-if="plusCondition" :show="plusCondition" @close="plusCondition = false" /> -->
         </div>
-        <div v-else-if="activeMenu !== '' && activeMenu === 'orderManager'" id="orderManagerId">
+        <div v-else-if="activeMenu !== '' && activeMenu === 'orderManager'" id="orderManagerId" class="refund-css">
           <div class="whole-content" :class="opensidebar ? 'opentrue' : 'openfalse'">
             <div class="rightall-content" >
               <p class="test1-text">
                 訂單&出貨管理
               </p>
-              <div class="manager-css">
+              <div class="manager-css for-pc">
                 <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
                 <div @click="afterSearch">
                   <p class="btn-css">查詢</p>
                 </div>
               </div>
-              <div id="childConHisId" class="date-picker1-css">
+              <div class="managerefund-css show-mobile">
+                <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
+              </div>
+              <div id="childConHisId" class="date-picker1-css for-pc">
                 <el-date-picker
                   v-model="value3"
                   type="date"
@@ -347,6 +350,23 @@
                   type="date"
                   placeholder="結束時間">
                 </el-date-picker>
+              </div>
+              <div id="childConHisId" class="date-picker1-css show-1mobile">
+                <el-date-picker
+                  v-model="value3"
+                  type="date"
+                  placeholder="開始時間">
+                </el-date-picker>
+                <div class="m-refund-row">
+                  <el-date-picker
+                    v-model="value4"
+                    type="date"
+                    placeholder="結束時間">
+                  </el-date-picker>
+                  <div @click="afterSearch">
+                    <p class="btn-css">查詢</p>
+                  </div>
+                </div>
               </div>
               <div class="btnNtable">
                 <p class="ordercss">訂單</p>
@@ -440,7 +460,7 @@
                   </el-table>
                 </div>
               </div>
-              <div id="selectId" class="pagi-block">
+              <div id="selectId" class="pagi-block for-pc">
                 <p class="pagi-text1">顯示{{refund_tot_page}}頁 每頁顯示</p>
                 <el-select v-model="refund_size" placeholder="Select">
                   <el-option
@@ -460,6 +480,16 @@
                   @current-change="handleRefundChange">
                 </el-pagination>
               </div>
+              <div id="selectId" class="pagim-block">
+                <el-pagination
+                  background
+                  :page-size="refundm_size"
+                  :pager-count="11"
+                  layout="prev, pager, next"
+                  :total="refundData.length"
+                  @current-change="handlemRefundChange">
+                </el-pagination>
+              </div>
               <newRefundModal v-if="showNewRefundModal" :show="showNewRefundModal" :send-data="tograndChild" @close="showNewRefundModal = false" />
             </div>
           </div>
@@ -470,13 +500,16 @@
               <p class="test1-text">
                 會員退貨申請
               </p>
-              <div class="manager-css">
+              <div class="manager-css for-pc">
                 <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
                 <div @click="afterSearch">
                   <p class="btn-css">查詢</p>
                 </div>
               </div>
-              <div id="childConHisId" class="date-picker1-css">
+              <div class="managerefund-css show-mobile">
+                <el-input v-model="searchInput" placeholder="請輸入會員帳號/兌換編號" class="search-css1"></el-input>
+              </div>
+              <div id="childConHisId" class="date-picker1-css for-pc">
                 <el-date-picker
                   v-model="value3"
                   type="date"
@@ -489,6 +522,23 @@
                   placeholder="結束時間">
                 </el-date-picker>
               </div>
+              <div id="childConHisId" class="date-picker1-css show-1mobile">
+                <el-date-picker
+                  v-model="value3"
+                  type="date"
+                  placeholder="開始時間">
+                </el-date-picker>
+                <div class="m-refund-row">
+                  <el-date-picker
+                    v-model="value4"
+                    type="date"
+                    placeholder="結束時間">
+                  </el-date-picker>
+                  <div @click="afterSearch">
+                    <p class="btn-css">查詢</p>
+                  </div>
+                </div>
+              </div>
               <div class="btnNtable">
                 <div class="btn-block">
                   <p class="active-btn all-css">全部</p>
@@ -496,7 +546,7 @@
                   <p class="noactvie-btn all-css">已出貨</p>
                   <p class="noactvie-btn all-css">已取消</p>
                 </div>
-                <div v-if="showRefundData">
+                <div v-if="showRefundData" class="for-pc">
                   <el-table
                     :data="showRefundData"
                     style="width: 100%">
@@ -613,8 +663,125 @@
                     </el-table-column>
                   </el-table>
                 </div>
+                <div v-if="showmRefundData" class="foracc-mobile">
+                  <el-table
+                    :data="showmRefundData"
+                    style="width: 100%">
+                    <el-table-column
+                      prop="redemptionNo"
+                      label="兌換編號"
+                      width="150">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.redemptionNo}}</span>
+                          <span v-else>{{props.row.redemptionNo}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="returnAppTime"
+                      label="退貨申請時間"
+                      width="180">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.returnAppTime}}</span>
+                          <span v-else>{{props.row.returnAppTime}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="memberAcc"
+                      label="會員帳號"
+                      width="100">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.memberAcc}}</span>
+                          <span v-else>{{props.row.memberAcc}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="returnItem"
+                      label="退貨品項"
+                      width="225">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.returnItem}}</span>
+                          <span v-else>{{props.row.returnItem}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="returnQty"
+                      label="退貨數量"
+                      width="160">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.returnQty}}</span>
+                          <span v-else>{{props.row.returnQty}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="receiveGood"
+                      label="是否收貨"
+                      width="160">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.receiveGood}}</span>
+                          <span v-else>{{props.row.receiveGood}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="requestRefund"
+                      label="申請退款"
+                      width="160">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.requestRefund}}</span>
+                          <span v-else>{{props.row.requestRefund}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="trackingNo"
+                      label="運送單號"
+                      width="160">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '已取消'" class="gray-css">{{props.row.trackingNo}}</span>
+                          <span v-else>{{props.row.trackingNo}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="state"
+                      label="狀態"
+                      width="85">
+                      <template slot-scope="props">
+                        <div>
+                          <span v-if="props.row.state === '等待審核'" class="org-css">{{props.row.state}}</span>
+                          <span v-else-if="props.row.state === '等待取件'" class="org1-css">{{props.row.state}}</span>
+                          <span v-else-if="props.row.state === '已拒絕'" class="pink-css">{{props.row.state}}</span>
+                          <span v-else-if="props.row.state === '結束'" class="white-css">{{props.row.state}}</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="detail"
+                      label="詳細資料"
+                      width="80">
+                      <template slot-scope="props">
+                        <div @click="refundDataModal1(props.row)">
+                          <span class="blue-css">開啟</span>
+                        </div>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
               </div>
-              <div id="selectId" class="pagi-block">
+              <div id="selectId" class="pagi-block for-pc">
                 <p class="pagi-text1">顯示{{refund_tot_page}}頁 每頁顯示</p>
                 <el-select v-model="refund_size" placeholder="Select">
                   <el-option
@@ -632,6 +799,16 @@
                   layout="prev, pager, next"
                   :total="refundData.length"
                   @current-change="handleRefundChange">
+                </el-pagination>
+              </div>
+              <div id="selectId" class="pagim-block">
+                <el-pagination
+                  background
+                  :page-size="refundm_size"
+                  :pager-count="11"
+                  layout="prev, pager, next"
+                  :total="refundData.length"
+                  @current-change="handlemRefundChange">
                 </el-pagination>
               </div>
               <newRefundModal v-if="showNewRefundModal" :show="showNewRefundModal" :send-data="tograndChild" @close="showNewRefundModal = false" />
@@ -681,8 +858,10 @@ export default {
       value3: '',
       value4: '',
       coupon_size: 20,
+      couponm_size: 10,
       convert_size: 20,
       refund_size: 20,
+      refundm_size: 10,
       total_page: 0,
       refund_tot_page: 0,
       coupon_tot_page: 0,
@@ -696,6 +875,7 @@ export default {
       showRefundData: [],
       showmRefundData: [],
       showOrderData: [],
+      showmOrderData: [],
       showConvertHistoryData: null,
       options: [{
         value: '5',
@@ -1611,6 +1791,15 @@ export default {
        
       this.showOrderData = result
     },
+    showmOrderItem(val) {
+      this.coupon_tot_page = Math.ceil(this.orderData.length/this.couponm_size);
+      this.showmOrderData = []
+      const temp = (this.currentCouponPage - 1) * this.couponm_size;
+      this.clonelist = [...this.orderData]
+      const result = this.clonelist.splice(temp, this.couponm_size)
+       
+      this.showmOrderData = result
+    },
     afterSearch() {
       this.showSearch = true
     },
@@ -1907,6 +2096,19 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  .el-input__inner {
+    @media screen and (max-width: 768px) {
+      width: 230px;
+      height: 30px;
+    }
+  }
+  .el-date-editor.el-input {
+    @media screen and (max-width: 768px) {
+      width: 137px;
+      height: 30px;
+      line-height: 30px;
+    }
+  }
 }
 #categoryProductId {
   .el-table {
@@ -1964,6 +2166,9 @@ export default {
     background: #34344C;
     border-radius: 10px;
     border: 1px solid #34344C;
+    @media screen and (max-width: 768px) {
+      width: 137px;
+    }
   }
 }
 #rightId {
@@ -2156,6 +2361,14 @@ export default {
   .content-block {
     display: flex;
     position: relative;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+    .refund-css {
+      @media screen and (max-width: 768px) {
+        width: 100%;
+      }
+    }
     .whole-content {
       width: 100%;
       position: absolute;
@@ -2179,8 +2392,6 @@ export default {
         color: #FFF;
         margin-left: 63px;
         margin-bottom: 0;
-      }
-      .test-text {
         @media screen and (max-width: 768px) {
           margin-left: 0;
           text-align: center;
@@ -2190,6 +2401,9 @@ export default {
       .test1-text {
         width: 94%;
         margin: 0px auto 70px;
+        @media screen and (max-width: 768px) {
+          margin-bottom: 1rem;
+        }
       }
       .content-category, .content1-category {
         padding-top: 40px;
@@ -3011,6 +3225,17 @@ export default {
       .date-picker1-css {
         width: 94%;
         margin: 30px auto 0;
+        @media screen and (max-width: 768px) {
+          margin-top: 1rem; 
+          margin-left: 0;
+          padding-left: 63px;
+        }
+        .m-refund-row {
+          @media screen and (max-width: 768px) {
+            margin-top: 19px;
+            display: flex;
+          }
+        }
       }
       .date-picker2-css {
         margin-left: 0px;
@@ -3064,6 +3289,14 @@ export default {
             border-radius: 12px;
           }
         }
+        .btn-block {
+          @media screen and (max-width: 768px) {
+            width: 100%;
+            overflow-x: scroll;
+            padding-bottom: 1rem;
+          }
+
+        }
       }
       .commodity-text {
         font-weight: 700;
@@ -3095,7 +3328,7 @@ export default {
           margin-bottom: 24px;
         }
       }
-      .pagi-block {
+      .pagi-block, .pagim-block {
         display: flex;
         align-items: center;
         // padding-left: 40px;
@@ -3114,7 +3347,16 @@ export default {
           margin-left: 5px;
         }
       }
-      .manager-css {
+      .pagim-block {
+        display: none;
+        @media screen and (max-width: 768px) {
+          display: flex;
+          justify-content: center;
+          margin-left: 0;
+          margin-bottom: 0;
+        }
+      }
+      .manager-css, .managerefund-css {
         width: 94%;
         margin: 30px auto 0;
         display: flex;
@@ -3128,6 +3370,17 @@ export default {
         }
         .search-css1 {
           width: 349px;
+          @media screen and (max-width: 768px) {
+            width: 230px;
+          }
+        }
+      }
+      .managerefund-css {
+        @media screen and (max-width: 768px) {
+          margin-top: 0; 
+          width: 100%; 
+          padding-left: 63px; 
+          margin-left: 0;
         }
       }
       .manager1-css {
@@ -3214,6 +3467,9 @@ export default {
         cursor: pointer;
 
         color: #00A0FF;
+        @media screen and (max-width: 768px) {
+          margin-left: 18px;
+        }
       }
       .advertise-btn, .advertise-btn1 {
         width: 93px;
@@ -3371,6 +3627,32 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+.for-pc {
+  @media screen and (max-width: 768px) {
+    display: none !important;
+  }
+}
+.show-mobile {
+  display: none !important;
+  @media screen and (max-width: 768px) {
+    display: flex !important;
+  }
+}
+.show-1mobile {
+  display: none !important;
+  @media screen and (max-width: 768px) {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+  }
+}
+.foracc-mobile {
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: flex;
   }
 }
 </style>
