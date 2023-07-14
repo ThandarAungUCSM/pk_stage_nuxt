@@ -842,7 +842,7 @@
 import draggable from 'vuedraggable'
 import "element-ui/lib/theme-chalk/index.css"; 
 export default {
-  name: 'IndexPage',
+  name: 'StoreOwnerPage',
   components: {
     draggable,
   },
@@ -1611,9 +1611,9 @@ export default {
     },
   },
   created() {
-    if(this.$route.query && this.$route.query.item) {
-      this.activeMenu = this.$route.query.item
-    }
+    // if(this.$route.query && this.$route.query.item) {
+    //   this.activeMenu = this.$route.query.item
+    // }
     this.resizeFunc();
   },
   methods: {

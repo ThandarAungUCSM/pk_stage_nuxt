@@ -95,8 +95,8 @@ export default {
     right: 65px;
     bottom: 43px;
     text-align: right;
+    display: none;
     @media screen and (max-width: 768px) {
-      display: none;
     }
     .txt-store, .txt1-store {
       font-weight: 400;

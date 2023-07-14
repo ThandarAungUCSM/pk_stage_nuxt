@@ -1586,7 +1586,7 @@
 import draggable from 'vuedraggable'
 import "element-ui/lib/theme-chalk/index.css"; 
 export default {
-  name: 'IndexPage',
+  name: 'AdminPage',
   components: {
     draggable,
   },
