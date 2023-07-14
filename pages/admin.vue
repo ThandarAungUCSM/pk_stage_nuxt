@@ -144,10 +144,14 @@
             <div class="rightall-content" >
               <div v-if="!showAds1" class="row-content">
                 <div class="left-block">
-                  <p class="equal-text">
+                  <p class="adv-text">
                     橫幅廣告管理
                   </p>
-                  <div class="pad-css">
+                  <div class="pad1-css">
+                    <div class="versions-css">
+                      <p :class="activeVer === 'pc' ? 'active-ver' : 'noact-ver'" class="common-ver" @click="verFunc('pc')">桌機</p>
+                      <p :class="activeVer === 'mobile' ? 'active-ver' : 'noact-ver'" class="common-ver" @click="verFunc('mobile')">手機</p>
+                    </div>
                     <div class="manager-css">
                       <div class="advertise-btn" @click="toShow">
                         <img src="../assets/pc/plus.png" class="plus-img">
@@ -243,10 +247,14 @@
               </div>
               <div v-else-if="!deleteItem" class="row-content">
                 <div class="left-block">
-                  <p class="equal-text">
+                  <p class="adv-text">
                     橫幅廣告管理
                   </p>
-                  <div class="pad-css">
+                  <div class="pad1-css">
+                    <div class="versions-css">
+                      <p :class="activeVer === 'pc' ? 'active-ver' : 'noact-ver'" class="common-ver" @click="verFunc('pc')">桌機</p>
+                      <p :class="activeVer === 'mobile' ? 'active-ver' : 'noact-ver'" class="common-ver" @click="verFunc('mobile')">手機</p>
+                    </div>
                     <div class="manager-css">
                       <div class="advertise-btn1" @click="toShow">
                         <img src="../assets/pc/plus.png" class="plus-img">
@@ -296,10 +304,14 @@
               </div>
               <div v-else-if="deleteItem" class="row-content">
                 <div class="left-block">
-                  <p class="equal-text">
+                  <p class="adv-text">
                     橫幅廣告管理
                   </p>
-                  <div class="pad-css">
+                  <div class="pad1-css">
+                    <div class="versions-css">
+                      <p :class="activeVer === 'pc' ? 'active-ver' : 'noact-ver'" class="common-ver" @click="verFunc('pc')">桌機</p>
+                      <p :class="activeVer === 'mobile' ? 'active-ver' : 'noact-ver'" class="common-ver" @click="verFunc('mobile')">手機</p>
+                    </div>
                     <div class="manager-css">
                       <div class="advertise-btn1" @click="toShow">
                         <img src="../assets/pc/plus.png" class="plus-img">
@@ -781,7 +793,8 @@
                   </el-table-column>
                   <el-table-column
                     prop="state"
-                    label="狀態">
+                    label="狀態"
+                    width="100">
                     <template slot-scope="props">
                       <span v-if="props.row.state == '即將上線'" class="yellow-css">{{ props.row.state }}</span>
                       <span v-if="props.row.state == '失效'" class="pink-css">{{ props.row.state }}</span>
@@ -2252,7 +2265,8 @@ export default {
       ],
       cateArrname: ['所有商品', '新品上市', '限時優惠', '日用雜貨', '零食飲料', '玩具公仔'],
       mobile: false,
-      windowWidth: null
+      windowWidth: null,
+      activeVer: 'pc'
     }
   },
   computed: {
@@ -2289,6 +2303,9 @@ export default {
     this.resizeFunc();
   },
   methods: {
+    verFunc(val) {
+      this.activeVer = val
+    },
     resizeFunc() {
       if (typeof window !== "undefined") {
         window.addEventListener("resize", this.checkScreen);
@@ -3500,7 +3517,7 @@ export default {
     }
     .rightall-content {
       margin: 32px auto 32px;
-      .test-text, .equal-text, .coupon-text, .convertHistory-text {
+      .test-text, .adv-text, .equal-text, .coupon-text, .convertHistory-text {
         font-weight: 700;
         font-size: 24px;
         color: #FFF;
@@ -3531,9 +3548,44 @@ export default {
           width: 100%;
         }
       }
-      .pad-css {
+      .pad-css, .pad1-css {
         @media screen and (max-width: 768px) {
           margin-top: 127px;
+        }
+        .versions-css {
+          display: flex;
+          margin-left: 63px;
+          margin-bottom: 36px;
+          @media screen and (max-width: 768px) {
+            margin-left: 43px;
+          }
+          .common-ver {
+            width: 93px;
+            height: 36px;
+            line-height: 36px;
+            border-radius: 12px;
+            margin-bottom: 0;
+            text-align: center;
+            margin-right: 18px;
+
+            color: #FFF;
+            font-size: 16px;
+            font-weight: 400;
+            cursor: pointer;
+          }
+          .active-ver {
+            border: 1px solid #7161EF;
+            background: #7161EF;
+          }
+          .noact-ver {
+            border: 1px solid #7161EF;
+            background: #132235;
+          }
+        }
+      }
+      .pad1-css {
+        @media screen and (max-width: 768px) {
+          margin-top: 59px;
         }
       }
       .padacc-css {
@@ -3550,6 +3602,14 @@ export default {
       }
       .convertHistory-text {
         margin-bottom: 60px;
+        @media screen and (max-width: 768px) {
+          margin-bottom: 0;
+          text-align: center;
+          font-size: 20px;
+        }
+      }
+      .adv-text {
+        margin-bottom: 40px;
         @media screen and (max-width: 768px) {
           margin-bottom: 0;
           text-align: center;
